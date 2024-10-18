@@ -1,4 +1,7 @@
-"""数据缓存类"""
+"""
+:description
+    数据缓存类
+"""
 
 
 import os

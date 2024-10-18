@@ -1,21 +1,42 @@
-"""模型的父类模板"""
+"""
+:description
+    模型的父类模板
+:term
+    module - 模块，仅包含ModuleKey中的固定术语的单一执行流
+    model - 模型，由若干Module组成，各Module间呈现树形执行流
+"""
 
 
 import torch
 import torch.nn as nn
 from torchsummary import summary
-from typing import Mapping, Any
+from typing import Mapping, Any, Sequence
 from ...utils import *
 
 
-class Model_Temp(nn.Module):
-    """模型的通用模板父类"""
-    _module_key = ('pre', 'tail', 'bone', 'head', 'final')
+@advanced_enum()
+class ModuleKey(SuperEnum):
+    _sequence_ = (
+        'all', 'pre', 'tail', 'bone', 'head', 'final'
+    )
+    all = None
+    pre = None      # 预处理，将数据从原始格式转换为张量格式
+    tail = None     # 尾部，将数据规范化，如批量归一化、嵌入等，以便于骨干网处理
+    bone = None     # 骨干网，进行特征提取等操作
+    head = None     # 头部，根据需求构造输出层格式
+    final = None    # 激活层，获取最终输出
 
-    def __init__(self, model_dict: Mapping[str, nn.Module] | None = None) -> None:
-        """dict的key来自于('all', 'pre', 'tail', 'bone', 'head', 'final')， 如果有all则忽略其余部分"""
-        super(Model_Temp, self).__init__()
-        self.str2val = dict()
+
+class Module_Temp(nn.Module):
+    """模块的通用模板父类"""
+
+    def __init__(self, model_dict: Mapping[uuid_t, nn.Module | Sequence[nn.Module]] | None = None) -> None:
+        """
+        模块是
+        这里的模型模板使用树形结构去定义，这样可以处理多分支情况
+        要求：输入的会
+        """
+        super(Module_Temp, self).__init__()
 
         if model_dict is None:
             self.model = None

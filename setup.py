@@ -32,8 +32,8 @@ setup(
         "Operating System :: OS Independent",  
     ],  
     project_urls={  
-        'Homepage': 'https://github.com/pypa/sampleproject',  
-        'Issues': 'https://github.com/pypa/sampleproject/issues',  
+        'Homepage': 'https://github.com/hagikehappy/hagike',
+        'Issues': 'https://github.com/hagikehappy/hagike/issues',
     },  
 )
 

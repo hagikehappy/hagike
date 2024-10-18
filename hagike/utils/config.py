@@ -1,4 +1,7 @@
-"""配置类"""
+"""
+:description
+    配置类
+"""
 
 
 import os

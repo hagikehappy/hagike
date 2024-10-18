@@ -1,4 +1,7 @@
-"""日志消息"""
+"""
+description:
+日志消息
+"""
 
 
 from .enum import *
