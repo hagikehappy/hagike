@@ -1,20 +1,19 @@
 """
-description:
-    高级的Enum类
-term:
-    SuperEnum - 高级枚举类的父类模板
-    advanced_enum - 根级的装饰器，用于自动生成枚举类的各项配置
-notice:
-    对于枚举成员：
-    1. 本身的值在定义时是value，在访问时是uuid
-    2. index不应该被外部访问，而仅作为迭代器的索引值
-    3. 命名不能以'__'开头，否则会被忽略
-    4. 值如果是继承了SuperEnum的枚举类型，则会递归导入，需要确保此处枚举类的归属是唯一的，否则uuid会被多次修改；
-        否则这需要以实例导入
-    5. 如果未启用顺序访问索引，无法保证Enum的书写顺序就是index顺序，顺序是由Python机制决定的（默认是按名称顺序）
-    6. _xxx_方式命名的枚举量为内置属性，不可用常规枚举量占用，且只能配置其中的配置字部分，否则会报错
-    7. 对于_xxx方式命名的枚举量，这里会将其作为隐藏枚举量，不会被包含在index列表中，也不会分配index值
-    8. 根类的值是会被包含在uuid及其映射中的，但由于其没有父类，因而不会被包含在任何index列表中，其index本身总为0
+高级Enum类 \n
+term: \n
+    SuperEnum - 高级枚举类的父类模板 \n
+    advanced_enum - 根级的装饰器，用于自动生成枚举类的各项配置 \n
+notice: \n
+    对于枚举成员： \n
+    1. 本身的值在定义时是value，在访问时是uuid \n
+    2. index不应该被外部访问，而仅作为迭代器的索引值 \n
+    3. 命名不能以'__'开头，否则会被忽略 \n
+    4. 值如果是继承了SuperEnum的枚举类型，则会递归导入，需要确保此处枚举类的归属是唯一的，否则uuid会被多次修改； \n
+        否则这需要以实例导入 \n
+    5. 如果未启用顺序访问索引，无法保证Enum的书写顺序就是index顺序，顺序是由Python机制决定的（默认是按名称顺序） \n
+    6. '_xxx_'方式命名的枚举量为内置属性，不可用常规枚举量占用，且只能配置其中的配置字部分，否则会报错 \n
+    7. 对于'_xxx'方式命名的枚举量，这里会将其作为隐藏枚举量，不会被包含在index列表中，也不会分配index值 \n
+    8. 根类的值是会被包含在uuid及其映射中的，但由于其没有父类，因而不会被包含在任何index列表中，其index本身总为0 \n
 """
 
 
@@ -29,39 +28,39 @@ index_t = int
 # SuperEnum类型配置字，在父类SuperEnum中定义的值为默认值
 enum_conf_word = ('_value_', '_sequence_', '_hide_', '_blank_')
 """
-:param _value_: 
-    对于group本身的赋值需要写在成员_value_中，否则会被视为None，访问时依然通过value
-:param _sequence_: 
-    如果在某子类下启用顺序访问索引，则需要赋值成员_sequence_: Tuple[str]；
-    其中需要按顺序列出所有成员名称；如果未列全或有不存在的成员名称则在初始化时会报错
-:param _hide_:
-    是否将类本身的值作为隐藏枚举值
-:param _blank_: 
-    打印时的单位空格长度
+:param _value_:  \n
+    对于group本身的赋值需要写在成员_value_中，否则会被视为None，访问时依然通过value \n
+:param _sequence_:  \n
+    如果在某子类下启用顺序访问索引，则需要赋值成员_sequence_: Tuple[str]； \n
+    其中需要按顺序列出所有成员名称；如果未列全或有不存在的成员名称则在初始化时会报错 \n
+:param _hide_: \n
+    是否将类本身的值作为隐藏枚举值 \n
+:param _blank_:  \n
+    打印时的单位空格长度 \n
 """
 # SuperEnum类型隐藏字
 enum_hide_word = ('_uuid_', '_pack_', '_length_',
                   '_index2uuid_', '_uuid2pack_', '_uuid2sub_',
                   '_uuid_all_', '_uuid_hide_', '_uuid_sub_')
 """
-:param _uuid_:
-    子类本身的唯一标识符
-:param _pack_:
-    存储子类本身的信息，是信息的打包形式
-:param _length_:
-    子类的非隐藏成员数量，不包括子类本身
-:param _index2uuid_: 
-    子类的非隐藏成员索引到唯一标识符的映射，不包括子类本身
-:param _uuid2pack_: 
-    子类下的唯一标识符到数据包的映射，不包括子类本身
-:param _uuid2sub_:
-    子类下的唯一标识符到孙类的映射
-:param _uuid_all_:
-    子类下所有唯一标识符的列表，其中非隐藏部分在前，隐藏部分在后
-:param _uuid_hide_:
-    子类下所有隐式枚举成员的集合
-:param _uuid_sub_:
-    子类下所有孙类枚举成员的集合
+:param _uuid_: \n
+    子类本身的唯一标识符 \n
+:param _pack_: \n
+    存储子类本身的信息，是信息的打包形式 \n
+:param _length_: \n
+    子类的非隐藏成员数量，不包括子类本身 \n
+:param _index2uuid_:  \n
+    子类的非隐藏成员索引到唯一标识符的映射，不包括子类本身 \n
+:param _uuid2pack_:  \n
+    子类下的唯一标识符到数据包的映射，不包括子类本身 \n
+:param _uuid2sub_: \n
+    子类下的唯一标识符到孙类的映射 \n
+:param _uuid_all_: \n
+    子类下所有唯一标识符的列表，其中非隐藏部分在前，隐藏部分在后 \n
+:param _uuid_hide_: \n
+    子类下所有隐式枚举成员的集合 \n
+:param _uuid_sub_: \n
+    子类下所有孙类枚举成员的集合 \n
 """
 
 
@@ -152,9 +151,9 @@ class SuperEnum:
     @classmethod
     def dict(cls, enum_dict: Dict[uuid_t, Any] = None, is_force: bool = True) -> Dict[uuid_t, Any]:
         """
-        填补Enum类中不在常量表部分的默认赋值，生成dict；
-        如果选中is_force则会检查enum_dict中的key是否都在enum类的非隐藏部分中，若不满足则会报错；
-        此项检查用于排除不正常输入的字典项，如隐藏的enum成员。
+        填补Enum类中不在常量表部分的默认赋值，生成dict； \n
+        如果选中is_force则会检查enum_dict中的key是否都在enum类的非隐藏部分中，若不满足则会报错； \n
+        此项检查用于排除不正常输入的字典项，如隐藏的enum成员。 \n
         """
         if enum_dict is None:
             enum_dict = dict()
@@ -212,12 +211,7 @@ class SuperEnum:
 
 def advanced_enum():
     """
-    该函数作为常量表的装饰器，自动建立映射，子类与子成员均视为常量，封装为常量类型，仅用于顶级Enum，配置：
-    uuid(全局，唯一标识符，可用于全局遍历)；
-    index(局部，当前group下的标识符，可用于局部遍历)；
-    value(常量对应的拓展值，如描述类字符串，这由具体需求决定；
-        默认情况下，父级group不会继承子级group的标志，若有需要则需在父级重新定义子级标志)
-    length: 常量数量
+    该函数作为常量表的装饰器，自动建立映射，子类与子成员均视为常量，封装为常量类型，仅用于顶级Enum。
     """
     def decorator(cls):
         """装饰器，进行常量封装"""

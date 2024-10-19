@@ -1,6 +1,5 @@
 """
-:description
-    模型的父类模板
+模型的父类模板
 :term
     module - 模块，仅包含ModuleKey中的固定术语的单一执行流
     model - 模型，由若干Module组成，各Module间呈现树形执行流

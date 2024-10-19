@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.1">
+<title>hagike.utils.enum API documentation</title>
+<meta name="description" content="高级Enum类 …">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>hagike.utils.enum</code></h1>
+</header>
+<section id="section-intro">
+<p>高级Enum类 </p>
+<p>term: </p>
+<pre><code>SuperEnum - 高级枚举类的父类模板
+
+advanced_enum - 根级的装饰器，用于自动生成枚举类的各项配置
+</code></pre>
+<p>notice: </p>
+<pre><code>对于枚举成员：
+
+1. 本身的值在定义时是value，在访问时是uuid
+
+2. index不应该被外部访问，而仅作为迭代器的索引值
+
+3. 命名不能以'__'开头，否则会被忽略
+
+4. 值如果是继承了SuperEnum的枚举类型，则会递归导入，需要确保此处枚举类的归属是唯一的，否则uuid会被多次修改；
+
+    否则这需要以实例导入
+
+5. 如果未启用顺序访问索引，无法保证Enum的书写顺序就是index顺序，顺序是由Python机制决定的（默认是按名称顺序）
+
+6. '_xxx_'方式命名的枚举量为内置属性，不可用常规枚举量占用，且只能配置其中的配置字部分，否则会报错
+
+7. 对于'_xxx'方式命名的枚举量，这里会将其作为隐藏枚举量，不会被包含在index列表中，也不会分配index值
+
+8. 根类的值是会被包含在uuid及其映射中的，但由于其没有父类，因而不会被包含在任何index列表中，其index本身总为0
+</code></pre>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-variables">Global variables</h2>
+<dl>
+<dt id="hagike.utils.enum.enum_conf_word"><code class="name">var <span class="ident">enum_conf_word</span></code></dt>
+<dd>
+<div class="desc"><p>:param <em>value</em>:
+</p>
+<pre><code>对于group本身的赋值需要写在成员_value_中，否则会被视为None，访问时依然通过value
+</code></pre>
+<p>:param <em>sequence</em>:
+</p>
+<pre><code>如果在某子类下启用顺序访问索引，则需要赋值成员_sequence_: Tuple[str]；
+
+其中需要按顺序列出所有成员名称；如果未列全或有不存在的成员名称则在初始化时会报错
+</code></pre>
+<p>:param <em>hide</em>: </p>
+<pre><code>是否将类本身的值作为隐藏枚举值
+</code></pre>
+<p>:param <em>blank</em>:
+</p>
+<pre><code>打印时的单位空格长度
+</code></pre></div>
+</dd>
+<dt id="hagike.utils.enum.enum_hide_word"><code class="name">var <span class="ident">enum_hide_word</span></code></dt>
+<dd>
+<div class="desc"><p>:param <em>uuid</em>: </p>
+<pre><code>子类本身的唯一标识符
+</code></pre>
+<p>:param <em>pack</em>: </p>
+<pre><code>存储子类本身的信息，是信息的打包形式
+</code></pre>
+<p>:param <em>length</em>: </p>
+<pre><code>子类的非隐藏成员数量，不包括子类本身
+</code></pre>
+<p>:param <em>index2uuid</em>:
+</p>
+<pre><code>子类的非隐藏成员索引到唯一标识符的映射，不包括子类本身
+</code></pre>
+<p>:param <em>uuid2pack</em>:
+</p>
+<pre><code>子类下的唯一标识符到数据包的映射，不包括子类本身
+</code></pre>
+<p>:param <em>uuid2sub</em>: </p>
+<pre><code>子类下的唯一标识符到孙类的映射
+</code></pre>
+<p>:param <em>uuid_all</em>: </p>
+<pre><code>子类下所有唯一标识符的列表，其中非隐藏部分在前，隐藏部分在后
+</code></pre>
+<p>:param <em>uuid_hide</em>: </p>
+<pre><code>子类下所有隐式枚举成员的集合
+</code></pre>
+<p>:param <em>uuid_sub</em>: </p>
+<pre><code>子类下所有孙类枚举成员的集合
+</code></pre></div>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="hagike.utils.enum.advanced_enum"><code class="name flex">
+<span>def <span class="ident">advanced_enum</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>该函数作为常量表的装饰器，自动建立映射，子类与子成员均视为常量，封装为常量类型，仅用于顶级Enum。</p></div>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="hagike.utils.enum.SuperEnum"><code class="flex name class">
+<span>class <span class="ident">SuperEnum</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Enum类的父类</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class SuperEnum:
+    &#34;&#34;&#34;Enum类的父类&#34;&#34;&#34;
+    # 配置属性
+    _value_: Any | None = None
+    _sequence_: Tuple[str] = None
+    _hide_: bool = False
+    _blank_: int = 4
+    # 隐藏属性
+    _uuid_: uuid_t
+    _pack_: _EnumPack
+    _length_: int
+    _index2uuid_: List[uuid_t]
+    _uuid2pack_: Dict[uuid_t, _EnumPack]
+    _uuid2sub_: Dict[uuid_t, Any]
+    _uuid_all_: List[uuid_t]
+    _uuid_hide_: Set[uuid_t]
+    _uuid_sub_: Set[uuid_t]
+
+    @classmethod
+    def get_uuid(cls):
+        &#34;&#34;&#34;获得类本身的uuid&#34;&#34;&#34;
+        return cls._uuid_
+
+    @classmethod
+    def get_name(cls, uuid: uuid_t):
+        &#34;&#34;&#34;获得枚举量的名称&#34;&#34;&#34;
+        return cls._uuid2pack_[uuid].name
+
+    @classmethod
+    def get_index(cls, uuid: uuid_t):
+        &#34;&#34;&#34;获得枚举量的名称&#34;&#34;&#34;
+        return cls._uuid2pack_[uuid].index
+
+    @classmethod
+    def get_value(cls, src: index_t | uuid_t, index_or_uuid: bool = False) -&gt; Any:
+        &#34;&#34;&#34;返回深拷贝赋值，index_or_uuid决定根据index还是uuid返回值&#34;&#34;&#34;
+        uuid = cls._index2uuid_[src] if index_or_uuid else src
+        pack_n = cls._uuid2pack_[uuid]
+        return deepcopy(pack_n.value)
+
+    @classmethod
+    def dict(cls, enum_dict: Dict[uuid_t, Any] = None, is_force: bool = True) -&gt; Dict[uuid_t, Any]:
+        &#34;&#34;&#34;
+        填补Enum类中不在常量表部分的默认赋值，生成dict； \n
+        如果选中is_force则会检查enum_dict中的key是否都在enum类的非隐藏部分中，若不满足则会报错； \n
+        此项检查用于排除不正常输入的字典项，如隐藏的enum成员。 \n
+        &#34;&#34;&#34;
+        if enum_dict is None:
+            enum_dict = dict()
+        uuid_dict = enum_dict.keys()
+        for index in range(cls._length_):
+            uuid = cls._index2uuid_[index]
+            if uuid not in uuid_dict:
+                enum_dict[uuid] = cls.get_value(uuid, False)
+        if is_force:
+            if cls._length_ != len(uuid_dict):
+                raise _EnumUuidError(f&#34;ERROR: dict(len={len(uuid_dict)}) is not included in enum(len={cls._length_})!!!&#34;)
+        return enum_dict
+
+    @classmethod
+    def iter(cls) -&gt; Iterator[int]:
+        &#34;&#34;&#34;返回index2uuid迭代器&#34;&#34;&#34;
+        return iter(cls._index2uuid_)
+
+    @classmethod
+    def print_pack(cls, uuid: uuid_t, blank: int = 0, is_value: bool = False) -&gt; None:
+        &#34;&#34;&#34;打印单个枚举量的信息&#34;&#34;&#34;
+        blank_str = &#39;&#39; + &#39; &#39; * blank
+        pack = cls._uuid2pack_[uuid]
+        print(blank_str, end=&#39;&#39;)
+        pack.print(is_value)
+
+    @classmethod
+    def print(cls, is_value: bool = False) -&gt; None:
+        &#34;&#34;&#34;打印枚举类单级信息&#34;&#34;&#34;
+        print()
+        cls._pack_.print(is_value)
+        # 优先顺序打印非隐藏值
+        for uuid in cls._uuid_all_:
+            cls.print_pack(uuid, cls._blank_, is_value)
+        print()
+
+    @classmethod
+    def tree(cls, is_value: bool = False):
+        &#34;&#34;&#34;以树形结构递归打印该枚举类信息&#34;&#34;&#34;
+
+        def regress_enum(cls_n: Any, blank_n: int) -&gt; None:
+            &#34;&#34;&#34;递归列举&#34;&#34;&#34;
+            # 优先顺序打印非隐藏值
+            for uuid_n in cls_n._uuid_all_:
+                cls_n.print_pack(uuid_n, blank_n, is_value)
+                if uuid_n in cls_n._uuid_sub_:
+                    regress_enum(cls_n._uuid2sub_[uuid_n], blank_n + cls_n._blank_)
+
+        # 递归入口
+        print()
+        cls._pack_.print(is_value)
+        regress_enum(cls, cls._blank_)
+        print()</code></pre>
+</details>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="hagike.models.temp.template.ModuleKey" href="../models/temp/template.html#hagike.models.temp.template.ModuleKey">ModuleKey</a></li>
+<li><a title="hagike.utils.message.MsgLevel" href="message.html#hagike.utils.message.MsgLevel">MsgLevel</a></li>
+</ul>
+<h3>Static methods</h3>
+<dl>
+<dt id="hagike.utils.enum.SuperEnum.dict"><code class="name flex">
+<span>def <span class="ident">dict</span></span>(<span>enum_dict: Dict[int, Any] = None, is_force: bool = True) ‑> Dict[int, Any]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>填补Enum类中不在常量表部分的默认赋值，生成dict； </p>
+<p>如果选中is_force则会检查enum_dict中的key是否都在enum类的非隐藏部分中，若不满足则会报错； </p>
+<p>此项检查用于排除不正常输入的字典项，如隐藏的enum成员。</p></div>
+</dd>
+<dt id="hagike.utils.enum.SuperEnum.get_index"><code class="name flex">
+<span>def <span class="ident">get_index</span></span>(<span>uuid: int)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>获得枚举量的名称</p></div>
+</dd>
+<dt id="hagike.utils.enum.SuperEnum.get_name"><code class="name flex">
+<span>def <span class="ident">get_name</span></span>(<span>uuid: int)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>获得枚举量的名称</p></div>
+</dd>
+<dt id="hagike.utils.enum.SuperEnum.get_uuid"><code class="name flex">
+<span>def <span class="ident">get_uuid</span></span>(<span>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>获得类本身的uuid</p></div>
+</dd>
+<dt id="hagike.utils.enum.SuperEnum.get_value"><code class="name flex">
+<span>def <span class="ident">get_value</span></span>(<span>src: int, index_or_uuid: bool = False) ‑> Any</span>
+</code></dt>
+<dd>
+<div class="desc"><p>返回深拷贝赋值，index_or_uuid决定根据index还是uuid返回值</p></div>
+</dd>
+<dt id="hagike.utils.enum.SuperEnum.iter"><code class="name flex">
+<span>def <span class="ident">iter</span></span>(<span>) ‑> Iterator[int]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>返回index2uuid迭代器</p></div>
+</dd>
+<dt id="hagike.utils.enum.SuperEnum.print"><code class="name flex">
+<span>def <span class="ident">print</span></span>(<span>is_value: bool = False) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>打印枚举类单级信息</p></div>
+</dd>
+<dt id="hagike.utils.enum.SuperEnum.print_pack"><code class="name flex">
+<span>def <span class="ident">print_pack</span></span>(<span>uuid: int, blank: int = 0, is_value: bool = False) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>打印单个枚举量的信息</p></div>
+</dd>
+<dt id="hagike.utils.enum.SuperEnum.tree"><code class="name flex">
+<span>def <span class="ident">tree</span></span>(<span>is_value: bool = False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>以树形结构递归打印该枚举类信息</p></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="hagike.utils" href="index.html">hagike.utils</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-variables">Global variables</a></h3>
+<ul class="">
+<li><code><a title="hagike.utils.enum.enum_conf_word" href="#hagike.utils.enum.enum_conf_word">enum_conf_word</a></code></li>
+<li><code><a title="hagike.utils.enum.enum_hide_word" href="#hagike.utils.enum.enum_hide_word">enum_hide_word</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="hagike.utils.enum.advanced_enum" href="#hagike.utils.enum.advanced_enum">advanced_enum</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="hagike.utils.enum.SuperEnum" href="#hagike.utils.enum.SuperEnum">SuperEnum</a></code></h4>
+<ul class="two-column">
+<li><code><a title="hagike.utils.enum.SuperEnum.dict" href="#hagike.utils.enum.SuperEnum.dict">dict</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_index" href="#hagike.utils.enum.SuperEnum.get_index">get_index</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_name" href="#hagike.utils.enum.SuperEnum.get_name">get_name</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_uuid" href="#hagike.utils.enum.SuperEnum.get_uuid">get_uuid</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_value" href="#hagike.utils.enum.SuperEnum.get_value">get_value</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.iter" href="#hagike.utils.enum.SuperEnum.iter">iter</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.print" href="#hagike.utils.enum.SuperEnum.print">print</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.print_pack" href="#hagike.utils.enum.SuperEnum.print_pack">print_pack</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.tree" href="#hagike.utils.enum.SuperEnum.tree">tree</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.1</a>.</p>
+</footer>
+</body>
+</html>
