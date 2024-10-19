@@ -16,10 +16,10 @@ from ...utils import *
 
 @advanced_enum()
 class ModuleKey(SuperEnum):
+    """模块构成，未指定部分自动定义None"""
     _sequence_ = (
-        'all', 'pre', 'tail', 'bone', 'head', 'final'
+        'pre', 'tail', 'bone', 'head', 'final'
     )
-    all = None
     pre = None      # 预处理，将数据从原始格式转换为张量格式
     tail = None     # 尾部，将数据规范化，如批量归一化、嵌入等，以便于骨干网处理
     bone = None     # 骨干网，进行特征提取等操作
@@ -30,28 +30,22 @@ class ModuleKey(SuperEnum):
 class Module_Temp(nn.Module):
     """模块的通用模板父类"""
 
-    def __init__(self, model_dict: Mapping[uuid_t, nn.Module | Sequence[nn.Module]] | None = None) -> None:
-        """
-        模块是
-        这里的模型模板使用树形结构去定义，这样可以处理多分支情况
-        要求：输入的会
-        """
+    def __init__(self, module_dict: Mapping[uuid_t, nn.Module] | None = None) -> None:
+        """根据输入初始化各个模块组件，若为None则不会执行，若全为None则会直接返回输入值，并根据设置选择是否进行警告"""
         super(Module_Temp, self).__init__()
 
-        if model_dict is None:
+        if module_dict is None:
             self.model = None
-        elif 'all' in self.module:
-            self.model = model_dict['all']
         else:
-            for key in model_dict:
+            for key in module_dict.keys():
                 if key not in self._module_key:
                     add_msg(MsgLevel.Error.value, f"Key {key} Not In Module Key")
             self.model = nn.Sequential()
             index = 0
             for key in self._module_key:
-                if key in model_dict:
+                if key in module_dict:
                     self.str2val[key] = index
-                    self.model.append(model_dict[key])
+                    self.model.append(module_dict[key])
                     index += 1
 
     def forward(self, x):
