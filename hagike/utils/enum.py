@@ -65,28 +65,28 @@ enum_hide_word = ('_uuid_', '_pack_', '_length_',
 """
 
 
-class EnumOccupiedError(Exception):
+class _EnumOccupiedError(Exception):
     """枚举类关键字占用异常"""
     def __init__(self, message, code=None):
         super().__init__(message)
         self.code = code
 
 
-class EnumSequenceError(Exception):
+class _EnumSequenceError(Exception):
     """枚举类顺序访问索引异常"""
     def __init__(self, message, code=None):
         super().__init__(message)
         self.code = code
 
 
-class EnumUuidError(Exception):
+class _EnumUuidError(Exception):
     """枚举类的uuid不存在"""
     def __init__(self, message, code=None):
         super().__init__(message)
         self.code = code
 
 
-class EnumTypeError(Exception):
+class _EnumTypeError(Exception):
     """枚举类的配置项的类型不正确"""
     def __init__(self, message, code=None):
         super().__init__(message)
@@ -94,7 +94,7 @@ class EnumTypeError(Exception):
 
 
 @dataclass
-class EnumPack:
+class _EnumPack:
     """常量数据包"""
     uuid: uuid_t = None
     index: index_t = None
@@ -118,10 +118,10 @@ class SuperEnum:
     _blank_: int = 4
     # 隐藏属性
     _uuid_: uuid_t
-    _pack_: EnumPack
+    _pack_: _EnumPack
     _length_: int
     _index2uuid_: List[uuid_t]
-    _uuid2pack_: Dict[uuid_t, EnumPack]
+    _uuid2pack_: Dict[uuid_t, _EnumPack]
     _uuid2sub_: Dict[uuid_t, Any]
     _uuid_all_: List[uuid_t]
     _uuid_hide_: Set[uuid_t]
@@ -165,7 +165,7 @@ class SuperEnum:
                 enum_dict[uuid] = cls.get_value(uuid, False)
         if is_force:
             if cls._length_ != len(uuid_dict):
-                raise EnumUuidError(f"ERROR: dict(len={len(uuid_dict)}) is not included in enum(len={cls._length_})!!!")
+                raise _EnumUuidError(f"ERROR: dict(len={len(uuid_dict)}) is not included in enum(len={cls._length_})!!!")
         return enum_dict
 
     @classmethod
@@ -226,26 +226,25 @@ def advanced_enum():
             """检查是否存在关键字冲突，all_or_hide指定全部检查还是仅检查隐藏属性"""
             for word in keys:
                 if word in enum_hide_word:
-                    raise EnumOccupiedError(f"ERROR: {word} in enum_hide_word, change a Name!!!")
+                    raise _EnumOccupiedError(f"ERROR: {word} in enum_hide_word, change a Name!!!")
             if all_or_hide:
                 for word in keys:
                     if word in enum_conf_word:
-                        raise EnumOccupiedError(f"ERROR: {word} in enum_conf_word, change a Name!!!")
+                        raise _EnumOccupiedError(f"ERROR: {word} in enum_conf_word, change a Name!!!")
 
         def check_conf(cls_n: Any) -> None:
             """检查枚举类的配置项的类型与值是否正确"""
             if not isinstance(cls_n._hide_, bool):
-                raise EnumTypeError(f"ERROR: _hide_ typeof {type(cls_n._hide_)} but not bool!!!")
+                raise _EnumTypeError(f"ERROR: _hide_ typeof {type(cls_n._hide_)} but not bool!!!")
             if isinstance(cls_n._blank_, int):
                 if cls_n._blank_ < 0:
-                    raise EnumTypeError(f"ERROR: _blank_({cls_n._blank_}) < 0!!!")
+                    raise _EnumTypeError(f"ERROR: _blank_({cls_n._blank_}) < 0!!!")
             else:
-                raise EnumTypeError(f"ERROR: _blank_ typeof {type(cls_n._blank_)} but not int!!!")
-
+                raise _EnumTypeError(f"ERROR: _blank_ typeof {type(cls_n._blank_)} but not int!!!")
 
         def regress_enum(uuid_n: uuid_t, cls_n: Any) -> uuid_t:
             """逐目录递归赋值uuid常量表，不会赋值顶级enum组"""
-            uuid2pack_n: Dict[uuid_t, EnumPack] = dict()
+            uuid2pack_n: Dict[uuid_t, _EnumPack] = dict()
             index2uuid_n: List[uuid_t | None] = list()
             uuid_hide_n: Set[uuid_t] = set()
             uuid2sub_n: Dict[uuid_t, Any] = dict()
@@ -273,7 +272,7 @@ def advanced_enum():
                 # 排除内置属性，并确保不存在自定义的内置属性
                 elif attr_n.startswith('_') and attr_n.endswith('_'):
                     if attr_n not in enum_conf_word:
-                        raise EnumOccupiedError(f"ERROR: {attr_n} not in enum_conf_word, change a Name!!!")
+                        raise _EnumOccupiedError(f"ERROR: {attr_n} not in enum_conf_word, change a Name!!!")
                 else:
                     # 重置标志位
                     is_hide, is_sub = False, False
@@ -288,11 +287,11 @@ def advanced_enum():
                         uuid_n = regress_enum(uuid_n, val_n)
                         # 赋值子级group属性
                         uuid2sub_n[uuid_n] = val_n
-                        pack_n = EnumPack(uuid=uuid_n, name=attr_n, value=val_n._value_)
+                        pack_n = _EnumPack(uuid=uuid_n, name=attr_n, value=val_n._value_)
                         val_n._uuid_, val_n._pack_ = uuid_n, pack_n
                     # 处理一般枚举成员
                     else:
-                        pack_n = EnumPack(uuid=uuid_n, name=attr_n, value=val_n)
+                        pack_n = _EnumPack(uuid=uuid_n, name=attr_n, value=val_n)
                         setattr(cls_n, attr_n, uuid_n)
                     # 检查是否为隐藏枚举量并处理
                     if is_sub:
@@ -311,7 +310,7 @@ def advanced_enum():
                                 index = seq_n.index(attr_n)
                                 index2uuid_n[index] = uuid_n
                             except ValueError:
-                                raise EnumSequenceError(f"ERROR: '{attr_n}' is not in _sequence_!!!")
+                                raise _EnumSequenceError(f"ERROR: '{attr_n}' is not in _sequence_!!!")
                         else:
                             index = index_n
                             index2uuid_n.append(uuid_n)
@@ -325,7 +324,7 @@ def advanced_enum():
             # 如果启用了顺序索引，则检查_sequence_是否全部被包含
             if is_seq:
                 if index_n != seq_len:
-                    raise EnumSequenceError(f"ERROR: index_n({index_n}) != _sequence_({seq_len})!!!")
+                    raise _EnumSequenceError(f"ERROR: index_n({index_n}) != _sequence_({seq_len})!!!")
             # 赋值本级group属性
             cls_n._index2uuid_ = index2uuid_n
             cls_n._length_ = index_n
@@ -342,7 +341,7 @@ def advanced_enum():
         uuid = regress_enum(uuid, cls)
         # 赋值根目录本身的属性，本身一般仅用于占位，无实际意义
         cls._uuid_ = uuid
-        cls._pack_ = EnumPack(uuid=uuid, index=(None if cls._hide_ else 0), name=cls.__name__, value=cls._value_)
+        cls._pack_ = _EnumPack(uuid=uuid, index=(None if cls._hide_ else 0), name=cls.__name__, value=cls._value_)
         return cls
 
     return decorator
