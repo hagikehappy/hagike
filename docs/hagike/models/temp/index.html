@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
 <meta name="generator" content="pdoc3 0.11.1">
 <title>hagike.models.temp API documentation</title>
-<meta name="description" content="模型结构的模板文件">
+<meta name="description" content="模型结构的模板文件 …">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
@@ -25,17 +25,23 @@ hljs.highlightAll();
 <h1 class="title">Module <code>hagike.models.temp</code></h1>
 </header>
 <section id="section-intro">
-<p>模型结构的模板文件</p>
+<p>模型结构的模板文件 </p>
+<p>:term </p>
+<pre><code>module - 模块，仅包含ModuleKey中的固定术语的单一执行流
+
+model - 模型，由若干Module组成，各Module间呈现树形执行流
+</code></pre>
 </section>
 <section>
 <h2 class="section-title" id="header-submodules">Sub-modules</h2>
 <dl>
-<dt><code class="name"><a title="hagike.models.temp.template" href="template.html">hagike.models.temp.template</a></code></dt>
+<dt><code class="name"><a title="hagike.models.temp.model" href="model.html">hagike.models.temp.model</a></code></dt>
 <dd>
-<div class="desc"><p>模型的父类模板
-:term
-module - 模块，仅包含ModuleKey中的固定术语的单一执行流
-model - 模型，由若干Module组成，各Module间呈现树形执行流</p></div>
+<div class="desc"><p>模型的父亲类模板</p></div>
+</dd>
+<dt><code class="name"><a title="hagike.models.temp.module" href="module.html">hagike.models.temp.module</a></code></dt>
+<dd>
+<div class="desc"><p>模块的父类模板</p></div>
 </dd>
 </dl>
 </section>
@@ -58,7 +64,8 @@ model - 模型，由若干Module组成，各Module间呈现树形执行流</p></
 </li>
 <li><h3><a href="#header-submodules">Sub-modules</a></h3>
 <ul>
-<li><code><a title="hagike.models.temp.template" href="template.html">hagike.models.temp.template</a></code></li>
+<li><code><a title="hagike.models.temp.model" href="model.html">hagike.models.temp.model</a></code></li>
+<li><code><a title="hagike.models.temp.module" href="module.html">hagike.models.temp.module</a></code></li>
 </ul>
 </li>
 </ul>

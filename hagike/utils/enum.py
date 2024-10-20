@@ -16,18 +16,17 @@ notice: \n
     8. 根类的值是会被包含在uuid及其映射中的，但由于其没有父类，因而不会被包含在任何index列表中，其index本身总为0 \n
 """
 
-
 from dataclasses import dataclass
-from typing import Any, List, Tuple, Dict, Sequence, Set, Iterator
+from typing import Any, List, Tuple, Dict, Sequence, Set, Iterator, Mapping
 from copy import deepcopy
-
 
 # 重定义Enum中的标识符类型
 uuid_t = int
 index_t = int
 # SuperEnum类型配置字，在父类SuperEnum中定义的值为默认值
-enum_conf_word = ('_value_', '_sequence_', '_hide_', '_blank_')
+_enum_conf_word = ('_value_', '_sequence_', '_hide_', '_blank_')
 """
+@public
 :param _value_:  \n
     对于group本身的赋值需要写在成员_value_中，否则会被视为None，访问时依然通过value \n
 :param _sequence_:  \n
@@ -39,10 +38,11 @@ enum_conf_word = ('_value_', '_sequence_', '_hide_', '_blank_')
     打印时的单位空格长度 \n
 """
 # SuperEnum类型隐藏字
-enum_hide_word = ('_uuid_', '_pack_', '_length_',
-                  '_index2uuid_', '_uuid2pack_', '_uuid2sub_',
-                  '_uuid_all_', '_uuid_hide_', '_uuid_sub_')
+_enum_hide_word = ('_uuid_', '_pack_', '_length_',
+                   '_index2uuid_', '_uuid2pack_', '_uuid2sub_',
+                   '_uuid_all_', '_uuid_hide_', '_uuid_sub_')
 """
+@public
 :param _uuid_: \n
     子类本身的唯一标识符 \n
 :param _pack_: \n
@@ -66,29 +66,33 @@ enum_hide_word = ('_uuid_', '_pack_', '_length_',
 
 class _EnumOccupiedError(Exception):
     """枚举类关键字占用异常"""
-    def __init__(self, message, code=None):
-        super().__init__(message)
+
+    def __init__(self, msg, code=None):
+        super().__init__(msg)
         self.code = code
 
 
 class _EnumSequenceError(Exception):
     """枚举类顺序访问索引异常"""
-    def __init__(self, message, code=None):
-        super().__init__(message)
-        self.code = code
 
-
-class _EnumUuidError(Exception):
-    """枚举类的uuid不存在"""
-    def __init__(self, message, code=None):
-        super().__init__(message)
+    def __init__(self, msg, code=None):
+        super().__init__(msg)
         self.code = code
 
 
 class _EnumTypeError(Exception):
     """枚举类的配置项的类型不正确"""
-    def __init__(self, message, code=None):
-        super().__init__(message)
+
+    def __init__(self, msg, code=None):
+        super().__init__(msg)
+        self.code = code
+
+
+class _EnumUuidError(Exception):
+    """枚举类的uuid不存在"""
+
+    def __init__(self, msg, code=None):
+        super().__init__(msg)
         self.code = code
 
 
@@ -149,7 +153,26 @@ class SuperEnum:
         return deepcopy(pack_n.value)
 
     @classmethod
-    def dict(cls, enum_dict: Dict[uuid_t, Any] = None, is_force: bool = True) -> Dict[uuid_t, Any]:
+    def check_in(cls, uuid: uuid_t, all_or_index: bool) -> bool:
+        """检查是否uuid是否被枚举类包含，all_or_hide指定是否仅考虑显变量"""
+        if all_or_index:
+            is_in = True if uuid in cls._uuid_all_ else False
+        else:
+            is_in = True if uuid in cls._index2uuid_ else False
+        return is_in
+
+    @classmethod
+    def check_include(cls, enum_list: List[uuid_t], all_or_index: bool) -> bool:
+        """检查列表内的uuid是否都包含在枚举类中，all_or_hide指定是否仅考虑显变量"""
+        is_include = True
+        for uuid in enum_list:
+            if not cls.check_in(uuid, all_or_index):
+                is_include = False
+                break
+        return is_include
+
+    @classmethod
+    def dict(cls, enum_dict: Mapping[uuid_t, Any] = None, is_force: bool = True) -> Dict[uuid_t, Any]:
         """
         填补Enum类中不在常量表部分的默认赋值，生成dict； \n
         如果选中is_force则会检查enum_dict中的key是否都在enum类的非隐藏部分中，若不满足则会报错； \n
@@ -162,10 +185,35 @@ class SuperEnum:
             uuid = cls._index2uuid_[index]
             if uuid not in uuid_dict:
                 enum_dict[uuid] = cls.get_value(uuid, False)
+        # 检查是否完全包含于
         if is_force:
             if cls._length_ != len(uuid_dict):
-                raise _EnumUuidError(f"ERROR: dict(len={len(uuid_dict)}) is not included in enum(len={cls._length_})!!!")
+                raise _EnumUuidError(
+                    f"ERROR: dict(len={len(uuid_dict)}) is not included in enum(len={cls._length_})!!!")
         return enum_dict
+
+    @classmethod
+    def list(cls, enum_dict: Mapping[uuid_t, Any] = None, is_default: bool = False) -> List[Any]:
+        """
+        将dict根据index顺序进行排序，要求所有enum_dict中的key都被包含于enum类的非隐藏部分； \n
+        is_default决定是否补全默认值；
+        """
+        enum_list = []
+        if enum_dict is None:
+            enum_dict = dict()
+        uuid_dict = enum_dict.keys()
+        # 检查是否完全包含于
+        for uuid in uuid_dict:
+            if uuid not in cls._index2uuid_:
+                raise _EnumUuidError(f"ERROR: dict is not included in enum for uuid({uuid})!!!")
+        for index in range(cls._length_):
+            uuid = cls._index2uuid_[index]
+            if uuid in uuid_dict:
+                enum_list.append(enum_dict[uuid])
+            elif is_default and uuid not in uuid_dict:
+                enum_list.append(cls.get_value(uuid, False))
+
+        return enum_list
 
     @classmethod
     def iter(cls) -> Iterator[int]:
@@ -213,17 +261,18 @@ def advanced_enum():
     """
     该函数作为常量表的装饰器，自动建立映射，子类与子成员均视为常量，封装为常量类型，仅用于顶级Enum。
     """
+
     def decorator(cls):
         """装饰器，进行常量封装"""
 
         def check_key(keys: Sequence, all_or_hide: bool = True) -> None:
             """检查是否存在关键字冲突，all_or_hide指定全部检查还是仅检查隐藏属性"""
             for word in keys:
-                if word in enum_hide_word:
+                if word in _enum_hide_word:
                     raise _EnumOccupiedError(f"ERROR: {word} in enum_hide_word, change a Name!!!")
             if all_or_hide:
                 for word in keys:
-                    if word in enum_conf_word:
+                    if word in _enum_conf_word:
                         raise _EnumOccupiedError(f"ERROR: {word} in enum_conf_word, change a Name!!!")
 
         def check_conf(cls_n: Any) -> None:
@@ -244,7 +293,7 @@ def advanced_enum():
             uuid2sub_n: Dict[uuid_t, Any] = dict()
             index_n = 0
             all_attrs_n = dir(cls_n)
-            all_attrs_n.reverse()   # 默认普通枚举量在前，子类在后
+            all_attrs_n.reverse()  # 默认普通枚举量在前，子类在后
 
             # 检查是否存在关键字占用
             check_key(all_attrs_n, all_or_hide=False)
@@ -265,7 +314,7 @@ def advanced_enum():
                     continue
                 # 排除内置属性，并确保不存在自定义的内置属性
                 elif attr_n.startswith('_') and attr_n.endswith('_'):
-                    if attr_n not in enum_conf_word:
+                    if attr_n not in _enum_conf_word:
                         raise _EnumOccupiedError(f"ERROR: {attr_n} not in enum_conf_word, change a Name!!!")
                 else:
                     # 重置标志位
@@ -339,4 +388,3 @@ def advanced_enum():
         return cls
 
     return decorator
-

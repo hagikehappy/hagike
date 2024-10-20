@@ -1,4 +1,4 @@
-from hagike.utils import *
+from hagike.utils.enum import *
 
 
 def test_utils_enum():
@@ -38,4 +38,5 @@ def test_utils_enum():
     print(EnumExample.dict())
     for i in EnumExample.iter():
         print(i, end=', ')
+    print(EnumExample.list({EnumExample.b: 5, EnumExample.z: 6}))
 

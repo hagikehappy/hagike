@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
 <meta name="generator" content="pdoc3 0.11.1">
-<title>hagike.utils.message API documentation</title>
-<meta name="description" content="日志消息">
+<title>hagike.models.temp.model API documentation</title>
+<meta name="description" content="模型的父亲类模板">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
@@ -22,93 +22,18 @@ hljs.highlightAll();
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>hagike.utils.message</code></h1>
+<h1 class="title">Module <code>hagike.models.temp.model</code></h1>
 </header>
 <section id="section-intro">
-<p>日志消息</p>
+<p>模型的父亲类模板</p>
 </section>
 <section>
 </section>
 <section>
 </section>
 <section>
-<h2 class="section-title" id="header-functions">Functions</h2>
-<dl>
-<dt id="hagike.utils.message.add_msg"><code class="name flex">
-<span>def <span class="ident">add_msg</span></span>(<span>level: int, script: str, is_print=True)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>添加消息</p></div>
-</dd>
-<dt id="hagike.utils.message.error_proc"><code class="name flex">
-<span>def <span class="ident">error_proc</span></span>(<span>is_exit=True)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>错误处理</p></div>
-</dd>
-</dl>
 </section>
 <section>
-<h2 class="section-title" id="header-classes">Classes</h2>
-<dl>
-<dt id="hagike.utils.message.MsgLevel"><code class="flex name class">
-<span>class <span class="ident">MsgLevel</span></span>
-</code></dt>
-<dd>
-<div class="desc"><p>Enum类的父类</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@advanced_enum()
-class MsgLevel(SuperEnum):
-    Run = Fore.GREEN + &#34;RUN: &#34; + Style.RESET_ALL
-    Warning = Fore.YELLOW + &#34;WARNING: &#34; + Style.RESET_ALL
-    Error = Fore.RED + &#34;ERROR: &#34; + Style.RESET_ALL
-    Panic = Fore.RED + &#34;PANIC: &#34; + Style.RESET_ALL</code></pre>
-</details>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li><a title="hagike.utils.enum.SuperEnum" href="enum.html#hagike.utils.enum.SuperEnum">SuperEnum</a></li>
-</ul>
-<h3>Class variables</h3>
-<dl>
-<dt id="hagike.utils.message.MsgLevel.Error"><code class="name">var <span class="ident">Error</span></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="hagike.utils.message.MsgLevel.Panic"><code class="name">var <span class="ident">Panic</span></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="hagike.utils.message.MsgLevel.Run"><code class="name">var <span class="ident">Run</span></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="hagike.utils.message.MsgLevel.Warning"><code class="name">var <span class="ident">Warning</span></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-</dl>
-<h3>Inherited members</h3>
-<ul class="hlist">
-<li><code><b><a title="hagike.utils.enum.SuperEnum" href="enum.html#hagike.utils.enum.SuperEnum">SuperEnum</a></b></code>:
-<ul class="hlist">
-<li><code><a title="hagike.utils.enum.SuperEnum.dict" href="enum.html#hagike.utils.enum.SuperEnum.dict">dict</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.get_index" href="enum.html#hagike.utils.enum.SuperEnum.get_index">get_index</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.get_name" href="enum.html#hagike.utils.enum.SuperEnum.get_name">get_name</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.get_uuid" href="enum.html#hagike.utils.enum.SuperEnum.get_uuid">get_uuid</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.get_value" href="enum.html#hagike.utils.enum.SuperEnum.get_value">get_value</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.iter" href="enum.html#hagike.utils.enum.SuperEnum.iter">iter</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.list" href="enum.html#hagike.utils.enum.SuperEnum.list">list</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.print" href="enum.html#hagike.utils.enum.SuperEnum.print">print</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.print_pack" href="enum.html#hagike.utils.enum.SuperEnum.print_pack">print_pack</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.tree" href="enum.html#hagike.utils.enum.SuperEnum.tree">tree</a></code></li>
-</ul>
-</li>
-</ul>
-</dd>
-</dl>
 </section>
 </article>
 <nav id="sidebar">
@@ -118,26 +43,7 @@ class MsgLevel(SuperEnum):
 <ul id="index">
 <li><h3>Super-module</h3>
 <ul>
-<li><code><a title="hagike.utils" href="index.html">hagike.utils</a></code></li>
-</ul>
-</li>
-<li><h3><a href="#header-functions">Functions</a></h3>
-<ul class="">
-<li><code><a title="hagike.utils.message.add_msg" href="#hagike.utils.message.add_msg">add_msg</a></code></li>
-<li><code><a title="hagike.utils.message.error_proc" href="#hagike.utils.message.error_proc">error_proc</a></code></li>
-</ul>
-</li>
-<li><h3><a href="#header-classes">Classes</a></h3>
-<ul>
-<li>
-<h4><code><a title="hagike.utils.message.MsgLevel" href="#hagike.utils.message.MsgLevel">MsgLevel</a></code></h4>
-<ul class="">
-<li><code><a title="hagike.utils.message.MsgLevel.Error" href="#hagike.utils.message.MsgLevel.Error">Error</a></code></li>
-<li><code><a title="hagike.utils.message.MsgLevel.Panic" href="#hagike.utils.message.MsgLevel.Panic">Panic</a></code></li>
-<li><code><a title="hagike.utils.message.MsgLevel.Run" href="#hagike.utils.message.MsgLevel.Run">Run</a></code></li>
-<li><code><a title="hagike.utils.message.MsgLevel.Warning" href="#hagike.utils.message.MsgLevel.Warning">Warning</a></code></li>
-</ul>
-</li>
+<li><code><a title="hagike.models.temp" href="index.html">hagike.models.temp</a></code></li>
 </ul>
 </li>
 </ul>

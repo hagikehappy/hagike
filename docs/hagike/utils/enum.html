@@ -56,61 +56,6 @@ advanced_enum - 根级的装饰器，用于自动生成枚举类的各项配置
 <section>
 </section>
 <section>
-<h2 class="section-title" id="header-variables">Global variables</h2>
-<dl>
-<dt id="hagike.utils.enum.enum_conf_word"><code class="name">var <span class="ident">enum_conf_word</span></code></dt>
-<dd>
-<div class="desc"><p>:param <em>value</em>:
-</p>
-<pre><code>对于group本身的赋值需要写在成员_value_中，否则会被视为None，访问时依然通过value
-</code></pre>
-<p>:param <em>sequence</em>:
-</p>
-<pre><code>如果在某子类下启用顺序访问索引，则需要赋值成员_sequence_: Tuple[str]；
-
-其中需要按顺序列出所有成员名称；如果未列全或有不存在的成员名称则在初始化时会报错
-</code></pre>
-<p>:param <em>hide</em>: </p>
-<pre><code>是否将类本身的值作为隐藏枚举值
-</code></pre>
-<p>:param <em>blank</em>:
-</p>
-<pre><code>打印时的单位空格长度
-</code></pre></div>
-</dd>
-<dt id="hagike.utils.enum.enum_hide_word"><code class="name">var <span class="ident">enum_hide_word</span></code></dt>
-<dd>
-<div class="desc"><p>:param <em>uuid</em>: </p>
-<pre><code>子类本身的唯一标识符
-</code></pre>
-<p>:param <em>pack</em>: </p>
-<pre><code>存储子类本身的信息，是信息的打包形式
-</code></pre>
-<p>:param <em>length</em>: </p>
-<pre><code>子类的非隐藏成员数量，不包括子类本身
-</code></pre>
-<p>:param <em>index2uuid</em>:
-</p>
-<pre><code>子类的非隐藏成员索引到唯一标识符的映射，不包括子类本身
-</code></pre>
-<p>:param <em>uuid2pack</em>:
-</p>
-<pre><code>子类下的唯一标识符到数据包的映射，不包括子类本身
-</code></pre>
-<p>:param <em>uuid2sub</em>: </p>
-<pre><code>子类下的唯一标识符到孙类的映射
-</code></pre>
-<p>:param <em>uuid_all</em>: </p>
-<pre><code>子类下所有唯一标识符的列表，其中非隐藏部分在前，隐藏部分在后
-</code></pre>
-<p>:param <em>uuid_hide</em>: </p>
-<pre><code>子类下所有隐式枚举成员的集合
-</code></pre>
-<p>:param <em>uuid_sub</em>: </p>
-<pre><code>子类下所有孙类枚举成员的集合
-</code></pre></div>
-</dd>
-</dl>
 </section>
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
@@ -176,7 +121,7 @@ advanced_enum - 根级的装饰器，用于自动生成枚举类的各项配置
         return deepcopy(pack_n.value)
 
     @classmethod
-    def dict(cls, enum_dict: Dict[uuid_t, Any] = None, is_force: bool = True) -&gt; Dict[uuid_t, Any]:
+    def dict(cls, enum_dict: Mapping[uuid_t, Any] = None, is_force: bool = True) -&gt; Dict[uuid_t, Any]:
         &#34;&#34;&#34;
         填补Enum类中不在常量表部分的默认赋值，生成dict； \n
         如果选中is_force则会检查enum_dict中的key是否都在enum类的非隐藏部分中，若不满足则会报错； \n
@@ -189,10 +134,35 @@ advanced_enum - 根级的装饰器，用于自动生成枚举类的各项配置
             uuid = cls._index2uuid_[index]
             if uuid not in uuid_dict:
                 enum_dict[uuid] = cls.get_value(uuid, False)
+        # 检查是否完全包含于
         if is_force:
             if cls._length_ != len(uuid_dict):
-                raise _EnumUuidError(f&#34;ERROR: dict(len={len(uuid_dict)}) is not included in enum(len={cls._length_})!!!&#34;)
+                raise _EnumUuidError(
+                    f&#34;ERROR: dict(len={len(uuid_dict)}) is not included in enum(len={cls._length_})!!!&#34;)
         return enum_dict
+
+    @classmethod
+    def list(cls, enum_dict: Mapping[uuid_t, Any] = None, is_default: bool = False) -&gt; List[Any]:
+        &#34;&#34;&#34;
+        将dict根据index顺序进行排序，要求所有enum_dict中的key都被包含于enum类的非隐藏部分； \n
+        is_default决定是否补全默认值；
+        &#34;&#34;&#34;
+        enum_list = []
+        if enum_dict is None:
+            enum_dict = dict()
+        uuid_dict = enum_dict.keys()
+        # 检查是否完全包含于
+        for uuid in uuid_dict:
+            if uuid not in cls._index2uuid_:
+                raise _EnumUuidError(f&#34;ERROR: dict is not included in enum for uuid({uuid})!!!&#34;)
+        for index in range(cls._length_):
+            uuid = cls._index2uuid_[index]
+            if uuid in uuid_dict:
+                enum_list.append(enum_dict[uuid])
+            elif is_default and uuid not in uuid_dict:
+                enum_list.append(cls.get_value(uuid, False))
+
+        return enum_list
 
     @classmethod
     def iter(cls) -&gt; Iterator[int]:
@@ -237,13 +207,13 @@ advanced_enum - 根级的装饰器，用于自动生成枚举类的各项配置
 </details>
 <h3>Subclasses</h3>
 <ul class="hlist">
-<li><a title="hagike.models.temp.template.ModuleKey" href="../models/temp/template.html#hagike.models.temp.template.ModuleKey">ModuleKey</a></li>
+<li><a title="hagike.models.temp.module.ModuleKey" href="../models/temp/module.html#hagike.models.temp.module.ModuleKey">ModuleKey</a></li>
 <li><a title="hagike.utils.message.MsgLevel" href="message.html#hagike.utils.message.MsgLevel">MsgLevel</a></li>
 </ul>
 <h3>Static methods</h3>
 <dl>
 <dt id="hagike.utils.enum.SuperEnum.dict"><code class="name flex">
-<span>def <span class="ident">dict</span></span>(<span>enum_dict: Dict[int, Any] = None, is_force: bool = True) ‑> Dict[int, Any]</span>
+<span>def <span class="ident">dict</span></span>(<span>enum_dict: Mapping[int, Any] = None, is_force: bool = True) ‑> Dict[int, Any]</span>
 </code></dt>
 <dd>
 <div class="desc"><p>填补Enum类中不在常量表部分的默认赋值，生成dict； </p>
@@ -280,6 +250,13 @@ advanced_enum - 根级的装饰器，用于自动生成枚举类的各项配置
 <dd>
 <div class="desc"><p>返回index2uuid迭代器</p></div>
 </dd>
+<dt id="hagike.utils.enum.SuperEnum.list"><code class="name flex">
+<span>def <span class="ident">list</span></span>(<span>enum_dict: Mapping[int, Any] = None, is_default: bool = False) ‑> List[Any]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>将dict根据index顺序进行排序，要求所有enum_dict中的key都被包含于enum类的非隐藏部分； </p>
+<p>is_default决定是否补全默认值；</p></div>
+</dd>
 <dt id="hagike.utils.enum.SuperEnum.print"><code class="name flex">
 <span>def <span class="ident">print</span></span>(<span>is_value: bool = False) ‑> None</span>
 </code></dt>
@@ -313,12 +290,6 @@ advanced_enum - 根级的装饰器，用于自动生成枚举类的各项配置
 <li><code><a title="hagike.utils" href="index.html">hagike.utils</a></code></li>
 </ul>
 </li>
-<li><h3><a href="#header-variables">Global variables</a></h3>
-<ul class="">
-<li><code><a title="hagike.utils.enum.enum_conf_word" href="#hagike.utils.enum.enum_conf_word">enum_conf_word</a></code></li>
-<li><code><a title="hagike.utils.enum.enum_hide_word" href="#hagike.utils.enum.enum_hide_word">enum_hide_word</a></code></li>
-</ul>
-</li>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
 <li><code><a title="hagike.utils.enum.advanced_enum" href="#hagike.utils.enum.advanced_enum">advanced_enum</a></code></li>
@@ -335,6 +306,7 @@ advanced_enum - 根级的装饰器，用于自动生成枚举类的各项配置
 <li><code><a title="hagike.utils.enum.SuperEnum.get_uuid" href="#hagike.utils.enum.SuperEnum.get_uuid">get_uuid</a></code></li>
 <li><code><a title="hagike.utils.enum.SuperEnum.get_value" href="#hagike.utils.enum.SuperEnum.get_value">get_value</a></code></li>
 <li><code><a title="hagike.utils.enum.SuperEnum.iter" href="#hagike.utils.enum.SuperEnum.iter">iter</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.list" href="#hagike.utils.enum.SuperEnum.list">list</a></code></li>
 <li><code><a title="hagike.utils.enum.SuperEnum.print" href="#hagike.utils.enum.SuperEnum.print">print</a></code></li>
 <li><code><a title="hagike.utils.enum.SuperEnum.print_pack" href="#hagike.utils.enum.SuperEnum.print_pack">print_pack</a></code></li>
 <li><code><a title="hagike.utils.enum.SuperEnum.tree" href="#hagike.utils.enum.SuperEnum.tree">tree</a></code></li>

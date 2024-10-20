@@ -1,2 +1,3 @@
 #!/bin/sh
-pdoc --output-dir docs hagike --force --html
+rm -r ./docs/hagike
+pdoc --output-dir docs hagike --html
