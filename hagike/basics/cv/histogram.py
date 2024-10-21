@@ -1,3 +1,8 @@
+"""
+图像直方图
+"""
+
+
 import numpy as np
 from PIL import Image, ImageFile
 import matplotlib.pyplot as plt

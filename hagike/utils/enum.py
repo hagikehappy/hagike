@@ -131,17 +131,17 @@ class SuperEnum:
     _uuid_sub_: Set[uuid_t]
 
     @classmethod
-    def get_uuid(cls):
+    def get_uuid(cls) -> uuid_t:
         """获得类本身的uuid"""
         return cls._uuid_
 
     @classmethod
-    def get_name(cls, uuid: uuid_t):
+    def get_name(cls, uuid: uuid_t) -> str:
         """获得枚举量的名称"""
         return cls._uuid2pack_[uuid].name
 
     @classmethod
-    def get_index(cls, uuid: uuid_t):
+    def get_index(cls, uuid: uuid_t) -> index_t:
         """获得枚举量的名称"""
         return cls._uuid2pack_[uuid].index
 

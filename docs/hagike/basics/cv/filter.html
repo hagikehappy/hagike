@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
 <meta name="generator" content="pdoc3 0.11.1">
-<title>hagike.models.temp API documentation</title>
-<meta name="description" content="模型结构的模板文件 …">
+<title>hagike.basics.cv.filter API documentation</title>
+<meta name="description" content="图像滤波">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
@@ -24,34 +24,45 @@ hljs.highlightAll();
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>hagike.models.temp</code></h1>
+<h1 class="title">Module <code>hagike.basics.cv.filter</code></h1>
 </header>
 <section id="section-intro">
-<p>模型结构的模板文件 </p>
-<p>:term </p>
-<pre><code>module - 模块，仅包含ModuleKey中的固定术语的单一执行流
-
-node - 节点，由module组成，定义了节点的拓扑结构
-
-model - 模型，由若干Node组成，各Node构成DAG(有向无环图)
-</code></pre>
+<p>图像滤波</p>
 </section>
 <section>
-<h2 class="section-title" id="header-submodules">Sub-modules</h2>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
-<dt><code class="name"><a title="hagike.models.temp.model" href="model.html">hagike.models.temp.model</a></code></dt>
+<dt id="hagike.basics.cv.filter.apply_sharpening_filter"><code class="name flex">
+<span>def <span class="ident">apply_sharpening_filter</span></span>(<span>image, filter_type='laplacian', **kwargs)</span>
+</code></dt>
 <dd>
-<div class="desc"><p>模型的父亲类模板</p></div>
+<div class="desc"><p>对图像应用锐化滤波。</p>
+<p>:param image: 输入图像（numpy数组）。
+:param filter_type: 滤波器类型，'laplacian' 或 'sharpening'（自定义锐化）。
+:param kwargs: 其他参数，例如锐化滤波器的强度等。
+:return: 锐化处理后的图像。</p></div>
 </dd>
-<dt><code class="name"><a title="hagike.models.temp.module" href="module.html">hagike.models.temp.module</a></code></dt>
+<dt id="hagike.basics.cv.filter.apply_smoothing_filter"><code class="name flex">
+<span>def <span class="ident">apply_smoothing_filter</span></span>(<span>image, filter_type='mean', **kwargs)</span>
+</code></dt>
 <dd>
-<div class="desc"><p>模块的父类模板</p></div>
+<div class="desc"><p>对图像应用平滑滤波。</p>
+<p>:param image: 输入图像（numpy数组）。
+:param filter_type: 滤波器类型，'mean' 或 'gaussian'。
+:param kwargs: 其他参数，例如均值滤波器的卷积核大小，高斯滤波器的标准差等。
+:return: 平滑处理后的图像。</p></div>
+</dd>
+<dt id="hagike.basics.cv.filter.frequency_domain_filtering"><code class="name flex">
+<span>def <span class="ident">frequency_domain_filtering</span></span>(<span>image_path)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>频域滤波</p></div>
 </dd>
 </dl>
-</section>
-<section>
-</section>
-<section>
 </section>
 <section>
 </section>
@@ -63,13 +74,14 @@ model - 模型，由若干Node组成，各Node构成DAG(有向无环图)
 <ul id="index">
 <li><h3>Super-module</h3>
 <ul>
-<li><code><a title="hagike.models" href="../index.html">hagike.models</a></code></li>
+<li><code><a title="hagike.basics.cv" href="index.html">hagike.basics.cv</a></code></li>
 </ul>
 </li>
-<li><h3><a href="#header-submodules">Sub-modules</a></h3>
-<ul>
-<li><code><a title="hagike.models.temp.model" href="model.html">hagike.models.temp.model</a></code></li>
-<li><code><a title="hagike.models.temp.module" href="module.html">hagike.models.temp.module</a></code></li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="hagike.basics.cv.filter.apply_sharpening_filter" href="#hagike.basics.cv.filter.apply_sharpening_filter">apply_sharpening_filter</a></code></li>
+<li><code><a title="hagike.basics.cv.filter.apply_smoothing_filter" href="#hagike.basics.cv.filter.apply_smoothing_filter">apply_smoothing_filter</a></code></li>
+<li><code><a title="hagike.basics.cv.filter.frequency_domain_filtering" href="#hagike.basics.cv.filter.frequency_domain_filtering">frequency_domain_filtering</a></code></li>
 </ul>
 </li>
 </ul>

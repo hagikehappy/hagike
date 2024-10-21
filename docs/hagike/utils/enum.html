@@ -12,6 +12,8 @@
 <style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
 <style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
 <style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script type="text/x-mathjax-config">MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], processEscapes: true } });</script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS_CHTML" integrity="sha256-kZafAc6mZvK3W3v1pHOcUix30OHQN6pU/NO2oFkqZVw=" crossorigin></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
 <script>window.addEventListener('DOMContentLoaded', () => {
 hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
@@ -99,17 +101,17 @@ advanced_enum - 根级的装饰器，用于自动生成枚举类的各项配置
     _uuid_sub_: Set[uuid_t]
 
     @classmethod
-    def get_uuid(cls):
+    def get_uuid(cls) -&gt; uuid_t:
         &#34;&#34;&#34;获得类本身的uuid&#34;&#34;&#34;
         return cls._uuid_
 
     @classmethod
-    def get_name(cls, uuid: uuid_t):
+    def get_name(cls, uuid: uuid_t) -&gt; str:
         &#34;&#34;&#34;获得枚举量的名称&#34;&#34;&#34;
         return cls._uuid2pack_[uuid].name
 
     @classmethod
-    def get_index(cls, uuid: uuid_t):
+    def get_index(cls, uuid: uuid_t) -&gt; index_t:
         &#34;&#34;&#34;获得枚举量的名称&#34;&#34;&#34;
         return cls._uuid2pack_[uuid].index
 
@@ -119,6 +121,25 @@ advanced_enum - 根级的装饰器，用于自动生成枚举类的各项配置
         uuid = cls._index2uuid_[src] if index_or_uuid else src
         pack_n = cls._uuid2pack_[uuid]
         return deepcopy(pack_n.value)
+
+    @classmethod
+    def check_in(cls, uuid: uuid_t, all_or_index: bool) -&gt; bool:
+        &#34;&#34;&#34;检查是否uuid是否被枚举类包含，all_or_hide指定是否仅考虑显变量&#34;&#34;&#34;
+        if all_or_index:
+            is_in = True if uuid in cls._uuid_all_ else False
+        else:
+            is_in = True if uuid in cls._index2uuid_ else False
+        return is_in
+
+    @classmethod
+    def check_include(cls, enum_list: List[uuid_t], all_or_index: bool) -&gt; bool:
+        &#34;&#34;&#34;检查列表内的uuid是否都包含在枚举类中，all_or_hide指定是否仅考虑显变量&#34;&#34;&#34;
+        is_include = True
+        for uuid in enum_list:
+            if not cls.check_in(uuid, all_or_index):
+                is_include = False
+                break
+        return is_include
 
     @classmethod
     def dict(cls, enum_dict: Mapping[uuid_t, Any] = None, is_force: bool = True) -&gt; Dict[uuid_t, Any]:
@@ -207,11 +228,27 @@ advanced_enum - 根级的装饰器，用于自动生成枚举类的各项配置
 </details>
 <h3>Subclasses</h3>
 <ul class="hlist">
+<li><a title="hagike.basics.cv.noise.NoiseType" href="../basics/cv/noise.html#hagike.basics.cv.noise.NoiseType">NoiseType</a></li>
+<li><a title="hagike.basics.cv.noise.NoiseType.gaussian" href="../basics/cv/noise.html#hagike.basics.cv.noise.NoiseType.gaussian">NoiseType.gaussian</a></li>
+<li><a title="hagike.basics.cv.noise.NoiseType.poisson" href="../basics/cv/noise.html#hagike.basics.cv.noise.NoiseType.poisson">NoiseType.poisson</a></li>
+<li><a title="hagike.basics.cv.noise.NoiseType.salt_pepper" href="../basics/cv/noise.html#hagike.basics.cv.noise.NoiseType.salt_pepper">NoiseType.salt_pepper</a></li>
 <li><a title="hagike.models.temp.module.ModuleKey" href="../models/temp/module.html#hagike.models.temp.module.ModuleKey">ModuleKey</a></li>
 <li><a title="hagike.utils.message.MsgLevel" href="message.html#hagike.utils.message.MsgLevel">MsgLevel</a></li>
 </ul>
 <h3>Static methods</h3>
 <dl>
+<dt id="hagike.utils.enum.SuperEnum.check_in"><code class="name flex">
+<span>def <span class="ident">check_in</span></span>(<span>uuid: int, all_or_index: bool) ‑> bool</span>
+</code></dt>
+<dd>
+<div class="desc"><p>检查是否uuid是否被枚举类包含，all_or_hide指定是否仅考虑显变量</p></div>
+</dd>
+<dt id="hagike.utils.enum.SuperEnum.check_include"><code class="name flex">
+<span>def <span class="ident">check_include</span></span>(<span>enum_list: List[int], all_or_index: bool) ‑> bool</span>
+</code></dt>
+<dd>
+<div class="desc"><p>检查列表内的uuid是否都包含在枚举类中，all_or_hide指定是否仅考虑显变量</p></div>
+</dd>
 <dt id="hagike.utils.enum.SuperEnum.dict"><code class="name flex">
 <span>def <span class="ident">dict</span></span>(<span>enum_dict: Mapping[int, Any] = None, is_force: bool = True) ‑> Dict[int, Any]</span>
 </code></dt>
@@ -221,19 +258,19 @@ advanced_enum - 根级的装饰器，用于自动生成枚举类的各项配置
 <p>此项检查用于排除不正常输入的字典项，如隐藏的enum成员。</p></div>
 </dd>
 <dt id="hagike.utils.enum.SuperEnum.get_index"><code class="name flex">
-<span>def <span class="ident">get_index</span></span>(<span>uuid: int)</span>
+<span>def <span class="ident">get_index</span></span>(<span>uuid: int) ‑> int</span>
 </code></dt>
 <dd>
 <div class="desc"><p>获得枚举量的名称</p></div>
 </dd>
 <dt id="hagike.utils.enum.SuperEnum.get_name"><code class="name flex">
-<span>def <span class="ident">get_name</span></span>(<span>uuid: int)</span>
+<span>def <span class="ident">get_name</span></span>(<span>uuid: int) ‑> str</span>
 </code></dt>
 <dd>
 <div class="desc"><p>获得枚举量的名称</p></div>
 </dd>
 <dt id="hagike.utils.enum.SuperEnum.get_uuid"><code class="name flex">
-<span>def <span class="ident">get_uuid</span></span>(<span>)</span>
+<span>def <span class="ident">get_uuid</span></span>(<span>) ‑> int</span>
 </code></dt>
 <dd>
 <div class="desc"><p>获得类本身的uuid</p></div>
@@ -300,6 +337,8 @@ advanced_enum - 根级的装饰器，用于自动生成枚举类的各项配置
 <li>
 <h4><code><a title="hagike.utils.enum.SuperEnum" href="#hagike.utils.enum.SuperEnum">SuperEnum</a></code></h4>
 <ul class="two-column">
+<li><code><a title="hagike.utils.enum.SuperEnum.check_in" href="#hagike.utils.enum.SuperEnum.check_in">check_in</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.check_include" href="#hagike.utils.enum.SuperEnum.check_include">check_include</a></code></li>
 <li><code><a title="hagike.utils.enum.SuperEnum.dict" href="#hagike.utils.enum.SuperEnum.dict">dict</a></code></li>
 <li><code><a title="hagike.utils.enum.SuperEnum.get_index" href="#hagike.utils.enum.SuperEnum.get_index">get_index</a></code></li>
 <li><code><a title="hagike.utils.enum.SuperEnum.get_name" href="#hagike.utils.enum.SuperEnum.get_name">get_name</a></code></li>

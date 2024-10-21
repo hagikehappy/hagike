@@ -1,3 +1,2 @@
 #!/bin/sh
-rm -r ./docs/hagike
-pdoc --output-dir docs hagike --html
+pdoc --output-dir docs hagike --html --force --config latex_math=True

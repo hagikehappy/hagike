@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
 <meta name="generator" content="pdoc3 0.11.1">
-<title>hagike.models.temp API documentation</title>
-<meta name="description" content="模型结构的模板文件 …">
+<title>hagike.basics.cv API documentation</title>
+<meta name="description" content="计算机视觉类基础算法">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
@@ -24,28 +24,33 @@ hljs.highlightAll();
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>hagike.models.temp</code></h1>
+<h1 class="title">Module <code>hagike.basics.cv</code></h1>
 </header>
 <section id="section-intro">
-<p>模型结构的模板文件 </p>
-<p>:term </p>
-<pre><code>module - 模块，仅包含ModuleKey中的固定术语的单一执行流
-
-node - 节点，由module组成，定义了节点的拓扑结构
-
-model - 模型，由若干Node组成，各Node构成DAG(有向无环图)
-</code></pre>
+<p>计算机视觉类基础算法</p>
 </section>
 <section>
 <h2 class="section-title" id="header-submodules">Sub-modules</h2>
 <dl>
-<dt><code class="name"><a title="hagike.models.temp.model" href="model.html">hagike.models.temp.model</a></code></dt>
+<dt><code class="name"><a title="hagike.basics.cv.file" href="file.html">hagike.basics.cv.file</a></code></dt>
 <dd>
-<div class="desc"><p>模型的父亲类模板</p></div>
+<div class="desc"><p>图像导入库与格式转换库 …</p></div>
 </dd>
-<dt><code class="name"><a title="hagike.models.temp.module" href="module.html">hagike.models.temp.module</a></code></dt>
+<dt><code class="name"><a title="hagike.basics.cv.filter" href="filter.html">hagike.basics.cv.filter</a></code></dt>
 <dd>
-<div class="desc"><p>模块的父类模板</p></div>
+<div class="desc"><p>图像滤波</p></div>
+</dd>
+<dt><code class="name"><a title="hagike.basics.cv.histogram" href="histogram.html">hagike.basics.cv.histogram</a></code></dt>
+<dd>
+<div class="desc"><p>图像直方图</p></div>
+</dd>
+<dt><code class="name"><a title="hagike.basics.cv.noise" href="noise.html">hagike.basics.cv.noise</a></code></dt>
+<dd>
+<div class="desc"><p>噪声添加</p></div>
+</dd>
+<dt><code class="name"><a title="hagike.basics.cv.transform" href="transform.html">hagike.basics.cv.transform</a></code></dt>
+<dd>
+<div class="desc"><p>图像变换</p></div>
 </dd>
 </dl>
 </section>
@@ -63,13 +68,16 @@ model - 模型，由若干Node组成，各Node构成DAG(有向无环图)
 <ul id="index">
 <li><h3>Super-module</h3>
 <ul>
-<li><code><a title="hagike.models" href="../index.html">hagike.models</a></code></li>
+<li><code><a title="hagike.basics" href="../index.html">hagike.basics</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-submodules">Sub-modules</a></h3>
 <ul>
-<li><code><a title="hagike.models.temp.model" href="model.html">hagike.models.temp.model</a></code></li>
-<li><code><a title="hagike.models.temp.module" href="module.html">hagike.models.temp.module</a></code></li>
+<li><code><a title="hagike.basics.cv.file" href="file.html">hagike.basics.cv.file</a></code></li>
+<li><code><a title="hagike.basics.cv.filter" href="filter.html">hagike.basics.cv.filter</a></code></li>
+<li><code><a title="hagike.basics.cv.histogram" href="histogram.html">hagike.basics.cv.histogram</a></code></li>
+<li><code><a title="hagike.basics.cv.noise" href="noise.html">hagike.basics.cv.noise</a></code></li>
+<li><code><a title="hagike.basics.cv.transform" href="transform.html">hagike.basics.cv.transform</a></code></li>
 </ul>
 </li>
 </ul>

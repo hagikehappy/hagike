@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
 <meta name="generator" content="pdoc3 0.11.1">
-<title>hagike.models.temp API documentation</title>
-<meta name="description" content="模型结构的模板文件 …">
+<title>hagike.basics.cv.noise API documentation</title>
+<meta name="description" content="噪声添加">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
@@ -24,36 +24,99 @@ hljs.highlightAll();
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>hagike.models.temp</code></h1>
+<h1 class="title">Module <code>hagike.basics.cv.noise</code></h1>
 </header>
 <section id="section-intro">
-<p>模型结构的模板文件 </p>
-<p>:term </p>
-<pre><code>module - 模块，仅包含ModuleKey中的固定术语的单一执行流
-
-node - 节点，由module组成，定义了节点的拓扑结构
-
-model - 模型，由若干Node组成，各Node构成DAG(有向无环图)
-</code></pre>
+<p>噪声添加</p>
 </section>
 <section>
-<h2 class="section-title" id="header-submodules">Sub-modules</h2>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
-<dt><code class="name"><a title="hagike.models.temp.model" href="model.html">hagike.models.temp.model</a></code></dt>
+<dt id="hagike.basics.cv.noise.add_noise_to_image"><code class="name flex">
+<span>def <span class="ident">add_noise_to_image</span></span>(<span>image, noise_type='gaussian', **kwargs)</span>
+</code></dt>
 <dd>
-<div class="desc"><p>模型的父亲类模板</p></div>
-</dd>
-<dt><code class="name"><a title="hagike.models.temp.module" href="module.html">hagike.models.temp.module</a></code></dt>
-<dd>
-<div class="desc"><p>模块的父类模板</p></div>
+<div class="desc"><p>向图像添加不同类型的噪声。</p>
+<p>:param image: 输入图像（numpy数组）。
+:param noise_type: 噪声类型，'gaussian'、'salt_and_pepper' 或 'poisson'。
+:param kwargs: 其他参数，例如高斯噪声的均值和方差，椒盐噪声的概率等。
+:return: 带噪声的图像。</p></div>
 </dd>
 </dl>
 </section>
 <section>
-</section>
-<section>
-</section>
-<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="hagike.basics.cv.noise.NoiseType"><code class="flex name class">
+<span>class <span class="ident">NoiseType</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>噪声类型</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@advanced_enum()
+class NoiseType(SuperEnum):
+    &#34;&#34;&#34;噪声类型&#34;&#34;&#34;
+
+    class gaussian(SuperEnum):
+        &#34;&#34;&#34;高斯噪声&#34;&#34;&#34;
+        mean = 0
+        var = 0.01
+
+    class salt_pepper(SuperEnum):
+        &#34;&#34;&#34;椒盐噪声&#34;&#34;&#34;
+        prob = 0.02
+
+    class poisson(SuperEnum):
+        &#34;&#34;&#34;泊松噪声&#34;&#34;&#34;
+        lam = 255</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="hagike.utils.enum.SuperEnum" href="../../utils/enum.html#hagike.utils.enum.SuperEnum">SuperEnum</a></li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="hagike.basics.cv.noise.NoiseType.gaussian"><code class="name">var <span class="ident">gaussian</span></code></dt>
+<dd>
+<div class="desc"><p>高斯噪声</p></div>
+</dd>
+<dt id="hagike.basics.cv.noise.NoiseType.poisson"><code class="name">var <span class="ident">poisson</span></code></dt>
+<dd>
+<div class="desc"><p>泊松噪声</p></div>
+</dd>
+<dt id="hagike.basics.cv.noise.NoiseType.salt_pepper"><code class="name">var <span class="ident">salt_pepper</span></code></dt>
+<dd>
+<div class="desc"><p>椒盐噪声</p></div>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="hagike.utils.enum.SuperEnum" href="../../utils/enum.html#hagike.utils.enum.SuperEnum">SuperEnum</a></b></code>:
+<ul class="hlist">
+<li><code><a title="hagike.utils.enum.SuperEnum.check_in" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.check_in">check_in</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.check_include" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.check_include">check_include</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.dict" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.dict">dict</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_index" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_index">get_index</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_name" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_name">get_name</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_uuid" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_uuid">get_uuid</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_value" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_value">get_value</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.iter" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.iter">iter</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.list" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.list">list</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.print" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.print">print</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.print_pack" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.print_pack">print_pack</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.tree" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.tree">tree</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
 </section>
 </article>
 <nav id="sidebar">
@@ -63,13 +126,24 @@ model - 模型，由若干Node组成，各Node构成DAG(有向无环图)
 <ul id="index">
 <li><h3>Super-module</h3>
 <ul>
-<li><code><a title="hagike.models" href="../index.html">hagike.models</a></code></li>
+<li><code><a title="hagike.basics.cv" href="index.html">hagike.basics.cv</a></code></li>
 </ul>
 </li>
-<li><h3><a href="#header-submodules">Sub-modules</a></h3>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="hagike.basics.cv.noise.add_noise_to_image" href="#hagike.basics.cv.noise.add_noise_to_image">add_noise_to_image</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
-<li><code><a title="hagike.models.temp.model" href="model.html">hagike.models.temp.model</a></code></li>
-<li><code><a title="hagike.models.temp.module" href="module.html">hagike.models.temp.module</a></code></li>
+<li>
+<h4><code><a title="hagike.basics.cv.noise.NoiseType" href="#hagike.basics.cv.noise.NoiseType">NoiseType</a></code></h4>
+<ul class="">
+<li><code><a title="hagike.basics.cv.noise.NoiseType.gaussian" href="#hagike.basics.cv.noise.NoiseType.gaussian">gaussian</a></code></li>
+<li><code><a title="hagike.basics.cv.noise.NoiseType.poisson" href="#hagike.basics.cv.noise.NoiseType.poisson">poisson</a></code></li>
+<li><code><a title="hagike.basics.cv.noise.NoiseType.salt_pepper" href="#hagike.basics.cv.noise.NoiseType.salt_pepper">salt_pepper</a></code></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
