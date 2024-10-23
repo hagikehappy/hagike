@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
 <meta name="generator" content="pdoc3 0.11.1">
 <title>hagike.basics.cv.file API documentation</title>
-<meta name="description" content="图像导入库与格式转换库 …">
+<meta name="description" content="***图像导入库与格式转换库*** …">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
@@ -27,8 +27,8 @@ hljs.highlightAll();
 <h1 class="title">Module <code>hagike.basics.cv.file</code></h1>
 </header>
 <section id="section-intro">
-<p>图像导入库与格式转换库 </p>
-<p>与图像处理相关的库主要有2个，现在阐明其区别与联系： </p>
+<p><strong><em>图像导入库与格式转换库</em></strong> </p>
+<p>与<strong>图像处理相关的库</strong>主要有2个，现在阐明其区别与联系： </p>
 <ol>
 <li>
 <p><code>cv2</code>，图像格式为 <code>np.ndarray</code>，作为向量格式，主要用于计算机视觉中对于图像的高级处理算法 </p>
@@ -37,7 +37,7 @@ hljs.highlightAll();
 <p><code>Image</code>，图像格式为 <code>ImageFile</code> 或 <code>Image</code>，作为文件格式，主要用于对图像的直接操作，如格式转换等；但可以转化为<code>np.ndarray</code> </p>
 </li>
 </ol>
-<p>而图片在各层级上存在如下区别与联系： </p>
+<p>而<strong>图片</strong>在各层级上存在如下区别与联系： </p>
 <ol>
 <li>
 <p>屏幕显示：坐标原点在左上角，y轴向下，x轴向右 </p>
@@ -57,7 +57,7 @@ hljs.highlightAll();
 <p><code>torch.Tensor</code>：卷积神经网络的期待输入为$[C, H, W]$，即使是灰度图也依然需要通道维度 </p>
 </li>
 </ol>
-<p>同时，各层级上图片的数值属性也存在区别： </p>
+<p>同时，各层级上<strong>图片的数值属性</strong>也存在区别： </p>
 <ol>
 <li>
 <p><code>np.ndarray</code>：cv2读入或Image转化后默认为 <code>np.uint8</code> 类型，范围在$[0, 255]$ </p>
@@ -67,7 +67,7 @@ hljs.highlightAll();
 考虑到计算复杂度，初始时不进行归一化，保持$[0.0, 255.0]$，归一化过程在网络中定义 </p>
 </li>
 </ol>
-<p>值得注意的是，python中的对整型的除法 <code>/</code> 默认会将原类型转换为小数格式，这对 <code>np.ndarray</code> 和 <code>torch.Tensor</code> 同样均成立； </p>
+<p>值得<strong>注意</strong>的是，python中的对整型的除法 <code>/</code> 默认会将原类型转换为小数格式，这对 <code>np.ndarray</code> 和 <code>torch.Tensor</code> 同样均成立； </p>
 <p>如果希望整除，这需要使用 <code>//</code> 操作 </p>
 <p>下面在各个图像操作函数内会具体说明操作差异。</p>
 </section>
@@ -142,7 +142,7 @@ class ImColor(SuperEnum):
     &#34;&#34;&#34;单色&#34;&#34;&#34;
     colored = None
     &#34;&#34;&#34;彩色&#34;&#34;&#34;
-    _auto = None
+    auto__ = None
     &#34;&#34;&#34;自动判断&#34;&#34;&#34;</code></pre>
 </details>
 <h3>Ancestors</h3>
@@ -151,6 +151,10 @@ class ImColor(SuperEnum):
 </ul>
 <h3>Class variables</h3>
 <dl>
+<dt id="hagike.basics.cv.file.ImColor.auto__"><code class="name">var <span class="ident">auto__</span></code></dt>
+<dd>
+<div class="desc"><p>自动判断</p></div>
+</dd>
 <dt id="hagike.basics.cv.file.ImColor.colored"><code class="name">var <span class="ident">colored</span></code></dt>
 <dd>
 <div class="desc"><p>彩色</p></div>
@@ -164,18 +168,18 @@ class ImColor(SuperEnum):
 <ul class="hlist">
 <li><code><b><a title="hagike.utils.enum.SuperEnum" href="../../utils/enum.html#hagike.utils.enum.SuperEnum">SuperEnum</a></b></code>:
 <ul class="hlist">
-<li><code><a title="hagike.utils.enum.SuperEnum.check_in" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.check_in">check_in</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.check_include" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.check_include">check_include</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.dict" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.dict">dict</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.get_index" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_index">get_index</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.get_name" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_name">get_name</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.get_uuid" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_uuid">get_uuid</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.get_value" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_value">get_value</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.iter" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.iter">iter</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.list" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.list">list</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.print" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.print">print</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.print_pack" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.print_pack">print_pack</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.tree" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.tree">tree</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.check_in_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.check_in_">check_in_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.check_include_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.check_include_">check_include_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.dict_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.dict_">dict_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_index_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_index_">get_index_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_name_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_name_">get_name_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_uuid_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_uuid_">get_uuid_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_value_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_value_">get_value_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.iter_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.iter_">iter_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.list_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.list_">list_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.print_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.print_">print_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.print_pack_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.print_pack_">print_pack_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.tree_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.tree_">tree_</a></code></li>
 </ul>
 </li>
 </ul>
@@ -195,13 +199,17 @@ class ImColor(SuperEnum):
 <pre><code class="python">class ImStd:
     &#34;&#34;&#34;标准图像容器&#34;&#34;&#34;
 
-    def __init__(self, image: im_all, style: uuid_t = ImStyle._auto, color: uuid_t = ImColor._auto,
+    def __init__(self, image: im_all, style: uuid_t = ImStyle.auto__, color: uuid_t = ImColor.auto__,
                  check_style: bool = False, check_color: bool = False) -&gt; None:
         &#34;&#34;&#34;
         初始化，`is_check` 指定是否进行检查与判断；
         如果未显式指定，且 `style` 或 `color` 为 `_auto` 时使用懒惰思路，即当有转换需求的时候进行判断
         &#34;&#34;&#34;
-        self._image, self._style, self._color = image, style, color
+        self._image: im_all = image
+        self._style: uuid_t = style
+        self._color: uuid_t = color
+        ImStyle.check_in_(self._style, all_or_index=True), ImColor.check_in_(self._color, all_or_index=True)
+        self._is_check_style, self._is_check_color = False, False
         if check_style:
             self._judge_style()
         if check_color:
@@ -221,8 +229,8 @@ class ImColor(SuperEnum):
 
     def _auto_style(self) -&gt; None:
         &#34;&#34;&#34;自动判断类型&#34;&#34;&#34;
-        for uuid in ImStyle.iter():
-            if isinstance(self._image, ImStyle.get_value(uuid)):
+        for uuid in ImStyle.iter_():
+            if isinstance(self._image, ImStyle.get_value_(uuid)):
                 self._style = uuid
                 break
         else:
@@ -230,13 +238,13 @@ class ImColor(SuperEnum):
 
     def _judge_style(self) -&gt; None:
         &#34;&#34;&#34;检查图像类型&#34;&#34;&#34;
-        ImStyle.check_in(self._style, all_or_index=True)
-        if self._style == ImStyle._auto:
+        self._is_check_style = True
+        if self._style == ImStyle.auto__:
             self._auto_style()
         else:
-            if not isinstance(self._image, ImStyle.get_value(self._style)):
+            if not isinstance(self._image, ImStyle.get_value_(self._style)):
                 raise ImageStyleError(
-                    f&#34;ERROR: Image style {type(self._image)} is not as given, {ImStyle.get_value(self._style)}!!!&#34;)
+                    f&#34;ERROR: Image style {type(self._image)} is not as given, {ImStyle.get_value_(self._style)}!!!&#34;)
 
     def _auto_color(self) -&gt; None:
         &#34;&#34;&#34;判断颜色类型，同时检查数据是否符合预期&#34;&#34;&#34;
@@ -246,11 +254,11 @@ class ImColor(SuperEnum):
             elif self._image.mode == &#39;RGB&#39;:
                 self._color = ImColor.colored
             else:
-                raise ImageColorError(f&#34;ERROR: The image, {ImStyle.get_value(self._style)}, &#34;
+                raise ImageColorError(f&#34;ERROR: The image, {ImStyle.get_value_(self._style)}, &#34;
                                       f&#34;has an unknown color format, f{self._image.mode}!!!&#34;)
         elif self._style == ImStyle.im_tensor:
             if len(self._image.shape) != 3:
-                raise ImageColorError(f&#34;ERROR: The image, {ImStyle.get_value(self._style)}, &#34;
+                raise ImageColorError(f&#34;ERROR: The image, {ImStyle.get_value_(self._style)}, &#34;
                                       f&#34;has wrong shape, {self._image.shape}!!!&#34;)
             else:
                 if self._image.shape[0] == 1:
@@ -258,7 +266,7 @@ class ImColor(SuperEnum):
                 elif self._image.shape[0] == 3:
                     self._color = ImColor.colored
                 else:
-                    raise ImageColorError(f&#34;ERROR: The image, {ImStyle.get_value(self._style)}, &#34;
+                    raise ImageColorError(f&#34;ERROR: The image, {ImStyle.get_value_(self._style)}, &#34;
                                           f&#34;has unknown numbers of color channel, {self._image.shape}!!!&#34;)
         elif self._style == ImStyle.im_ndarray or self._style == ImStyle.cv_ndarray:
             if len(self._image.shape) == 3:
@@ -266,24 +274,52 @@ class ImColor(SuperEnum):
             elif len(self._image.shape) == 2:
                 self._color = ImColor.gray
             else:
-                raise ImageColorError(f&#34;ERROR: The image, {ImStyle.get_value(self._style)}, &#34;
+                raise ImageColorError(f&#34;ERROR: The image, {ImStyle.get_value_(self._style)}, &#34;
                                       f&#34;has unknown shapes, {self._image.shape}!!!&#34;)
         else:
             raise ImageStyleError(
-                f&#34;ERROR: Image style {type(self._image)} is not as given, {ImStyle.get_value(self._style)}!!!&#34;)
+                f&#34;ERROR: Image style {type(self._image)} is not as given, {ImStyle.get_value_(self._style)}!!!&#34;)
 
     def _judge_color(self) -&gt; None:
         &#34;&#34;&#34;检查颜色类型&#34;&#34;&#34;
-        ImColor.check_in(self._color, all_or_index=True)
-        if self._color == ImColor._auto:
+        self._is_check_color = True
+        if self._color == ImColor.auto__:
             self._auto_color()
         else:
             color = self._color, self._auto_color()
             if color != self._color:
                 raise ImageColorError(f&#34;ERROR: The image&#39;s color is different from the auto-detection!!!&#34;)
 
-    def to(self, style: uuid_t) -&gt; None:
-        &#34;&#34;&#34;格式转换为指定 `style`&#34;&#34;&#34;</code></pre>
+    def to_(self, style: uuid_t) -&gt; None:
+        &#34;&#34;&#34;
+        格式转换为指定 `style` \n
+        这里将 `im_ndarray` 作为中间格式用于转换 \n
+        转换会就地进行 \n
+        在因为格式原因无法进行转换时，会抛出异常 \n
+        &#34;&#34;&#34;
+        # 检查或判断
+        ImStyle.check_in_(style)
+        if not self._is_check_style:
+            self._judge_style()
+        if not self._is_check_color:
+            self._judge_color()
+        # 排除同类转换
+        if style == self._style:
+            return
+        # 转换为中间格式
+        if self._style == ImStyle.im_ndarray:
+            pass
+        elif self._style == ImStyle.cv_ndarray:
+            if self._color == ImColor.colored:
+                self._image = cv2.cvtColor(self._image, cv2.COLOR_BGR2RGB)
+        elif self._style == ImStyle.im_file:
+            self._image = np.array(self._image)
+        elif self._style == ImStyle.im_tensor:
+            self._image = self._image.to(&#39;cpu&#39;)
+        else:
+            raise ImageStyleError(
+                f&#34;ERROR: Image style {type(self._image)} is not implemented a &#39;to&#39; function!!!&#34;)
+        # 从中间格式转换为目标格式并进行转换检查</code></pre>
 </details>
 <h3>Instance variables</h3>
 <dl>
@@ -326,11 +362,14 @@ def style(self):
 </dl>
 <h3>Methods</h3>
 <dl>
-<dt id="hagike.basics.cv.file.ImStd.to"><code class="name flex">
-<span>def <span class="ident">to</span></span>(<span>self, style: uuid_t) ‑> None</span>
+<dt id="hagike.basics.cv.file.ImStd.to_"><code class="name flex">
+<span>def <span class="ident">to_</span></span>(<span>self, style: uuid_t) ‑> None</span>
 </code></dt>
 <dd>
-<div class="desc"><p>格式转换为指定 <code>style</code></p></div>
+<div class="desc"><p>格式转换为指定 <code>style</code> </p>
+<p>这里将 <code>im_ndarray</code> 作为中间格式用于转换 </p>
+<p>转换会就地进行 </p>
+<p>在因为格式原因无法进行转换时，会抛出异常</p></div>
 </dd>
 </dl>
 </dd>
@@ -354,7 +393,7 @@ class ImStyle(SuperEnum):
     &#34;&#34;&#34;Image转array格式&#34;&#34;&#34;
     im_tensor = im_tensor
     &#34;&#34;&#34;torch格式&#34;&#34;&#34;
-    _auto = None
+    auto__ = None
     &#34;&#34;&#34;自动判断&#34;&#34;&#34;</code></pre>
 </details>
 <h3>Ancestors</h3>
@@ -363,6 +402,10 @@ class ImStyle(SuperEnum):
 </ul>
 <h3>Class variables</h3>
 <dl>
+<dt id="hagike.basics.cv.file.ImStyle.auto__"><code class="name">var <span class="ident">auto__</span></code></dt>
+<dd>
+<div class="desc"><p>自动判断</p></div>
+</dd>
 <dt id="hagike.basics.cv.file.ImStyle.cv_ndarray"><code class="name">var <span class="ident">cv_ndarray</span></code></dt>
 <dd>
 <div class="desc"><p>cv2格式</p></div>
@@ -384,18 +427,18 @@ class ImStyle(SuperEnum):
 <ul class="hlist">
 <li><code><b><a title="hagike.utils.enum.SuperEnum" href="../../utils/enum.html#hagike.utils.enum.SuperEnum">SuperEnum</a></b></code>:
 <ul class="hlist">
-<li><code><a title="hagike.utils.enum.SuperEnum.check_in" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.check_in">check_in</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.check_include" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.check_include">check_include</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.dict" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.dict">dict</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.get_index" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_index">get_index</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.get_name" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_name">get_name</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.get_uuid" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_uuid">get_uuid</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.get_value" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_value">get_value</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.iter" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.iter">iter</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.list" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.list">list</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.print" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.print">print</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.print_pack" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.print_pack">print_pack</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.tree" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.tree">tree</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.check_in_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.check_in_">check_in_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.check_include_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.check_include_">check_include_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.dict_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.dict_">dict_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_index_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_index_">get_index_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_name_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_name_">get_name_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_uuid_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_uuid_">get_uuid_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_value_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_value_">get_value_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.iter_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.iter_">iter_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.list_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.list_">list_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.print_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.print_">print_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.print_pack_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.print_pack_">print_pack_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.tree_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.tree_">tree_</a></code></li>
 </ul>
 </li>
 </ul>
@@ -444,6 +487,28 @@ class ImStyle(SuperEnum):
 <li>builtins.BaseException</li>
 </ul>
 </dd>
+<dt id="hagike.basics.cv.file.ImageTransferError"><code class="flex name class">
+<span>class <span class="ident">ImageTransferError</span></span>
+<span>(</span><span>msg, code=None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>无法正常转换图像类型</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ImageTransferError(Exception):
+    &#34;&#34;&#34;无法正常转换图像类型&#34;&#34;&#34;
+    def __init__(self, msg, code=None):
+        super().__init__(msg)
+        self.code = code</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
 </dl>
 </section>
 </article>
@@ -472,6 +537,7 @@ class ImStyle(SuperEnum):
 <li>
 <h4><code><a title="hagike.basics.cv.file.ImColor" href="#hagike.basics.cv.file.ImColor">ImColor</a></code></h4>
 <ul class="">
+<li><code><a title="hagike.basics.cv.file.ImColor.auto__" href="#hagike.basics.cv.file.ImColor.auto__">auto__</a></code></li>
 <li><code><a title="hagike.basics.cv.file.ImColor.colored" href="#hagike.basics.cv.file.ImColor.colored">colored</a></code></li>
 <li><code><a title="hagike.basics.cv.file.ImColor.gray" href="#hagike.basics.cv.file.ImColor.gray">gray</a></code></li>
 </ul>
@@ -482,12 +548,13 @@ class ImStyle(SuperEnum):
 <li><code><a title="hagike.basics.cv.file.ImStd.color" href="#hagike.basics.cv.file.ImStd.color">color</a></code></li>
 <li><code><a title="hagike.basics.cv.file.ImStd.image" href="#hagike.basics.cv.file.ImStd.image">image</a></code></li>
 <li><code><a title="hagike.basics.cv.file.ImStd.style" href="#hagike.basics.cv.file.ImStd.style">style</a></code></li>
-<li><code><a title="hagike.basics.cv.file.ImStd.to" href="#hagike.basics.cv.file.ImStd.to">to</a></code></li>
+<li><code><a title="hagike.basics.cv.file.ImStd.to_" href="#hagike.basics.cv.file.ImStd.to_">to_</a></code></li>
 </ul>
 </li>
 <li>
 <h4><code><a title="hagike.basics.cv.file.ImStyle" href="#hagike.basics.cv.file.ImStyle">ImStyle</a></code></h4>
 <ul class="">
+<li><code><a title="hagike.basics.cv.file.ImStyle.auto__" href="#hagike.basics.cv.file.ImStyle.auto__">auto__</a></code></li>
 <li><code><a title="hagike.basics.cv.file.ImStyle.cv_ndarray" href="#hagike.basics.cv.file.ImStyle.cv_ndarray">cv_ndarray</a></code></li>
 <li><code><a title="hagike.basics.cv.file.ImStyle.im_file" href="#hagike.basics.cv.file.ImStyle.im_file">im_file</a></code></li>
 <li><code><a title="hagike.basics.cv.file.ImStyle.im_ndarray" href="#hagike.basics.cv.file.ImStyle.im_ndarray">im_ndarray</a></code></li>
@@ -499,6 +566,9 @@ class ImStyle(SuperEnum):
 </li>
 <li>
 <h4><code><a title="hagike.basics.cv.file.ImageStyleError" href="#hagike.basics.cv.file.ImageStyleError">ImageStyleError</a></code></h4>
+</li>
+<li>
+<h4><code><a title="hagike.basics.cv.file.ImageTransferError" href="#hagike.basics.cv.file.ImageTransferError">ImageTransferError</a></code></h4>
 </li>
 </ul>
 </li>

@@ -30,10 +30,10 @@ class IdentityModule(nn.Module):
 @advanced_enum()
 class ModuleKey(SuperEnum):
     """模块构成，未指定部分默认为None"""
-    _sequence_ = (
+    _sequence = (
         'pre', 'tail', 'bone', 'head', 'final'
     )
-    _all = None     # 如果启用了'_all'，则是忽略其它选项，并将该模块作为一个整体处理
+    all__ = None     # 如果启用了'_all'，则是忽略其它选项，并将该模块作为一个整体处理
     pre = None      # 预处理，将数据从原始格式转换为张量格式
     tail = None     # 尾部，将数据规范化，如批量归一化、嵌入等，以便于骨干网处理
     bone = None     # 骨干网，进行特征提取等操作
@@ -52,9 +52,9 @@ class ModuleTemp(nn.Module):
         self._is_all: None | bool
         self._modules: List[nn.Module] | None
         self._model: Sequence[nn.Module] | None
-        self._init_(module_dict)
+        self._init(module_dict)
 
-    def _init_(self, module_dict: Mapping[uuid_t, nn.Module] | None = None) -> None:
+    def _init(self, module_dict: Mapping[uuid_t, nn.Module] | None = None) -> None:
         """
         在创建结构和刷新结构时调用； \n
         根据输入初始化各个模块组件，若字典为None则恒等变换，若组件为None则不会执行； \n
@@ -64,14 +64,14 @@ class ModuleTemp(nn.Module):
         if module_dict is None:
             self._model = IdentityModule()
         else:
-            self._is_all = True if ModuleKey._all in module_dict.keys() else False
+            self._is_all = True if ModuleKey.all__ in module_dict.keys() else False
             # 单组件模式
             if self._is_all:
-                uuid = ModuleKey._all
+                uuid = ModuleKey.all__
                 self._model = module_dict[uuid]
             # 多组件模式
             else:
-                self._modules: List[nn.Module] = ModuleKey.list(module_dict, is_default=True)
+                self._modules: List[nn.Module] = ModuleKey.list_(module_dict, is_default=True)
                 self._model = nn.Sequential()
                 for module in self._modules:
                     if module is not None:
@@ -79,14 +79,14 @@ class ModuleTemp(nn.Module):
 
     def refresh(self, module_dict: Mapping[uuid_t, nn.Module] | None = None) -> None:
         """刷新结构"""
-        self._init_(module_dict)
+        self._init(module_dict)
 
     def update(self, module_dict: Mapping[uuid_t, nn.Module] | None = None) -> None:
         """更新模型结构，如果更新后的模式与原模式不一致则报错"""
         # 检查更新后的模式与更新前是否一致
         is_all = None
         if module_dict is not None:
-            is_all = True if ModuleKey._all in module_dict.keys() else False
+            is_all = True if ModuleKey.all__ in module_dict.keys() else False
         if is_all != self._is_all:
             raise _ModuleModeError(
                 f"When updating module, You update it({self._is_all}) in a different way({is_all})!!!")
@@ -95,10 +95,10 @@ class ModuleTemp(nn.Module):
             pass
         else:
             if self._is_all is True:
-                self._model = module_dict[ModuleKey._all]
+                self._model = module_dict[ModuleKey.all__]
             else:
                 for uuid, value in module_dict.items():
-                    self._modules[ModuleKey.get_index(uuid)] = value
+                    self._modules[ModuleKey.get_index_(uuid)] = value
                     self._model = nn.Sequential()
                     for module in self._modules:
                         if module is not None:
@@ -114,17 +114,17 @@ class ModuleTemp(nn.Module):
             state_dict = torch.load(weights_src, map_location=torch.device('cpu'))
         else:
             state_dict = weights_src
-        if module == ModuleKey._all:
+        if module == ModuleKey.all__:
             self._model.load_state_dict(state_dict)
         else:
-            self._module[ModuleKey.get_index(module)].load_state_dict(state_dict)
+            self._module[ModuleKey.get_index_(module)].load_state_dict(state_dict)
 
     def save_weights(self, module: uuid_t, path: str | None = None) -> Any:
         """根据path，选择加载指定部分的模块参数到路径或从内存中"""
-        if module == ModuleKey._all:
+        if module == ModuleKey.all__:
             state_dict = self._model.state_dict()
         else:
-            state_dict = self._modules[ModuleKey.get_index(module)].state_dict()
+            state_dict = self._modules[ModuleKey.get_index_(module)].state_dict()
         if path is not None:
             torch.save(state_dict, path)
         return state_dict
@@ -132,16 +132,16 @@ class ModuleTemp(nn.Module):
     def print_summary(self, input_size=(3, 224, 224)) -> None:
         """打印模型的情况，输入尺寸不包括batch，进行模型测试时的参数与当前参数一致"""
         para = self.check_para(is_print=False)
-        summary(self, input_size, device=para['device'])
+        summary(self._model, input_size, device=para['device'])
 
     def trans_para(self, device: str | None = None,
                    dtype: torch.dtype | None = None,
                    is_train: bool | None = None) -> None:
         """转换模型类型"""
         if device is not None:
-            self.to(device=device)
+            self._model = self._model.to(device=device)
         if dtype is not None:
-            self.to(dtype=dtype)
+            self._model = self._model.to(dtype=dtype)
         if is_train is not None:
             if is_train:
                 self.train()
