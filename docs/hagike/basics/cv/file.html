@@ -69,7 +69,14 @@ hljs.highlightAll();
 </ol>
 <p>值得<strong>注意</strong>的是，python中的对整型的除法 <code>/</code> 默认会将原类型转换为小数格式，这对 <code>np.ndarray</code> 和 <code>torch.Tensor</code> 同样均成立； </p>
 <p>如果希望整除，这需要使用 <code>//</code> 操作 </p>
-<p>下面在各个图像操作函数内会具体说明操作差异。</p>
+<p>下面在各个图像操作函数内会具体说明操作差异。 </p>
+<div class="admonition todo">
+<p class="admonition-title">TODO</p>
+<ol>
+<li>目前开放并未开放某一图片格式的自定义参数输入，而只能使用默认方式</li>
+<li>目前ImStd容器集成了对各格式的具体处理，后续需要将格式特定部分分散到具体格式的封装中</li>
+</ol>
+</div>
 </section>
 <section>
 </section>
@@ -97,7 +104,7 @@ hljs.highlightAll();
 <div class="desc"><p>将图片转换为灰度图</p></div>
 </dd>
 <dt id="hagike.basics.cv.file.import_image"><code class="name flex">
-<span>def <span class="ident">import_image</span></span>(<span>path: str, style: uuid_t = 2) ‑> <a title="hagike.basics.cv.file.ImStd" href="#hagike.basics.cv.file.ImStd">ImStd</a></span>
+<span>def <span class="ident">import_image</span></span>(<span>path: str, style: uuid_t = 4) ‑> <a title="hagike.basics.cv.file.ImStd" href="#hagike.basics.cv.file.ImStd">ImStd</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>从路径中导入图像 </p>
@@ -184,9 +191,91 @@ class ImColor(SuperEnum):
 </li>
 </ul>
 </dd>
+<dt id="hagike.basics.cv.file.ImShow"><code class="flex name class">
+<span>class <span class="ident">ImShow</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>图片显示方式</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@advanced_enum()
+class ImShow(SuperEnum):
+    &#34;&#34;&#34;图片显示方式&#34;&#34;&#34;
+    inner = None
+    &#34;&#34;&#34;
+    ***调用IDE嵌入查看器*** \n
+    `plt.imshow` 可以接收 `Image` 和 `np.ndarray` 两种格式的输入，主要是用于显示数据图而非原始图像的； \n
+    这是因为 `plt.imshow` 总是会根据 `np.ndarray` 或 `Image` 转换后得到的 `np.ndarray` 的 `min` 和 `max` 
+    自动缩放数据到$[0, 255]$ \n
+    但优势在于，Pycharm等IDE中有嵌入的查看器，无需打开额外窗口，且是非阻塞的 \n
+    在使用上，如果输入的是灰度图，且希望以灰度方式显示，则需要指定参数cmap=&#39;gray&#39;，
+    否则会以其它颜色映射方式显示(默认为&#39;viridis&#39;，蓝色到绿色再到黄色的渐变) \n
+    &#34;&#34;&#34;
+    system = None
+    &#34;&#34;&#34;
+    ***调用系统图片查看器*** \n
+    `Image.imshow` 自带图像显示方式，可接受 `Image` 格式，非阻塞，但要与系统默认应用，且要打开额外窗口，较为麻烦 \n
+    其期望的np.ndarray类型为
+    &#34;&#34;&#34;
+    windows = None
+    &#34;&#34;&#34;
+    ***调用窗口查看器*** \n
+    `plt.imshow`
+    &#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="hagike.utils.enum.SuperEnum" href="../../utils/enum.html#hagike.utils.enum.SuperEnum">SuperEnum</a></li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="hagike.basics.cv.file.ImShow.inner"><code class="name">var <span class="ident">inner</span></code></dt>
+<dd>
+<div class="desc"><p><strong><em>调用IDE嵌入查看器</em></strong> </p>
+<p><code>plt.imshow</code> 可以接收 <code>Image</code> 和 <code>np.ndarray</code> 两种格式的输入，主要是用于显示数据图而非原始图像的； </p>
+<p>这是因为 <code>plt.imshow</code> 总是会根据 <code>np.ndarray</code> 或 <code>Image</code> 转换后得到的 <code>np.ndarray</code> 的 <code>min</code> 和 <code>max</code>
+自动缩放数据到$[0, 255]$ </p>
+<p>但优势在于，Pycharm等IDE中有嵌入的查看器，无需打开额外窗口，且是非阻塞的 </p>
+<p>在使用上，如果输入的是灰度图，且希望以灰度方式显示，则需要指定参数cmap='gray'，
+否则会以其它颜色映射方式显示(默认为'viridis'，蓝色到绿色再到黄色的渐变)</p></div>
+</dd>
+<dt id="hagike.basics.cv.file.ImShow.system"><code class="name">var <span class="ident">system</span></code></dt>
+<dd>
+<div class="desc"><p><strong><em>调用系统图片查看器</em></strong> </p>
+<p><code>Image.imshow</code> 自带图像显示方式，可接受 <code>Image</code> 格式，非阻塞，但要与系统默认应用，且要打开额外窗口，较为麻烦 </p>
+<p>其期望的np.ndarray类型为</p></div>
+</dd>
+<dt id="hagike.basics.cv.file.ImShow.windows"><code class="name">var <span class="ident">windows</span></code></dt>
+<dd>
+<div class="desc"><p><strong><em>调用窗口查看器</em></strong> </p>
+<p><code>plt.imshow</code></p></div>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="hagike.utils.enum.SuperEnum" href="../../utils/enum.html#hagike.utils.enum.SuperEnum">SuperEnum</a></b></code>:
+<ul class="hlist">
+<li><code><a title="hagike.utils.enum.SuperEnum.check_in_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.check_in_">check_in_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.check_include_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.check_include_">check_include_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.dict_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.dict_">dict_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_index_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_index_">get_index_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_name_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_name_">get_name_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_uuid_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_uuid_">get_uuid_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_value_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_value_">get_value_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.iter_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.iter_">iter_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.list_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.list_">list_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.print_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.print_">print_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.print_pack_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.print_pack_">print_pack_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.tree_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.tree_">tree_</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
 <dt id="hagike.basics.cv.file.ImStd"><code class="flex name class">
 <span>class <span class="ident">ImStd</span></span>
-<span>(</span><span>image: im_all, style: uuid_t = 4, color: uuid_t = 2, check_style: bool = False, check_color: bool = False)</span>
+<span>(</span><span>image: im_all, style: uuid_t = 0, color: uuid_t = 0, check_style: bool = False, check_color: bool = False)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>标准图像容器</p>
@@ -219,13 +308,31 @@ class ImColor(SuperEnum):
     def image(self):
         return self._image
 
+    @image.setter
+    def image(self, image):
+        &#34;&#34;&#34;重设 `image` 时更新检查状态&#34;&#34;&#34;
+        self._image = image
+        self._is_check_style, self._is_check_color = False, False
+
     @property
     def style(self):
         return self._style
 
+    @style.setter
+    def style(self, style):
+        &#34;&#34;&#34;重设 `style` 时更新检查状态&#34;&#34;&#34;
+        self._style = style
+        self._is_check_style = False
+
     @property
     def color(self):
         return self._color
+
+    @color.setter
+    def color(self, color):
+        &#34;&#34;&#34;重设 `color` 时更新检查状态&#34;&#34;&#34;
+        self._color = color
+        self._is_check_color = False
 
     def _auto_style(self) -&gt; None:
         &#34;&#34;&#34;自动判断类型&#34;&#34;&#34;
@@ -254,28 +361,28 @@ class ImColor(SuperEnum):
             elif self._image.mode == &#39;RGB&#39;:
                 self._color = ImColor.colored
             else:
-                raise ImageColorError(f&#34;ERROR: The image, {ImStyle.get_value_(self._style)}, &#34;
-                                      f&#34;has an unknown color format, f{self._image.mode}!!!&#34;)
+                raise ImageInfoError(f&#34;ERROR: The image, {ImStyle.get_value_(self._style)}, &#34;
+                                     f&#34;has an unknown color format, f{self._image.mode}!!!&#34;)
         elif self._style == ImStyle.im_tensor:
             if len(self._image.shape) != 3:
-                raise ImageColorError(f&#34;ERROR: The image, {ImStyle.get_value_(self._style)}, &#34;
-                                      f&#34;has wrong shape, {self._image.shape}!!!&#34;)
+                raise ImageInfoError(f&#34;ERROR: The image, {ImStyle.get_value_(self._style)}, &#34;
+                                     f&#34;has wrong shape, {self._image.shape}!!!&#34;)
             else:
                 if self._image.shape[0] == 1:
                     self._color = ImColor.gray
                 elif self._image.shape[0] == 3:
                     self._color = ImColor.colored
                 else:
-                    raise ImageColorError(f&#34;ERROR: The image, {ImStyle.get_value_(self._style)}, &#34;
-                                          f&#34;has unknown numbers of color channel, {self._image.shape}!!!&#34;)
+                    raise ImageInfoError(f&#34;ERROR: The image, {ImStyle.get_value_(self._style)}, &#34;
+                                         f&#34;has unknown numbers of color channel, {self._image.shape}!!!&#34;)
         elif self._style == ImStyle.im_ndarray or self._style == ImStyle.cv_ndarray:
             if len(self._image.shape) == 3:
                 self._color = ImColor.colored
             elif len(self._image.shape) == 2:
                 self._color = ImColor.gray
             else:
-                raise ImageColorError(f&#34;ERROR: The image, {ImStyle.get_value_(self._style)}, &#34;
-                                      f&#34;has unknown shapes, {self._image.shape}!!!&#34;)
+                raise ImageInfoError(f&#34;ERROR: The image, {ImStyle.get_value_(self._style)}, &#34;
+                                     f&#34;has unknown shapes, {self._image.shape}!!!&#34;)
         else:
             raise ImageStyleError(
                 f&#34;ERROR: Image style {type(self._image)} is not as given, {ImStyle.get_value_(self._style)}!!!&#34;)
@@ -288,15 +395,10 @@ class ImColor(SuperEnum):
         else:
             color = self._color, self._auto_color()
             if color != self._color:
-                raise ImageColorError(f&#34;ERROR: The image&#39;s color is different from the auto-detection!!!&#34;)
+                raise ImageInfoError(f&#34;ERROR: The image&#39;s color is different from the auto-detection!!!&#34;)
 
-    def to_(self, style: uuid_t) -&gt; None:
-        &#34;&#34;&#34;
-        格式转换为指定 `style` \n
-        这里将 `im_ndarray` 作为中间格式用于转换 \n
-        转换会就地进行 \n
-        在因为格式原因无法进行转换时，会抛出异常 \n
-        &#34;&#34;&#34;
+    def _to(self, style: uuid_t) -&gt; im_all | None:
+        &#34;&#34;&#34;`to` 函数的实际执行函数，若返回None则说明没有变化&#34;&#34;&#34;
         # 检查或判断
         ImStyle.check_in_(style)
         if not self._is_check_style:
@@ -307,19 +409,69 @@ class ImColor(SuperEnum):
         if style == self._style:
             return
         # 转换为中间格式
+        image = None
         if self._style == ImStyle.im_ndarray:
             pass
         elif self._style == ImStyle.cv_ndarray:
             if self._color == ImColor.colored:
-                self._image = cv2.cvtColor(self._image, cv2.COLOR_BGR2RGB)
+                image = cv2.cvtColor(self._image, cv2.COLOR_BGR2RGB)
         elif self._style == ImStyle.im_file:
-            self._image = np.array(self._image)
+            image = np.array(self._image)
         elif self._style == ImStyle.im_tensor:
-            self._image = self._image.to(&#39;cpu&#39;)
+            image = self._image.to(&#39;cpu&#39;)
+            if self._color == ImColor.gray:
+                image.squeeze_(0)
         else:
             raise ImageStyleError(
-                f&#34;ERROR: Image style {type(self._image)} is not implemented a &#39;to&#39; function!!!&#34;)
-        # 从中间格式转换为目标格式并进行转换检查</code></pre>
+                f&#34;ERROR: Image style {ImStyle.get_value_(self._style)} is not implemented a &#39;to&#39; function!!!&#34;)
+        # 从中间格式转换为目标格式并进行必要的转换检查
+        if style == ImStyle.im_ndarray:
+            pass
+        elif style == ImStyle.cv_ndarray:
+            if self._color == ImColor.colored:
+                image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+        elif style == ImStyle.im_file:
+            # 检查数据类型，若不为uint8型的则发出警告
+            add_msg(MsgLevel.Warning, f&#34;The image dtype, {image.dtype}, is not {np.uint8}&#34;)
+            if self._color == ImColor.colored:
+                mode = &#39;RGB&#39;
+            elif self._color == ImColor.gray:
+                mode = &#39;L&#39;
+            else:
+                raise ImageInfoError(f&#34;ERROR: The image color format, {self._color}, is not implemented!!!&#34;)
+            image = Image.fromarray(image, mode=mode)
+        elif style == ImStyle.im_tensor:
+            image = torch.tensor(image, device=&#39;cpu&#39;)
+            if self._color == ImColor.gray:
+                image.unsqueeze_(0)
+        else:
+            raise ImageStyleError(
+                f&#34;ERROR: Image style {ImStyle.get_value_(style)} is not implemented a &#39;to&#39; function!!!&#34;)
+        return image
+
+    def to_(self, style: uuid_t) -&gt; None:
+        &#34;&#34;&#34;
+        格式转换为指定 `style` \n
+        这里将 `im_ndarray` 作为中间格式用于转换 \n
+        在因为格式原因无法进行转换时，会抛出异常 \n
+        转换会就地进行 \n
+        &#34;&#34;&#34;
+        image = self._to(style)
+        if image is not None:
+            self._image = image
+            self._style = style
+
+    def to(self, style: uuid_t) -&gt; ImStd:
+        &#34;&#34;&#34;返回一个全新的 `ImStd` 图像容器， 输入与原类型一致的转换目标相当于进行深拷贝&#34;&#34;&#34;
+        image = self._to(style)
+        if image is None:
+            image = self._image
+        return ImStd(deepcopy(image), style, self._color)
+
+    def show_image(self, way: uuid_t) -&gt; None:
+        &#34;&#34;&#34;显示图像，`way` 指定了图像显示的方式&#34;&#34;&#34;
+
+        return</code></pre>
 </details>
 <h3>Instance variables</h3>
 <dl>
@@ -362,14 +514,26 @@ def style(self):
 </dl>
 <h3>Methods</h3>
 <dl>
+<dt id="hagike.basics.cv.file.ImStd.show_image"><code class="name flex">
+<span>def <span class="ident">show_image</span></span>(<span>self, way: uuid_t) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>显示图像，<code>way</code> 指定了图像显示的方式</p></div>
+</dd>
+<dt id="hagike.basics.cv.file.ImStd.to"><code class="name flex">
+<span>def <span class="ident">to</span></span>(<span>self, style: uuid_t) ‑> <a title="hagike.basics.cv.file.ImStd" href="#hagike.basics.cv.file.ImStd">ImStd</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>返回一个全新的 <code><a title="hagike.basics.cv.file.ImStd" href="#hagike.basics.cv.file.ImStd">ImStd</a></code> 图像容器， 输入与原类型一致的转换目标相当于进行深拷贝</p></div>
+</dd>
 <dt id="hagike.basics.cv.file.ImStd.to_"><code class="name flex">
 <span>def <span class="ident">to_</span></span>(<span>self, style: uuid_t) ‑> None</span>
 </code></dt>
 <dd>
 <div class="desc"><p>格式转换为指定 <code>style</code> </p>
 <p>这里将 <code>im_ndarray</code> 作为中间格式用于转换 </p>
-<p>转换会就地进行 </p>
-<p>在因为格式原因无法进行转换时，会抛出异常</p></div>
+<p>在因为格式原因无法进行转换时，会抛出异常 </p>
+<p>转换会就地进行</p></div>
 </dd>
 </dl>
 </dd>
@@ -443,8 +607,8 @@ class ImStyle(SuperEnum):
 </li>
 </ul>
 </dd>
-<dt id="hagike.basics.cv.file.ImageColorError"><code class="flex name class">
-<span>class <span class="ident">ImageColorError</span></span>
+<dt id="hagike.basics.cv.file.ImageInfoError"><code class="flex name class">
+<span>class <span class="ident">ImageInfoError</span></span>
 <span>(</span><span>msg, code=None)</span>
 </code></dt>
 <dd>
@@ -453,8 +617,9 @@ class ImStyle(SuperEnum):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class ImageColorError(Exception):
+<pre><code class="python">class ImageInfoError(Exception):
     &#34;&#34;&#34;图像的颜色空间不支持或数据不符合预期&#34;&#34;&#34;
+
     def __init__(self, msg, code=None):
         super().__init__(msg)
         self.code = code</code></pre>
@@ -477,6 +642,7 @@ class ImStyle(SuperEnum):
 </summary>
 <pre><code class="python">class ImageStyleError(Exception):
     &#34;&#34;&#34;图像类型与实际类型不符&#34;&#34;&#34;
+
     def __init__(self, msg, code=None):
         super().__init__(msg)
         self.code = code</code></pre>
@@ -499,6 +665,7 @@ class ImStyle(SuperEnum):
 </summary>
 <pre><code class="python">class ImageTransferError(Exception):
     &#34;&#34;&#34;无法正常转换图像类型&#34;&#34;&#34;
+
     def __init__(self, msg, code=None):
         super().__init__(msg)
         self.code = code</code></pre>
@@ -543,11 +710,21 @@ class ImStyle(SuperEnum):
 </ul>
 </li>
 <li>
-<h4><code><a title="hagike.basics.cv.file.ImStd" href="#hagike.basics.cv.file.ImStd">ImStd</a></code></h4>
+<h4><code><a title="hagike.basics.cv.file.ImShow" href="#hagike.basics.cv.file.ImShow">ImShow</a></code></h4>
 <ul class="">
+<li><code><a title="hagike.basics.cv.file.ImShow.inner" href="#hagike.basics.cv.file.ImShow.inner">inner</a></code></li>
+<li><code><a title="hagike.basics.cv.file.ImShow.system" href="#hagike.basics.cv.file.ImShow.system">system</a></code></li>
+<li><code><a title="hagike.basics.cv.file.ImShow.windows" href="#hagike.basics.cv.file.ImShow.windows">windows</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="hagike.basics.cv.file.ImStd" href="#hagike.basics.cv.file.ImStd">ImStd</a></code></h4>
+<ul class="two-column">
 <li><code><a title="hagike.basics.cv.file.ImStd.color" href="#hagike.basics.cv.file.ImStd.color">color</a></code></li>
 <li><code><a title="hagike.basics.cv.file.ImStd.image" href="#hagike.basics.cv.file.ImStd.image">image</a></code></li>
+<li><code><a title="hagike.basics.cv.file.ImStd.show_image" href="#hagike.basics.cv.file.ImStd.show_image">show_image</a></code></li>
 <li><code><a title="hagike.basics.cv.file.ImStd.style" href="#hagike.basics.cv.file.ImStd.style">style</a></code></li>
+<li><code><a title="hagike.basics.cv.file.ImStd.to" href="#hagike.basics.cv.file.ImStd.to">to</a></code></li>
 <li><code><a title="hagike.basics.cv.file.ImStd.to_" href="#hagike.basics.cv.file.ImStd.to_">to_</a></code></li>
 </ul>
 </li>
@@ -562,7 +739,7 @@ class ImStyle(SuperEnum):
 </ul>
 </li>
 <li>
-<h4><code><a title="hagike.basics.cv.file.ImageColorError" href="#hagike.basics.cv.file.ImageColorError">ImageColorError</a></code></h4>
+<h4><code><a title="hagike.basics.cv.file.ImageInfoError" href="#hagike.basics.cv.file.ImageInfoError">ImageInfoError</a></code></h4>
 </li>
 <li>
 <h4><code><a title="hagike.basics.cv.file.ImageStyleError" href="#hagike.basics.cv.file.ImageStyleError">ImageStyleError</a></code></h4>

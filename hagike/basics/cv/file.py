@@ -16,6 +16,9 @@
 值得**注意**的是，python中的对整型的除法 `/` 默认会将原类型转换为小数格式，这对 `np.ndarray` 和 `torch.Tensor` 同样均成立； \n
 如果希望整除，这需要使用 `//` 操作 \n
 下面在各个图像操作函数内会具体说明操作差异。 \n
+.. todo::
+    1. 目前开放并未开放某一图片格式的自定义参数输入，而只能使用默认方式
+    2. 目前ImStd容器集成了对各格式的具体处理，后续需要将格式特定部分分散到具体格式的封装中
 """
 
 from __future__ import annotations
@@ -25,8 +28,8 @@ import torch
 from PIL import Image, ImageFile
 import cv2
 import matplotlib.pyplot as plt
-from ...utils.enum import *
-
+from ...utils import *
+from copy import deepcopy
 
 im_file = Image.Image | ImageFile.ImageFile
 cv_ndarray = np.ndarray
@@ -61,15 +64,43 @@ class ImColor(SuperEnum):
     """自动判断"""
 
 
+@advanced_enum()
+class ImShow(SuperEnum):
+    """图片显示方式"""
+    inner = None
+    """
+    ***调用IDE嵌入查看器*** \n
+    `plt.imshow` 可以接收 `Image` 和 `np.ndarray` 两种格式的输入，主要是用于显示数据图而非原始图像的； \n
+    这是因为 `plt.imshow` 总是会根据 `np.ndarray` 或 `Image` 转换后得到的 `np.ndarray` 的 `min` 和 `max` 
+    自动缩放数据到$[0, 255]$ \n
+    但优势在于，Pycharm等IDE中有嵌入的查看器，无需打开额外窗口，且是非阻塞的 \n
+    在使用上，如果输入的是灰度图，且希望以灰度方式显示，则需要指定参数cmap='gray'，
+    否则会以其它颜色映射方式显示(默认为'viridis'，蓝色到绿色再到黄色的渐变) \n
+    """
+    system = None
+    """
+    ***调用系统图片查看器*** \n
+    `Image.imshow` 自带图像显示方式，可接受 `Image` 格式，非阻塞，但要与系统默认应用，且要打开额外窗口，较为麻烦 \n
+    其期望的np.ndarray类型为
+    """
+    windows = None
+    """
+    ***调用窗口查看器*** \n
+    `plt.imshow`
+    """
+
+
 class ImageStyleError(Exception):
     """图像类型与实际类型不符"""
+
     def __init__(self, msg, code=None):
         super().__init__(msg)
         self.code = code
 
 
-class ImageColorError(Exception):
+class ImageInfoError(Exception):
     """图像的颜色空间不支持或数据不符合预期"""
+
     def __init__(self, msg, code=None):
         super().__init__(msg)
         self.code = code
@@ -77,6 +108,7 @@ class ImageColorError(Exception):
 
 class ImageTransferError(Exception):
     """无法正常转换图像类型"""
+
     def __init__(self, msg, code=None):
         super().__init__(msg)
         self.code = code
@@ -105,13 +137,31 @@ class ImStd:
     def image(self):
         return self._image
 
+    @image.setter
+    def image(self, image):
+        """重设 `image` 时更新检查状态"""
+        self._image = image
+        self._is_check_style, self._is_check_color = False, False
+
     @property
     def style(self):
         return self._style
 
+    @style.setter
+    def style(self, style):
+        """重设 `style` 时更新检查状态"""
+        self._style = style
+        self._is_check_style = False
+
     @property
     def color(self):
         return self._color
+
+    @color.setter
+    def color(self, color):
+        """重设 `color` 时更新检查状态"""
+        self._color = color
+        self._is_check_color = False
 
     def _auto_style(self) -> None:
         """自动判断类型"""
@@ -140,28 +190,28 @@ class ImStd:
             elif self._image.mode == 'RGB':
                 self._color = ImColor.colored
             else:
-                raise ImageColorError(f"ERROR: The image, {ImStyle.get_value_(self._style)}, "
-                                      f"has an unknown color format, f{self._image.mode}!!!")
+                raise ImageInfoError(f"ERROR: The image, {ImStyle.get_value_(self._style)}, "
+                                     f"has an unknown color format, f{self._image.mode}!!!")
         elif self._style == ImStyle.im_tensor:
             if len(self._image.shape) != 3:
-                raise ImageColorError(f"ERROR: The image, {ImStyle.get_value_(self._style)}, "
-                                      f"has wrong shape, {self._image.shape}!!!")
+                raise ImageInfoError(f"ERROR: The image, {ImStyle.get_value_(self._style)}, "
+                                     f"has wrong shape, {self._image.shape}!!!")
             else:
                 if self._image.shape[0] == 1:
                     self._color = ImColor.gray
                 elif self._image.shape[0] == 3:
                     self._color = ImColor.colored
                 else:
-                    raise ImageColorError(f"ERROR: The image, {ImStyle.get_value_(self._style)}, "
-                                          f"has unknown numbers of color channel, {self._image.shape}!!!")
+                    raise ImageInfoError(f"ERROR: The image, {ImStyle.get_value_(self._style)}, "
+                                         f"has unknown numbers of color channel, {self._image.shape}!!!")
         elif self._style == ImStyle.im_ndarray or self._style == ImStyle.cv_ndarray:
             if len(self._image.shape) == 3:
                 self._color = ImColor.colored
             elif len(self._image.shape) == 2:
                 self._color = ImColor.gray
             else:
-                raise ImageColorError(f"ERROR: The image, {ImStyle.get_value_(self._style)}, "
-                                      f"has unknown shapes, {self._image.shape}!!!")
+                raise ImageInfoError(f"ERROR: The image, {ImStyle.get_value_(self._style)}, "
+                                     f"has unknown shapes, {self._image.shape}!!!")
         else:
             raise ImageStyleError(
                 f"ERROR: Image style {type(self._image)} is not as given, {ImStyle.get_value_(self._style)}!!!")
@@ -174,15 +224,10 @@ class ImStd:
         else:
             color = self._color, self._auto_color()
             if color != self._color:
-                raise ImageColorError(f"ERROR: The image's color is different from the auto-detection!!!")
+                raise ImageInfoError(f"ERROR: The image's color is different from the auto-detection!!!")
 
-    def to_(self, style: uuid_t) -> None:
-        """
-        格式转换为指定 `style` \n
-        这里将 `im_ndarray` 作为中间格式用于转换 \n
-        转换会就地进行 \n
-        在因为格式原因无法进行转换时，会抛出异常 \n
-        """
+    def _to(self, style: uuid_t) -> im_all | None:
+        """`to` 函数的实际执行函数，若返回None则说明没有变化"""
         # 检查或判断
         ImStyle.check_in_(style)
         if not self._is_check_style:
@@ -193,24 +238,69 @@ class ImStd:
         if style == self._style:
             return
         # 转换为中间格式
+        image = None
         if self._style == ImStyle.im_ndarray:
             pass
         elif self._style == ImStyle.cv_ndarray:
             if self._color == ImColor.colored:
-                self._image = cv2.cvtColor(self._image, cv2.COLOR_BGR2RGB)
+                image = cv2.cvtColor(self._image, cv2.COLOR_BGR2RGB)
         elif self._style == ImStyle.im_file:
-            self._image = np.array(self._image)
+            image = np.array(self._image)
         elif self._style == ImStyle.im_tensor:
-            self._image = self._image.to('cpu')
+            image = self._image.to('cpu')
+            if self._color == ImColor.gray:
+                image.squeeze_(0)
         else:
             raise ImageStyleError(
-                f"ERROR: Image style {type(self._image)} is not implemented a 'to' function!!!")
-        # 从中间格式转换为目标格式并进行转换检查
+                f"ERROR: Image style {ImStyle.get_value_(self._style)} is not implemented a 'to' function!!!")
+        # 从中间格式转换为目标格式并进行必要的转换检查
+        if style == ImStyle.im_ndarray:
+            pass
+        elif style == ImStyle.cv_ndarray:
+            if self._color == ImColor.colored:
+                image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+        elif style == ImStyle.im_file:
+            # 检查数据类型，若不为uint8型的则发出警告
+            add_msg(MsgLevel.Warning, f"The image dtype, {image.dtype}, is not {np.uint8}")
+            if self._color == ImColor.colored:
+                mode = 'RGB'
+            elif self._color == ImColor.gray:
+                mode = 'L'
+            else:
+                raise ImageInfoError(f"ERROR: The image color format, {self._color}, is not implemented!!!")
+            image = Image.fromarray(image, mode=mode)
+        elif style == ImStyle.im_tensor:
+            image = torch.tensor(image, device='cpu')
+            if self._color == ImColor.gray:
+                image.unsqueeze_(0)
+        else:
+            raise ImageStyleError(
+                f"ERROR: Image style {ImStyle.get_value_(style)} is not implemented a 'to' function!!!")
+        return image
 
+    def to_(self, style: uuid_t) -> None:
+        """
+        格式转换为指定 `style` \n
+        这里将 `im_ndarray` 作为中间格式用于转换 \n
+        在因为格式原因无法进行转换时，会抛出异常 \n
+        转换会就地进行 \n
+        """
+        image = self._to(style)
+        if image is not None:
+            self._image = image
+            self._style = style
 
+    def to(self, style: uuid_t) -> ImStd:
+        """返回一个全新的 `ImStd` 图像容器， 输入与原类型一致的转换目标相当于进行深拷贝"""
+        image = self._to(style)
+        if image is None:
+            image = self._image
+        return ImStd(deepcopy(image), style, self._color)
 
+    def show_image(self, way: uuid_t) -> None:
+        """显示图像，`way` 指定了图像显示的方式"""
 
-
+        return
 
 
 def import_image(path: str, style: uuid_t = ImStyle.im_file) -> ImStd:
