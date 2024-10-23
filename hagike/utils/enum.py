@@ -66,7 +66,6 @@ _enum_hide_word = ('_uuid_', '_pack_', '_length_',
 
 class _EnumOccupiedError(Exception):
     """枚举类关键字占用异常"""
-
     def __init__(self, msg, code=None):
         super().__init__(msg)
         self.code = code
@@ -74,7 +73,6 @@ class _EnumOccupiedError(Exception):
 
 class _EnumSequenceError(Exception):
     """枚举类顺序访问索引异常"""
-
     def __init__(self, msg, code=None):
         super().__init__(msg)
         self.code = code
@@ -82,15 +80,13 @@ class _EnumSequenceError(Exception):
 
 class _EnumTypeError(Exception):
     """枚举类的配置项的类型不正确"""
-
     def __init__(self, msg, code=None):
         super().__init__(msg)
         self.code = code
 
 
-class _EnumUuidError(Exception):
+class EnumUuidError(Exception):
     """枚举类的uuid不存在"""
-
     def __init__(self, msg, code=None):
         super().__init__(msg)
         self.code = code
@@ -153,16 +149,19 @@ class SuperEnum:
         return deepcopy(pack_n.value)
 
     @classmethod
-    def check_in(cls, uuid: uuid_t, all_or_index: bool) -> bool:
-        """检查是否uuid是否被枚举类包含，all_or_hide指定是否仅考虑显变量"""
+    def check_in(cls, uuid: uuid_t, all_or_index: bool = False, is_raise: bool = True) -> bool:
+        """检查是否uuid是否被枚举类包含，all_or_hide指定是否仅考虑显变量，is_raise指定若不存在是否引发错误"""
         if all_or_index:
             is_in = True if uuid in cls._uuid_all_ else False
         else:
             is_in = True if uuid in cls._index2uuid_ else False
+        if is_raise:
+            if not is_in:
+                raise EnumUuidError(f"ERROR: {uuid} is not in enum!!!")
         return is_in
 
     @classmethod
-    def check_include(cls, enum_list: List[uuid_t], all_or_index: bool) -> bool:
+    def check_include(cls, enum_list: List[uuid_t], all_or_index: bool = False) -> bool:
         """检查列表内的uuid是否都包含在枚举类中，all_or_hide指定是否仅考虑显变量"""
         is_include = True
         for uuid in enum_list:
@@ -188,7 +187,7 @@ class SuperEnum:
         # 检查是否完全包含于
         if is_force:
             if cls._length_ != len(uuid_dict):
-                raise _EnumUuidError(
+                raise EnumUuidError(
                     f"ERROR: dict(len={len(uuid_dict)}) is not included in enum(len={cls._length_})!!!")
         return enum_dict
 
@@ -205,7 +204,7 @@ class SuperEnum:
         # 检查是否完全包含于
         for uuid in uuid_dict:
             if uuid not in cls._index2uuid_:
-                raise _EnumUuidError(f"ERROR: dict is not included in enum for uuid({uuid})!!!")
+                raise EnumUuidError(f"ERROR: dict is not included in enum for uuid({uuid})!!!")
         for index in range(cls._length_):
             uuid = cls._index2uuid_[index]
             if uuid in uuid_dict:

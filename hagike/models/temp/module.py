@@ -52,9 +52,9 @@ class ModuleTemp(nn.Module):
         self._is_all: None | bool
         self._modules: List[nn.Module] | None
         self._model: Sequence[nn.Module] | None
-        self._init(module_dict)
+        self._init_(module_dict)
 
-    def _init(self, module_dict: Mapping[uuid_t, nn.Module] | None = None) -> None:
+    def _init_(self, module_dict: Mapping[uuid_t, nn.Module] | None = None) -> None:
         """
         在创建结构和刷新结构时调用； \n
         根据输入初始化各个模块组件，若字典为None则恒等变换，若组件为None则不会执行； \n
@@ -79,7 +79,7 @@ class ModuleTemp(nn.Module):
 
     def refresh(self, module_dict: Mapping[uuid_t, nn.Module] | None = None) -> None:
         """刷新结构"""
-        self._init(module_dict)
+        self._init_(module_dict)
 
     def update(self, module_dict: Mapping[uuid_t, nn.Module] | None = None) -> None:
         """更新模型结构，如果更新后的模式与原模式不一致则报错"""

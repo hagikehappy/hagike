@@ -73,6 +73,28 @@ advanced_enum - 根级的装饰器，用于自动生成枚举类的各项配置
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
+<dt id="hagike.utils.enum.EnumUuidError"><code class="flex name class">
+<span>class <span class="ident">EnumUuidError</span></span>
+<span>(</span><span>msg, code=None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>枚举类的uuid不存在</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class EnumUuidError(Exception):
+    &#34;&#34;&#34;枚举类的uuid不存在&#34;&#34;&#34;
+    def __init__(self, msg, code=None):
+        super().__init__(msg)
+        self.code = code</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
 <dt id="hagike.utils.enum.SuperEnum"><code class="flex name class">
 <span>class <span class="ident">SuperEnum</span></span>
 </code></dt>
@@ -123,16 +145,19 @@ advanced_enum - 根级的装饰器，用于自动生成枚举类的各项配置
         return deepcopy(pack_n.value)
 
     @classmethod
-    def check_in(cls, uuid: uuid_t, all_or_index: bool) -&gt; bool:
-        &#34;&#34;&#34;检查是否uuid是否被枚举类包含，all_or_hide指定是否仅考虑显变量&#34;&#34;&#34;
+    def check_in(cls, uuid: uuid_t, all_or_index: bool = False, is_raise: bool = True) -&gt; bool:
+        &#34;&#34;&#34;检查是否uuid是否被枚举类包含，all_or_hide指定是否仅考虑显变量，is_raise指定若不存在是否引发错误&#34;&#34;&#34;
         if all_or_index:
             is_in = True if uuid in cls._uuid_all_ else False
         else:
             is_in = True if uuid in cls._index2uuid_ else False
+        if is_raise:
+            if not is_in:
+                raise EnumUuidError(f&#34;ERROR: {uuid} is not in enum!!!&#34;)
         return is_in
 
     @classmethod
-    def check_include(cls, enum_list: List[uuid_t], all_or_index: bool) -&gt; bool:
+    def check_include(cls, enum_list: List[uuid_t], all_or_index: bool = False) -&gt; bool:
         &#34;&#34;&#34;检查列表内的uuid是否都包含在枚举类中，all_or_hide指定是否仅考虑显变量&#34;&#34;&#34;
         is_include = True
         for uuid in enum_list:
@@ -158,7 +183,7 @@ advanced_enum - 根级的装饰器，用于自动生成枚举类的各项配置
         # 检查是否完全包含于
         if is_force:
             if cls._length_ != len(uuid_dict):
-                raise _EnumUuidError(
+                raise EnumUuidError(
                     f&#34;ERROR: dict(len={len(uuid_dict)}) is not included in enum(len={cls._length_})!!!&#34;)
         return enum_dict
 
@@ -175,7 +200,7 @@ advanced_enum - 根级的装饰器，用于自动生成枚举类的各项配置
         # 检查是否完全包含于
         for uuid in uuid_dict:
             if uuid not in cls._index2uuid_:
-                raise _EnumUuidError(f&#34;ERROR: dict is not included in enum for uuid({uuid})!!!&#34;)
+                raise EnumUuidError(f&#34;ERROR: dict is not included in enum for uuid({uuid})!!!&#34;)
         for index in range(cls._length_):
             uuid = cls._index2uuid_[index]
             if uuid in uuid_dict:
@@ -228,6 +253,8 @@ advanced_enum - 根级的装饰器，用于自动生成枚举类的各项配置
 </details>
 <h3>Subclasses</h3>
 <ul class="hlist">
+<li><a title="hagike.basics.cv.file.ImColor" href="../basics/cv/file.html#hagike.basics.cv.file.ImColor">ImColor</a></li>
+<li><a title="hagike.basics.cv.file.ImStyle" href="../basics/cv/file.html#hagike.basics.cv.file.ImStyle">ImStyle</a></li>
 <li><a title="hagike.basics.cv.noise.NoiseType" href="../basics/cv/noise.html#hagike.basics.cv.noise.NoiseType">NoiseType</a></li>
 <li><a title="hagike.basics.cv.noise.NoiseType.gaussian" href="../basics/cv/noise.html#hagike.basics.cv.noise.NoiseType.gaussian">NoiseType.gaussian</a></li>
 <li><a title="hagike.basics.cv.noise.NoiseType.poisson" href="../basics/cv/noise.html#hagike.basics.cv.noise.NoiseType.poisson">NoiseType.poisson</a></li>
@@ -238,13 +265,13 @@ advanced_enum - 根级的装饰器，用于自动生成枚举类的各项配置
 <h3>Static methods</h3>
 <dl>
 <dt id="hagike.utils.enum.SuperEnum.check_in"><code class="name flex">
-<span>def <span class="ident">check_in</span></span>(<span>uuid: int, all_or_index: bool) ‑> bool</span>
+<span>def <span class="ident">check_in</span></span>(<span>uuid: int, all_or_index: bool = False, is_raise: bool = True) ‑> bool</span>
 </code></dt>
 <dd>
-<div class="desc"><p>检查是否uuid是否被枚举类包含，all_or_hide指定是否仅考虑显变量</p></div>
+<div class="desc"><p>检查是否uuid是否被枚举类包含，all_or_hide指定是否仅考虑显变量，is_raise指定若不存在是否引发错误</p></div>
 </dd>
 <dt id="hagike.utils.enum.SuperEnum.check_include"><code class="name flex">
-<span>def <span class="ident">check_include</span></span>(<span>enum_list: List[int], all_or_index: bool) ‑> bool</span>
+<span>def <span class="ident">check_include</span></span>(<span>enum_list: List[int], all_or_index: bool = False) ‑> bool</span>
 </code></dt>
 <dd>
 <div class="desc"><p>检查列表内的uuid是否都包含在枚举类中，all_or_hide指定是否仅考虑显变量</p></div>
@@ -334,6 +361,9 @@ advanced_enum - 根级的装饰器，用于自动生成枚举类的各项配置
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
+<li>
+<h4><code><a title="hagike.utils.enum.EnumUuidError" href="#hagike.utils.enum.EnumUuidError">EnumUuidError</a></code></h4>
+</li>
 <li>
 <h4><code><a title="hagike.utils.enum.SuperEnum" href="#hagike.utils.enum.SuperEnum">SuperEnum</a></code></h4>
 <ul class="two-column">

@@ -162,9 +162,9 @@ class ModuleKey(SuperEnum):
         self._is_all: None | bool
         self._modules: List[nn.Module] | None
         self._model: Sequence[nn.Module] | None
-        self._init(module_dict)
+        self._init_(module_dict)
 
-    def _init(self, module_dict: Mapping[uuid_t, nn.Module] | None = None) -&gt; None:
+    def _init_(self, module_dict: Mapping[uuid_t, nn.Module] | None = None) -&gt; None:
         &#34;&#34;&#34;
         在创建结构和刷新结构时调用； \n
         根据输入初始化各个模块组件，若字典为None则恒等变换，若组件为None则不会执行； \n
@@ -189,7 +189,7 @@ class ModuleKey(SuperEnum):
 
     def refresh(self, module_dict: Mapping[uuid_t, nn.Module] | None = None) -&gt; None:
         &#34;&#34;&#34;刷新结构&#34;&#34;&#34;
-        self._init(module_dict)
+        self._init_(module_dict)
 
     def update(self, module_dict: Mapping[uuid_t, nn.Module] | None = None) -&gt; None:
         &#34;&#34;&#34;更新模型结构，如果更新后的模式与原模式不一致则报错&#34;&#34;&#34;
@@ -305,13 +305,13 @@ class ModuleKey(SuperEnum):
 <div class="desc"><p>刷新结构</p></div>
 </dd>
 <dt id="hagike.models.temp.module.ModuleTemp.save_weights"><code class="name flex">
-<span>def <span class="ident">save_weights</span></span>(<span>self, module: int, path: None | str = None) ‑> Any</span>
+<span>def <span class="ident">save_weights</span></span>(<span>self, module: int, path: str | None = None) ‑> Any</span>
 </code></dt>
 <dd>
 <div class="desc"><p>根据path，选择加载指定部分的模块参数到路径或从内存中</p></div>
 </dd>
 <dt id="hagike.models.temp.module.ModuleTemp.trans_para"><code class="name flex">
-<span>def <span class="ident">trans_para</span></span>(<span>self, device: None | str = None, dtype: torch.dtype | None = None, is_train: bool | None = None) ‑> None</span>
+<span>def <span class="ident">trans_para</span></span>(<span>self, device: str | None = None, dtype: torch.dtype | None = None, is_train: bool | None = None) ‑> None</span>
 </code></dt>
 <dd>
 <div class="desc"><p>转换模型类型</p></div>
