@@ -17,12 +17,13 @@
 如果希望整除，这需要使用 `//` 操作 \n
 下面在各个图像操作函数内会具体说明操作差异。 \n
 .. todo::
-    1. 目前开放并未开放某一图片格式的自定义参数输入，而只能使用默认方式
-    2. 目前ImStd容器集成了对各格式的具体处理，后续需要将格式特定部分分散到具体格式的封装中
+    1. 目前开放并未开放某一图片格式的自定义参数输入，而只能使用默认方式 \n
+    2. 目前ImStd容器集成了对各格式的具体处理，后续需要将格式特定部分分散到具体格式的封装中 \n
 """
 
 from __future__ import annotations
 import typing
+from datetime import datetime
 import numpy as np
 import torch
 from PIL import Image, ImageFile
@@ -30,6 +31,7 @@ import cv2
 import matplotlib.pyplot as plt
 from ...utils import *
 from copy import deepcopy
+
 
 im_file = Image.Image | ImageFile.ImageFile
 cv_ndarray = np.ndarray
@@ -41,26 +43,26 @@ im_all = im_file | cv_ndarray | im_ndarray | im_tensor
 @advanced_enum()
 class ImStyle(SuperEnum):
     """图像格式，值为须设计为可用于 `isinstance` 的类型"""
-    im_file = (Image.Image, ImageFile.ImageFile)
+    im_file: uuid_t = (Image.Image, ImageFile.ImageFile)
     """Image格式"""
-    cv_ndarray = cv_ndarray
+    cv_ndarray: uuid_t = cv_ndarray
     """cv2格式"""
-    im_ndarray = im_ndarray
+    im_ndarray: uuid_t = im_ndarray
     """Image转array格式"""
-    im_tensor = im_tensor
+    im_tensor: uuid_t = im_tensor
     """torch格式"""
-    auto__ = None
+    auto__: uuid_t = None
     """自动判断"""
 
 
 @advanced_enum()
 class ImColor(SuperEnum):
     """颜色类型"""
-    gray = None
+    gray: uuid_t = None
     """单色"""
-    colored = None
+    colored: uuid_t = None
     """彩色"""
-    auto__ = None
+    auto__: uuid_t = None
     """自动判断"""
 
 
@@ -73,26 +75,25 @@ class ImShow(SuperEnum):
     `plt.imshow` 可以接收 `Image` 和 `np.ndarray` 两种格式的输入，主要是用于显示数据图而非原始图像的； \n
     这是因为 `plt.imshow` 总是会根据 `np.ndarray` 或 `Image` 转换后得到的 `np.ndarray` 的 `min` 和 `max` 
     自动缩放数据到$[0, 255]$ \n
-    但优势在于，Pycharm等IDE中有嵌入的查看器，无需打开额外窗口，且是非阻塞的 \n
+    在显示或转换时，如果类型不是uint8类型的，容器会给出警告，因为自动转换可能是不可靠的 \n
+    但优势在于，Pycharm等IDE中有嵌入的查看器，无需打开额外窗口，且是非阻塞的；同时，图像会带有坐标轴 \n
     在使用上，如果输入的是灰度图，且希望以灰度方式显示，则需要指定参数cmap='gray'，
     否则会以其它颜色映射方式显示(默认为'viridis'，蓝色到绿色再到黄色的渐变) \n
     """
     system = None
     """
     ***调用系统图片查看器*** \n
-    `Image.imshow` 自带图像显示方式，可接受 `Image` 格式，非阻塞，但要与系统默认应用，且要打开额外窗口，较为麻烦 \n
-    其期望的np.ndarray类型为
+    `Image.show` ，`Image` 格式自带方式，非阻塞，但要与系统默认应用，且要打开额外窗口，较为麻烦 \n
     """
     windows = None
     """
     ***调用窗口查看器*** \n
-    `plt.imshow`
+    `cv2.imshow` 会启动cv2的私有窗口，但
     """
 
 
 class ImageStyleError(Exception):
     """图像类型与实际类型不符"""
-
     def __init__(self, msg, code=None):
         super().__init__(msg)
         self.code = code
@@ -100,7 +101,6 @@ class ImageStyleError(Exception):
 
 class ImageInfoError(Exception):
     """图像的颜色空间不支持或数据不符合预期"""
-
     def __init__(self, msg, code=None):
         super().__init__(msg)
         self.code = code
@@ -108,10 +108,40 @@ class ImageInfoError(Exception):
 
 class ImageTransferError(Exception):
     """无法正常转换图像类型"""
-
     def __init__(self, msg, code=None):
         super().__init__(msg)
         self.code = code
+
+
+class ImageFunctionError(Exception):
+    """图像功能性错误"""
+    def __init__(self, msg, code=None):
+        super().__init__(msg)
+        self.code = code
+
+
+def import_image(path: str, style: uuid_t = ImStyle.im_file) -> ImStd:
+    """
+    从路径中导入图像 \n
+    `style` 指定了导入方式 \n
+    """
+    ImStyle.check_in_(style, all_or_index=False)
+    if style == ImStyle.cv_ndarray:
+        image = cv2.imread(path)
+    else:
+        image = Image.open(path)
+        if style == ImStyle.im_file:
+            pass
+        else:
+            image = np.array(image)
+            if style == ImStyle.im_ndarray:
+                pass
+            elif style == ImStyle.im_tensor:
+                image = torch.tensor(image, dtype=torch.float32, device='cpu')
+                if len(image.shape) == 2:
+                    image.unsqueeze_(0)
+    image = ImStd(image, style)
+    return image
 
 
 class ImStd:
@@ -226,14 +256,18 @@ class ImStd:
             if color != self._color:
                 raise ImageInfoError(f"ERROR: The image's color is different from the auto-detection!!!")
 
-    def _to(self, style: uuid_t) -> im_all | None:
-        """`to` 函数的实际执行函数，若返回None则说明没有变化"""
-        # 检查或判断
-        ImStyle.check_in_(style)
+    def _judge(self) -> None:
+        """检查类型与颜色"""
         if not self._is_check_style:
             self._judge_style()
         if not self._is_check_color:
             self._judge_color()
+
+    def _to_style(self, style: uuid_t) -> im_all | None:
+        """`to` 函数的实际执行函数，若返回 `None` 则说明没有变化"""
+        # 检查或判断
+        ImStyle.check_in_(style)
+        self._judge()
         # 排除同类转换
         if style == self._style:
             return
@@ -278,110 +312,100 @@ class ImStd:
                 f"ERROR: Image style {ImStyle.get_value_(style)} is not implemented a 'to' function!!!")
         return image
 
-    def to_(self, style: uuid_t) -> None:
+    def to_style_(self, style: uuid_t) -> None:
         """
         格式转换为指定 `style` \n
         这里将 `im_ndarray` 作为中间格式用于转换 \n
         在因为格式原因无法进行转换时，会抛出异常 \n
         转换会就地进行 \n
         """
-        image = self._to(style)
+        image = self._to_style(style)
         if image is not None:
             self._image = image
             self._style = style
 
-    def to(self, style: uuid_t) -> ImStd:
-        """返回一个全新的 `ImStd` 图像容器， 输入与原类型一致的转换目标相当于进行深拷贝"""
-        image = self._to(style)
+    def to_style(self, style: uuid_t, is_new: bool = False) -> ImStd:
+        """
+        格式转换 \n
+        `is_new=True`，则总是返回一个全新的 `ImStd` 图像容器，无论目标类型与原有类型是否一致 \n
+        `is_new=False`，则仅在目标类型与原有类型不一致时返回深拷贝结果，否则返回本身；
+        当明确知道后续只有只读操作后可以这样做，会节省算力与内存 \n
+        """
+        image = self._to_style(style)
         if image is None:
             image = self._image
-        return ImStd(deepcopy(image), style, self._color)
+        if image is None and is_new is False:
+            return self
+        else:
+            return ImStd(deepcopy(image), style, self._color)
 
-    def show_image(self, way: uuid_t) -> None:
-        """显示图像，`way` 指定了图像显示的方式"""
+    def _to_gray(self) -> im_all | None:
+        """`to_gray` 的实质执行函数，如果本身就是灰度图则返回 `None`"""
+        self._judge()
+        if self._color == ImColor.gray:
+            return
+        image = None
+        if self._style == ImStyle.im_file:
+            image = self._image.convert('L')
+        elif self._style == ImStyle.im_ndarray:
+            image = cv2.cvtColor(self._image, cv2.COLOR_RGB2GRAY)
+        elif self._style == ImStyle.cv_ndarray:
+            image = cv2.cvtColor(self._image, cv2.COLOR_BGR2GRAY)
+        elif self._style == ImStyle.im_tensor:
+            image = self._image[0] * 0.299 + self._image[1] * 0.587 + self._image[2] * 0.114
+            image.unsqueeze_(0)
+        else:
+            raise ImageStyleError(
+                f"ERROR: Image style {ImStyle.get_value_(self._style)} is not implemented a 'to_gray' function!!!")
+        return image
 
+    def to_gray_(self) -> None:
+        """将图像转为灰度图，并返回新的图像，本地转换"""
+        image = self._to_gray()
+        if image is not None:
+            self._image = image
+            self._color = ImColor.gray
+
+    def to_gray(self, is_new: bool = False) -> ImStd:
+        """
+        格式转换 \n
+        `is_new=True`，则总是返回一个全新的 `ImStd` 图像容器，无论原有颜色是否为 `gray` \n
+        `is_new=False`，则仅在原有颜色不为 `gray` 时返回深拷贝结果，否则返回本身；
+        当明确知道后续只有只读操作后可以这样做，会节省算力与内存 \n
+        """
+        image = self._to_gray()
+        if image is None:
+            image = self._image
+        if image is None and is_new is False:
+            return self
+        else:
+            return ImStd(deepcopy(image), self._style, ImColor.gray)
+
+    def show_image(self, show: uuid_t) -> None:
+        """显示图像，`show` 指定了图像显示的方式"""
+        ImShow.check_in_(show)
+        if show == ImShow.inner:
+            im = self.to_style(ImStyle.im_ndarray, is_new=False)
+            cmap = 'gray' if im.color == ImColor.gray else None
+            plt.imshow(im.image, cmap=cmap)
+            plt.show()
+        elif show == ImShow.system:
+            im = self.to_style(ImStyle.im_file, is_new=False)
+            im.image.show()
+        elif show == ImShow.windows:
+            im = self.to_style(ImStyle.im_file, is_new=False)
+            winname = datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')
+            cv2.imshow(winname, im.image)
+            cv2.waitKey(0)
+            cv2.destroyWindow(winname)
+        else:
+            raise ImageFunctionError(
+                f"ERROR: Showing Type {ImShow.get_name_(show)} is not implemented!!!")
         return
 
+    def save_image(self, path: str) -> None:
+        """保存图像"""
+        ensure_path_writable(path, is_raise=True)
+        im = self.to_style(ImStyle.im_file, is_new=False)
+        im.image.save(path)
 
-def import_image(path: str, style: uuid_t = ImStyle.im_file) -> ImStd:
-    """
-    从路径中导入图像 \n
-    `style` 指定了导入方式 \n
-    """
-    ImStyle.check_in_(style, all_or_index=False)
-    if style == ImStyle.cv_ndarray:
-        image = cv2.imread(path)
-    else:
-        image = Image.open(path)
-        if style == ImStyle.im_file:
-            pass
-        else:
-            image = np.array(image)
-            if style == ImStyle.im_ndarray:
-                pass
-            elif style == ImStyle.im_tensor:
-                image = torch.tensor(image, dtype=torch.float32, device='cpu')
-                if len(image.shape) == 2:
-                    image.unsqueeze_(0)
-    image = ImStd(image, style)
-    return image
-
-
-def show_image(image: im_file, cmap=None) -> None:
-    """
-    显示图像； \n
-    这里说明显示图像的三种方法： \n
-    1.
-    plt.imshow可以接收Image(即ImageFile)和np.ndarray两种格式的输入，主要是用于显示数据图而非原始图像的；
-    这是因为plt.imshow
-    如果输入的是灰度图，且希望以灰度方式显示，则需要指定参数cmap='gray'，
-    否则会以其它颜色映射方式显示(默认为'viridis'，蓝色到绿色再到黄色的渐变) \n
-    """
-    plt.imshow(image, cmap=cmap)
-    plt.show()
-    return
-
-
-def save_image(image: ImageFile.ImageFile, path: str) -> None:
-    """保存图像"""
-    image.save(path)
-    return
-
-
-def image_to_gray(image: ImageFile.ImageFile) -> ImageFile.ImageFile:
-    """将图片转换为灰度图"""
-    # 灰度值 = 0.299 * R + 0.587 * G + 0.114 * B
-    gray_image = image.convert('L')
-    return gray_image
-
-
-def draw_histogram(histogram, save: None | str = None, show: bool = True) -> None:
-    """保存或显示直方图"""
-    if save is not None or show is True:
-        plt.figure(figsize=(10, 5))
-        plt.bar(range(256), histogram, color='blue')
-        plt.title('Grayscale Histogram')
-        plt.xlabel('Pixel Intensity')
-        plt.ylabel('Frequency')
-        if save is not None:
-            plt.savefig(save)
-        if show is True:
-            plt.show()
-
-
-def draw_cdf(raw_cdf: typing.Sequence, fla_cdf: typing.Sequence, ide_cdf: typing.Sequence,
-             show: bool = True, save: None | str = None) -> None:
-    """保存或显示cdf"""
-    if save is not None or show is True:
-        plt.figure()
-        plt.plot(range(256), raw_cdf, label='raw cdf', color='b')
-        plt.plot(range(256), fla_cdf, label='flatten cdf', color='r')
-        plt.plot(range(256), ide_cdf, label='ideal cdf', color='g')
-        plt.title('CDF Comparison')
-        plt.xlabel('Pixel Intensity')
-        plt.ylabel('Frequency')
-        plt.legend()
-        if save is not None:
-            plt.savefig(save)
-        if show is True:
-            plt.show()

@@ -6,7 +6,39 @@
 import numpy as np
 from PIL import Image, ImageFile
 import matplotlib.pyplot as plt
-from .file import draw_cdf
+import typing
+
+
+def draw_histogram(histogram, save: None | str = None, show: bool = True) -> None:
+    """保存或显示直方图"""
+    if save is not None or show is True:
+        plt.figure(figsize=(10, 5))
+        plt.bar(range(256), histogram, color='blue')
+        plt.title('Grayscale Histogram')
+        plt.xlabel('Pixel Intensity')
+        plt.ylabel('Frequency')
+        if save is not None:
+            plt.savefig(save)
+        if show is True:
+            plt.show()
+
+
+def draw_cdf(raw_cdf: typing.Sequence, fla_cdf: typing.Sequence, ide_cdf: typing.Sequence,
+             show: bool = True, save: None | str = None) -> None:
+    """保存或显示cdf"""
+    if save is not None or show is True:
+        plt.figure()
+        plt.plot(range(256), raw_cdf, label='raw cdf', color='b')
+        plt.plot(range(256), fla_cdf, label='flatten cdf', color='r')
+        plt.plot(range(256), ide_cdf, label='ideal cdf', color='g')
+        plt.title('CDF Comparison')
+        plt.xlabel('Pixel Intensity')
+        plt.ylabel('Frequency')
+        plt.legend()
+        if save is not None:
+            plt.savefig(save)
+        if show is True:
+            plt.show()
 
 
 def convert_histogram(image: ImageFile.ImageFile) -> np.ndarray:

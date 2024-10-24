@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
 <meta name="generator" content="pdoc3 0.11.1">
-<title>hagike.utils API documentation</title>
-<meta name="description" content="通用工具">
+<title>hagike.utils.file API documentation</title>
+<meta name="description" content="***与文件处理相关的库函数***">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
@@ -24,45 +24,67 @@ hljs.highlightAll();
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>hagike.utils</code></h1>
+<h1 class="title">Module <code>hagike.utils.file</code></h1>
 </header>
 <section id="section-intro">
-<p>通用工具</p>
+<p><strong><em>与文件处理相关的库函数</em></strong></p>
 </section>
 <section>
-<h2 class="section-title" id="header-submodules">Sub-modules</h2>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
-<dt><code class="name"><a title="hagike.utils.abort" href="abort.html">hagike.utils.abort</a></code></dt>
+<dt id="hagike.utils.file.ensure_path_writable"><code class="name flex">
+<span>def <span class="ident">ensure_path_writable</span></span>(<span>path: str, is_raise: bool = True) ‑> bool</span>
+</code></dt>
 <dd>
-<div class="desc"><p>自定义程序错误类型</p></div>
-</dd>
-<dt><code class="name"><a title="hagike.utils.cache" href="cache.html">hagike.utils.cache</a></code></dt>
-<dd>
-<div class="desc"><p>数据缓存类</p></div>
-</dd>
-<dt><code class="name"><a title="hagike.utils.config" href="config.html">hagike.utils.config</a></code></dt>
-<dd>
-<div class="desc"><p>配置类</p></div>
-</dd>
-<dt><code class="name"><a title="hagike.utils.enum" href="enum.html">hagike.utils.enum</a></code></dt>
-<dd>
-<div class="desc"><p><strong><em>高级Enum类</em></strong> …</p></div>
-</dd>
-<dt><code class="name"><a title="hagike.utils.file" href="file.html">hagike.utils.file</a></code></dt>
-<dd>
-<div class="desc"><p><strong><em>与文件处理相关的库函数</em></strong></p></div>
-</dd>
-<dt><code class="name"><a title="hagike.utils.message" href="message.html">hagike.utils.message</a></code></dt>
-<dd>
-<div class="desc"><p>日志消息</p></div>
+<div class="desc"><p>确保目标路径可写入，包括检查项： </p>
+<ol>
+<li>
+<p>检查路径本身的合法性 </p>
+</li>
+<li>
+<p>路径本身不是一个已存在的文件夹 </p>
+</li>
+<li>
+<p>确保路径的父文件夹存在，若不存在则创建 </p>
+</li>
+<li>
+<p>确保其有写入权限 </p>
+</li>
+</ol>
+<p>如果指定 <code>is_raise=True</code>，则会在不可达时触发异常，否则仅返回 <code>False</code></p></div>
 </dd>
 </dl>
 </section>
 <section>
-</section>
-<section>
-</section>
-<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="hagike.utils.file.FileWritableError"><code class="flex name class">
+<span>class <span class="ident">FileWritableError</span></span>
+<span>(</span><span>msg, code=None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>文件不可写异常</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class FileWritableError(Exception):
+    &#34;&#34;&#34;文件不可写异常&#34;&#34;&#34;
+    def __init__(self, msg, code=None):
+        super().__init__(msg)
+        self.code = code</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+</dl>
 </section>
 </article>
 <nav id="sidebar">
@@ -72,17 +94,19 @@ hljs.highlightAll();
 <ul id="index">
 <li><h3>Super-module</h3>
 <ul>
-<li><code><a title="hagike" href="../index.html">hagike</a></code></li>
+<li><code><a title="hagike.utils" href="index.html">hagike.utils</a></code></li>
 </ul>
 </li>
-<li><h3><a href="#header-submodules">Sub-modules</a></h3>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="hagike.utils.file.ensure_path_writable" href="#hagike.utils.file.ensure_path_writable">ensure_path_writable</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
-<li><code><a title="hagike.utils.abort" href="abort.html">hagike.utils.abort</a></code></li>
-<li><code><a title="hagike.utils.cache" href="cache.html">hagike.utils.cache</a></code></li>
-<li><code><a title="hagike.utils.config" href="config.html">hagike.utils.config</a></code></li>
-<li><code><a title="hagike.utils.enum" href="enum.html">hagike.utils.enum</a></code></li>
-<li><code><a title="hagike.utils.file" href="file.html">hagike.utils.file</a></code></li>
-<li><code><a title="hagike.utils.message" href="message.html">hagike.utils.message</a></code></li>
+<li>
+<h4><code><a title="hagike.utils.file.FileWritableError" href="#hagike.utils.file.FileWritableError">FileWritableError</a></code></h4>
+</li>
 </ul>
 </li>
 </ul>
