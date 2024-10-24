@@ -1,7 +1,6 @@
-# from tests.models.temp.test_module import *
-from tests.utils.test_enum import *
+from tests.basics.cv.test_file import *
 
 
 if __name__ == '__main__':
-    test_utils_enum()
     print()
+    test_basics_cv_file()

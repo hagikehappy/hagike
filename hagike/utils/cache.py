@@ -1,35 +1,28 @@
 """
-数据缓存类
+***数据缓存类*** \n
 """
 
 
 import os
 import pickle
-import torch
-from PIL import Image
-from torchvision import transforms
 from typing import Any, Callable
 from functools import lru_cache
+from .file import *
 
 
-def image_to_tensor(image_path: str) -> torch.Tensor:
-    """图片转换为张量"""
-    transform = transforms.ToTensor()
-    image = Image.open(image_path).convert('RGB')
-    return transform(image)
-
-
-def save_data_to_pkl(data: Any, file_path: str) -> None:
+def save_data_to_pkl(data: Any, path: str) -> None:
     """将数据缓存为pkl格式"""
-    dir_name = os.path.dirname(file_path)
+    ensure_path_writable(path)
+    dir_name = os.path.dirname(path)
     os.makedirs(dir_name, exist_ok=True)
-    with open(file_path, 'wb') as f:
+    with open(path, 'wb') as f:
         pickle.dump(data, f)
 
 
-def load_data_from_pkl(file_path: str) -> Any:
+def load_data_from_pkl(path: str) -> Any:
     """将数据从pkl加载"""
-    with open(file_path, 'rb') as f:
+    check_path_readable(path)
+    with open(path, 'rb') as f:
         data = pickle.load(f)
     return data
 

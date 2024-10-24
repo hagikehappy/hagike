@@ -70,6 +70,13 @@ hljs.highlightAll();
 <p>值得<strong>注意</strong>的是，python中的对整型的除法 <code>/</code> 默认会将原类型转换为小数格式，这对 <code>np.ndarray</code> 和 <code>torch.Tensor</code> 同样均成立； </p>
 <p>如果希望整除，这需要使用 <code>//</code> 操作 </p>
 <p>下面在各个图像操作函数内会具体说明操作差异。 </p>
+<p><strong>term</strong> </p>
+<pre><code>im - 图像容器
+image - 图像文件
+style - 格式类型
+color - 颜色类型
+show - 显示方式
+</code></pre>
 <div class="admonition todo">
 <p class="admonition-title">TODO</p>
 <ol>
@@ -90,11 +97,12 @@ hljs.highlightAll();
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="hagike.basics.cv.file.import_image"><code class="name flex">
-<span>def <span class="ident">import_image</span></span>(<span>path: str, style: uuid_t = 4) ‑> <a title="hagike.basics.cv.file.ImStd" href="#hagike.basics.cv.file.ImStd">ImStd</a></span>
+<span>def <span class="ident">import_image</span></span>(<span>path: str, style: uuid_t, is_cache: bool = False) ‑> <a title="hagike.basics.cv.file.ImStd" href="#hagike.basics.cv.file.ImStd">ImStd</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>从路径中导入图像 </p>
-<p><code>style</code> 指定了导入方式</p></div>
+<p><code>style</code> 指定了导入方式 </p>
+<p><code>is_cache</code> 指定了是否是从缓存中导入，期望类型由 <code>style</code> 指定，可以为 <code>auto__</code></p></div>
 </dd>
 </dl>
 </section>
@@ -175,22 +183,25 @@ class ImShow(SuperEnum):
     &#34;&#34;&#34;
     ***调用IDE嵌入查看器*** \n
     `plt.imshow` 可以接收 `Image` 和 `np.ndarray` 两种格式的输入，主要是用于显示数据图而非原始图像的； \n
-    这是因为 `plt.imshow` 总是会根据 `np.ndarray` 或 `Image` 转换后得到的 `np.ndarray` 的 `min` 和 `max` 
-    自动缩放数据到$[0, 255]$ \n
     在显示或转换时，如果类型不是uint8类型的，容器会给出警告，因为自动转换可能是不可靠的 \n
     但优势在于，Pycharm等IDE中有嵌入的查看器，无需打开额外窗口，且是非阻塞的；同时，图像会带有坐标轴 \n
     在使用上，如果输入的是灰度图，且希望以灰度方式显示，则需要指定参数cmap=&#39;gray&#39;，
-    否则会以其它颜色映射方式显示(默认为&#39;viridis&#39;，蓝色到绿色再到黄色的渐变) \n
+    否则会以其它颜色映射方式显示(默认为&#39;viridis&#39;，即从蓝色到绿色再到黄色的渐变) \n
+    .. warning::
+        `plt.imshow` 总是会根据 `np.ndarray` 或 `Image` 转换后得到的 `np.ndarray` 的 `min` 和 `max` 自动缩放数据到$[0, 255]$
     &#34;&#34;&#34;
     system = None
     &#34;&#34;&#34;
     ***调用系统图片查看器*** \n
     `Image.show` ，`Image` 格式自带方式，非阻塞，但要与系统默认应用，且要打开额外窗口，较为麻烦 \n
+    .. warning::
+        在某些IDE的运行环境中，运行环境与外界环境是隔离的，这时会出现警告信息，且窗口不会被打开，但是也不会中断运行 \n
+        但如果直接在系统内使用python运行，则不会有问题
     &#34;&#34;&#34;
     windows = None
     &#34;&#34;&#34;
     ***调用窗口查看器*** \n
-    `cv2.imshow` 会启动cv2的私有窗口，但
+    `cv2.imshow` 会启动cv2的私有窗口，但是是阻塞的，直到进行特定按键窗口才会被销毁 \n
     &#34;&#34;&#34;</code></pre>
 </details>
 <h3>Ancestors</h3>
@@ -203,22 +214,29 @@ class ImShow(SuperEnum):
 <dd>
 <div class="desc"><p><strong><em>调用IDE嵌入查看器</em></strong> </p>
 <p><code>plt.imshow</code> 可以接收 <code>Image</code> 和 <code>np.ndarray</code> 两种格式的输入，主要是用于显示数据图而非原始图像的； </p>
-<p>这是因为 <code>plt.imshow</code> 总是会根据 <code>np.ndarray</code> 或 <code>Image</code> 转换后得到的 <code>np.ndarray</code> 的 <code>min</code> 和 <code>max</code>
-自动缩放数据到$[0, 255]$ </p>
 <p>在显示或转换时，如果类型不是uint8类型的，容器会给出警告，因为自动转换可能是不可靠的 </p>
 <p>但优势在于，Pycharm等IDE中有嵌入的查看器，无需打开额外窗口，且是非阻塞的；同时，图像会带有坐标轴 </p>
 <p>在使用上，如果输入的是灰度图，且希望以灰度方式显示，则需要指定参数cmap='gray'，
-否则会以其它颜色映射方式显示(默认为'viridis'，蓝色到绿色再到黄色的渐变)</p></div>
+否则会以其它颜色映射方式显示(默认为'viridis'，即从蓝色到绿色再到黄色的渐变) </p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><code>plt.imshow</code> 总是会根据 <code>np.ndarray</code> 或 <code>Image</code> 转换后得到的 <code>np.ndarray</code> 的 <code>min</code> 和 <code>max</code> 自动缩放数据到$[0, 255]$</p>
+</div></div>
 </dd>
 <dt id="hagike.basics.cv.file.ImShow.system"><code class="name">var <span class="ident">system</span></code></dt>
 <dd>
 <div class="desc"><p><strong><em>调用系统图片查看器</em></strong> </p>
-<p><code>Image.show</code> ，<code>Image</code> 格式自带方式，非阻塞，但要与系统默认应用，且要打开额外窗口，较为麻烦</p></div>
+<p><code>Image.show</code> ，<code>Image</code> 格式自带方式，非阻塞，但要与系统默认应用，且要打开额外窗口，较为麻烦 </p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>在某些IDE的运行环境中，运行环境与外界环境是隔离的，这时会出现警告信息，且窗口不会被打开，但是也不会中断运行 </p>
+<p>但如果直接在系统内使用python运行，则不会有问题</p>
+</div></div>
 </dd>
 <dt id="hagike.basics.cv.file.ImShow.windows"><code class="name">var <span class="ident">windows</span></code></dt>
 <dd>
 <div class="desc"><p><strong><em>调用窗口查看器</em></strong> </p>
-<p><code>cv2.imshow</code> 会启动cv2的私有窗口，但</p></div>
+<p><code>cv2.imshow</code> 会启动cv2的私有窗口，但是是阻塞的，直到进行特定按键窗口才会被销毁</p></div>
 </dd>
 </dl>
 <h3>Inherited members</h3>
@@ -361,7 +379,8 @@ class ImShow(SuperEnum):
         if self._color == ImColor.auto__:
             self._auto_color()
         else:
-            color = self._color, self._auto_color()
+            color = self._color
+            self._auto_color()
             if color != self._color:
                 raise ImageInfoError(f&#34;ERROR: The image&#39;s color is different from the auto-detection!!!&#34;)
 
@@ -393,6 +412,11 @@ class ImShow(SuperEnum):
             image = self._image.to(&#39;cpu&#39;)
             if self._color == ImColor.gray:
                 image.squeeze_(0)
+            elif self._color == ImColor.colored:
+                image = image.permute(1, 2, 0)
+            else:
+                raise ImageInfoError(f&#34;ERROR: The image color format, {self._color}, is not implemented!!!&#34;)
+            image = image.numpy()
         else:
             raise ImageStyleError(
                 f&#34;ERROR: Image style {ImStyle.get_value_(self._style)} is not implemented a &#39;to&#39; function!!!&#34;)
@@ -415,7 +439,11 @@ class ImShow(SuperEnum):
         elif style == ImStyle.im_tensor:
             image = torch.tensor(image, device=&#39;cpu&#39;)
             if self._color == ImColor.gray:
-                image.unsqueeze_(0)
+                image = np.expand_dims(image, axis=0)
+            elif self._color == ImColor.colored:
+                image = np.transpose(image, (2, 0, 1))
+            else:
+                raise ImageInfoError(f&#34;ERROR: The image color format, {self._color}, is not implemented!!!&#34;)
         else:
             raise ImageStyleError(
                 f&#34;ERROR: Image style {ImStyle.get_value_(style)} is not implemented a &#39;to&#39; function!!!&#34;)
@@ -453,19 +481,23 @@ class ImShow(SuperEnum):
         self._judge()
         if self._color == ImColor.gray:
             return
-        image = None
-        if self._style == ImStyle.im_file:
-            image = self._image.convert(&#39;L&#39;)
-        elif self._style == ImStyle.im_ndarray:
-            image = cv2.cvtColor(self._image, cv2.COLOR_RGB2GRAY)
-        elif self._style == ImStyle.cv_ndarray:
-            image = cv2.cvtColor(self._image, cv2.COLOR_BGR2GRAY)
-        elif self._style == ImStyle.im_tensor:
-            image = self._image[0] * 0.299 + self._image[1] * 0.587 + self._image[2] * 0.114
-            image.unsqueeze_(0)
+        elif self._color == ImColor.colored:
+            if self._style == ImStyle.im_file:
+                image = self._image.convert(&#39;L&#39;)
+            elif self._style == ImStyle.im_ndarray:
+                image = cv2.cvtColor(self._image, cv2.COLOR_RGB2GRAY)
+            elif self._style == ImStyle.cv_ndarray:
+                image = cv2.cvtColor(self._image, cv2.COLOR_BGR2GRAY)
+            elif self._style == ImStyle.im_tensor:
+                # 在此处手动转化时需要注意前后数据类型不变
+                image = (self._image[0: 1, :, :] * 0.299 +
+                         self._image[1: 2, :, :] * 0.587 +
+                         self._image[2: 3, :, :] * 0.114).to(self._image.dtype)
+            else:
+                raise ImageStyleError(
+                    f&#34;ERROR: Image style {ImStyle.get_value_(self._style)} is not implemented a &#39;to_gray&#39; function!!!&#34;)
         else:
-            raise ImageStyleError(
-                f&#34;ERROR: Image style {ImStyle.get_value_(self._style)} is not implemented a &#39;to_gray&#39; function!!!&#34;)
+            raise ImageInfoError(f&#34;ERROR: The image color format, {self._color}, is not implemented!!!&#34;)
         return image
 
     def to_gray_(self) -&gt; None:
@@ -493,8 +525,11 @@ class ImShow(SuperEnum):
     def show_image(self, show: uuid_t) -&gt; None:
         &#34;&#34;&#34;显示图像，`show` 指定了图像显示的方式&#34;&#34;&#34;
         ImShow.check_in_(show)
+        self._judge()
         if show == ImShow.inner:
             im = self.to_style(ImStyle.im_ndarray, is_new=False)
+            if self._image.dtype != np.uint8:
+                add_msg(MsgLevel.Warning, f&#34;The image dtype, {self._image.dtype}, is not {np.uint8}&#34;)
             cmap = &#39;gray&#39; if im.color == ImColor.gray else None
             plt.imshow(im.image, cmap=cmap)
             plt.show()
@@ -502,9 +537,12 @@ class ImShow(SuperEnum):
             im = self.to_style(ImStyle.im_file, is_new=False)
             im.image.show()
         elif show == ImShow.windows:
-            im = self.to_style(ImStyle.im_file, is_new=False)
+            im = self.to_style(ImStyle.cv_ndarray, is_new=False)
+            image = im.image
+            if image.dtype != np.uint8:
+                add_msg(MsgLevel.Warning, f&#34;The image dtype, {image.dtype}, is not {np.uint8}&#34;)
             winname = datetime.now().strftime(&#39;%Y-%m-%d %H:%M:%S.%f&#39;)
-            cv2.imshow(winname, im.image)
+            cv2.imshow(winname, image)
             cv2.waitKey(0)
             cv2.destroyWindow(winname)
         else:
@@ -512,11 +550,17 @@ class ImShow(SuperEnum):
                 f&#34;ERROR: Showing Type {ImShow.get_name_(show)} is not implemented!!!&#34;)
         return
 
-    def save_image(self, path: str) -&gt; None:
-        &#34;&#34;&#34;保存图像&#34;&#34;&#34;
-        ensure_path_writable(path, is_raise=True)
-        im = self.to_style(ImStyle.im_file, is_new=False)
-        im.image.save(path)</code></pre>
+    def save_image(self, path: str, is_cache: bool = False) -&gt; None:
+        &#34;&#34;&#34;
+        保存图像 \n
+        `is_cache` 指定了是否使用数据的序列化缓存格式
+        &#34;&#34;&#34;
+        if is_cache:
+            save_data_to_pkl(self._image, path)
+        else:
+            ensure_path_writable(path, is_raise=True)
+            im = self.to_style(ImStyle.im_file, is_new=False)
+            im.image.save(path)</code></pre>
 </details>
 <h3>Instance variables</h3>
 <dl>
@@ -560,10 +604,11 @@ def style(self):
 <h3>Methods</h3>
 <dl>
 <dt id="hagike.basics.cv.file.ImStd.save_image"><code class="name flex">
-<span>def <span class="ident">save_image</span></span>(<span>self, path: str) ‑> None</span>
+<span>def <span class="ident">save_image</span></span>(<span>self, path: str, is_cache: bool = False) ‑> None</span>
 </code></dt>
 <dd>
-<div class="desc"><p>保存图像</p></div>
+<div class="desc"><p>保存图像 </p>
+<p><code>is_cache</code> 指定了是否使用数据的序列化缓存格式</p></div>
 </dd>
 <dt id="hagike.basics.cv.file.ImStd.show_image"><code class="name flex">
 <span>def <span class="ident">show_image</span></span>(<span>self, show: uuid_t) ‑> None</span>

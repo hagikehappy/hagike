@@ -25,6 +25,8 @@ pdoc支持**reST指令**，示例如下：
 5. 除了示例给出的admonitions(告诫，示例中的是`note`和`warning`)，类似的一共有这些：
 
    `attention`, `caution`, `danger`, `error`, `hint`, `important`, `note`, `tip`, `warning`, `admonition`
+   
+6. 若要换行显示，依然需要使用 `\n`，pdoc的解析顺序是：先转义，再划分
 
 ```python
 def example_function_reST():

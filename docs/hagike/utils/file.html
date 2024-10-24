@@ -36,6 +36,26 @@ hljs.highlightAll();
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
+<dt id="hagike.utils.file.check_path_readable"><code class="name flex">
+<span>def <span class="ident">check_path_readable</span></span>(<span>path: str, is_raise: bool = True) ‑> bool</span>
+</code></dt>
+<dd>
+<div class="desc"><p>确保目标可读取，检查项包括： </p>
+<ol>
+<li>
+<p>检查路径本身的合法性 </p>
+</li>
+<li>
+<p>路径本身存在 </p>
+</li>
+<li>
+<p>路径是文件而非文件夹 </p>
+</li>
+<li>
+<p>路径有读取权限</p>
+</li>
+</ol></div>
+</dd>
 <dt id="hagike.utils.file.ensure_path_writable"><code class="name flex">
 <span>def <span class="ident">ensure_path_writable</span></span>(<span>path: str, is_raise: bool = True) ‑> bool</span>
 </code></dt>
@@ -62,6 +82,28 @@ hljs.highlightAll();
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
+<dt id="hagike.utils.file.FileReadableError"><code class="flex name class">
+<span>class <span class="ident">FileReadableError</span></span>
+<span>(</span><span>msg, code=None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>文件不可读异常</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class FileReadableError(Exception):
+    &#34;&#34;&#34;文件不可读异常&#34;&#34;&#34;
+    def __init__(self, msg, code=None):
+        super().__init__(msg)
+        self.code = code</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
 <dt id="hagike.utils.file.FileWritableError"><code class="flex name class">
 <span>class <span class="ident">FileWritableError</span></span>
 <span>(</span><span>msg, code=None)</span>
@@ -99,11 +141,15 @@ hljs.highlightAll();
 </li>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
+<li><code><a title="hagike.utils.file.check_path_readable" href="#hagike.utils.file.check_path_readable">check_path_readable</a></code></li>
 <li><code><a title="hagike.utils.file.ensure_path_writable" href="#hagike.utils.file.ensure_path_writable">ensure_path_writable</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
+<li>
+<h4><code><a title="hagike.utils.file.FileReadableError" href="#hagike.utils.file.FileReadableError">FileReadableError</a></code></h4>
+</li>
 <li>
 <h4><code><a title="hagike.utils.file.FileWritableError" href="#hagike.utils.file.FileWritableError">FileWritableError</a></code></h4>
 </li>

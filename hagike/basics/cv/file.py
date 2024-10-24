@@ -16,6 +16,12 @@
 值得**注意**的是，python中的对整型的除法 `/` 默认会将原类型转换为小数格式，这对 `np.ndarray` 和 `torch.Tensor` 同样均成立； \n
 如果希望整除，这需要使用 `//` 操作 \n
 下面在各个图像操作函数内会具体说明操作差异。 \n
+**term** \n
+    im - 图像容器
+    image - 图像文件
+    style - 格式类型
+    color - 颜色类型
+    show - 显示方式
 .. todo::
     1. 目前开放并未开放某一图片格式的自定义参数输入，而只能使用默认方式 \n
     2. 目前ImStd容器集成了对各格式的具体处理，后续需要将格式特定部分分散到具体格式的封装中 \n
@@ -73,22 +79,25 @@ class ImShow(SuperEnum):
     """
     ***调用IDE嵌入查看器*** \n
     `plt.imshow` 可以接收 `Image` 和 `np.ndarray` 两种格式的输入，主要是用于显示数据图而非原始图像的； \n
-    这是因为 `plt.imshow` 总是会根据 `np.ndarray` 或 `Image` 转换后得到的 `np.ndarray` 的 `min` 和 `max` 
-    自动缩放数据到$[0, 255]$ \n
     在显示或转换时，如果类型不是uint8类型的，容器会给出警告，因为自动转换可能是不可靠的 \n
     但优势在于，Pycharm等IDE中有嵌入的查看器，无需打开额外窗口，且是非阻塞的；同时，图像会带有坐标轴 \n
     在使用上，如果输入的是灰度图，且希望以灰度方式显示，则需要指定参数cmap='gray'，
-    否则会以其它颜色映射方式显示(默认为'viridis'，蓝色到绿色再到黄色的渐变) \n
+    否则会以其它颜色映射方式显示(默认为'viridis'，即从蓝色到绿色再到黄色的渐变) \n
+    .. warning::
+        `plt.imshow` 总是会根据 `np.ndarray` 或 `Image` 转换后得到的 `np.ndarray` 的 `min` 和 `max` 自动缩放数据到$[0, 255]$
     """
     system = None
     """
     ***调用系统图片查看器*** \n
     `Image.show` ，`Image` 格式自带方式，非阻塞，但要与系统默认应用，且要打开额外窗口，较为麻烦 \n
+    .. warning::
+        在某些IDE的运行环境中，运行环境与外界环境是隔离的，这时会出现警告信息，且窗口不会被打开，但是也不会中断运行 \n
+        但如果直接在系统内使用python运行，则不会有问题
     """
     windows = None
     """
     ***调用窗口查看器*** \n
-    `cv2.imshow` 会启动cv2的私有窗口，但
+    `cv2.imshow` 会启动cv2的私有窗口，但是是阻塞的，直到进行特定按键窗口才会被销毁 \n
     """
 
 
@@ -120,28 +129,36 @@ class ImageFunctionError(Exception):
         self.code = code
 
 
-def import_image(path: str, style: uuid_t = ImStyle.im_file) -> ImStd:
+def import_image(path: str, style: uuid_t, is_cache: bool = False) -> ImStd:
     """
     从路径中导入图像 \n
     `style` 指定了导入方式 \n
+    `is_cache` 指定了是否是从缓存中导入，期望类型由 `style` 指定，可以为 `auto__`  \n
     """
-    ImStyle.check_in_(style, all_or_index=False)
-    if style == ImStyle.cv_ndarray:
-        image = cv2.imread(path)
+    ImStyle.check_in_(style, all_or_index=True)
+    check_path_readable(path)
+    if is_cache:
+        image = load_data_from_pkl(path)
     else:
-        image = Image.open(path)
-        if style == ImStyle.im_file:
-            pass
+        if style == ImStyle.cv_ndarray:
+            image = cv2.imread(path)
         else:
-            image = np.array(image)
-            if style == ImStyle.im_ndarray:
+            image = Image.open(path)
+            if style == ImStyle.im_file:
                 pass
-            elif style == ImStyle.im_tensor:
-                image = torch.tensor(image, dtype=torch.float32, device='cpu')
-                if len(image.shape) == 2:
-                    image.unsqueeze_(0)
-    image = ImStd(image, style)
-    return image
+            else:
+                image = np.array(image)
+                if style == ImStyle.im_ndarray:
+                    pass
+                elif style == ImStyle.im_tensor:
+                    image = torch.tensor(image, dtype=torch.float32, device='cpu')
+                    if len(image.shape) == 2:
+                        image.unsqueeze_(0)
+                else:
+                    raise ImageStyleError(
+                        f"ERROR: Image style {ImStyle.get_value_(style)} is not implemented an 'import' function!!!")
+    im = ImStd(image, style)
+    return im
 
 
 class ImStd:
@@ -252,7 +269,8 @@ class ImStd:
         if self._color == ImColor.auto__:
             self._auto_color()
         else:
-            color = self._color, self._auto_color()
+            color = self._color
+            self._auto_color()
             if color != self._color:
                 raise ImageInfoError(f"ERROR: The image's color is different from the auto-detection!!!")
 
@@ -284,6 +302,11 @@ class ImStd:
             image = self._image.to('cpu')
             if self._color == ImColor.gray:
                 image.squeeze_(0)
+            elif self._color == ImColor.colored:
+                image = image.permute(1, 2, 0)
+            else:
+                raise ImageInfoError(f"ERROR: The image color format, {self._color}, is not implemented!!!")
+            image = image.numpy()
         else:
             raise ImageStyleError(
                 f"ERROR: Image style {ImStyle.get_value_(self._style)} is not implemented a 'to' function!!!")
@@ -306,7 +329,11 @@ class ImStd:
         elif style == ImStyle.im_tensor:
             image = torch.tensor(image, device='cpu')
             if self._color == ImColor.gray:
-                image.unsqueeze_(0)
+                image = np.expand_dims(image, axis=0)
+            elif self._color == ImColor.colored:
+                image = np.transpose(image, (2, 0, 1))
+            else:
+                raise ImageInfoError(f"ERROR: The image color format, {self._color}, is not implemented!!!")
         else:
             raise ImageStyleError(
                 f"ERROR: Image style {ImStyle.get_value_(style)} is not implemented a 'to' function!!!")
@@ -344,19 +371,23 @@ class ImStd:
         self._judge()
         if self._color == ImColor.gray:
             return
-        image = None
-        if self._style == ImStyle.im_file:
-            image = self._image.convert('L')
-        elif self._style == ImStyle.im_ndarray:
-            image = cv2.cvtColor(self._image, cv2.COLOR_RGB2GRAY)
-        elif self._style == ImStyle.cv_ndarray:
-            image = cv2.cvtColor(self._image, cv2.COLOR_BGR2GRAY)
-        elif self._style == ImStyle.im_tensor:
-            image = self._image[0] * 0.299 + self._image[1] * 0.587 + self._image[2] * 0.114
-            image.unsqueeze_(0)
+        elif self._color == ImColor.colored:
+            if self._style == ImStyle.im_file:
+                image = self._image.convert('L')
+            elif self._style == ImStyle.im_ndarray:
+                image = cv2.cvtColor(self._image, cv2.COLOR_RGB2GRAY)
+            elif self._style == ImStyle.cv_ndarray:
+                image = cv2.cvtColor(self._image, cv2.COLOR_BGR2GRAY)
+            elif self._style == ImStyle.im_tensor:
+                # 在此处手动转化时需要注意前后数据类型不变
+                image = (self._image[0: 1, :, :] * 0.299 +
+                         self._image[1: 2, :, :] * 0.587 +
+                         self._image[2: 3, :, :] * 0.114).to(self._image.dtype)
+            else:
+                raise ImageStyleError(
+                    f"ERROR: Image style {ImStyle.get_value_(self._style)} is not implemented a 'to_gray' function!!!")
         else:
-            raise ImageStyleError(
-                f"ERROR: Image style {ImStyle.get_value_(self._style)} is not implemented a 'to_gray' function!!!")
+            raise ImageInfoError(f"ERROR: The image color format, {self._color}, is not implemented!!!")
         return image
 
     def to_gray_(self) -> None:
@@ -384,8 +415,11 @@ class ImStd:
     def show_image(self, show: uuid_t) -> None:
         """显示图像，`show` 指定了图像显示的方式"""
         ImShow.check_in_(show)
+        self._judge()
         if show == ImShow.inner:
             im = self.to_style(ImStyle.im_ndarray, is_new=False)
+            if self._image.dtype != np.uint8:
+                add_msg(MsgLevel.Warning, f"The image dtype, {self._image.dtype}, is not {np.uint8}")
             cmap = 'gray' if im.color == ImColor.gray else None
             plt.imshow(im.image, cmap=cmap)
             plt.show()
@@ -393,9 +427,12 @@ class ImStd:
             im = self.to_style(ImStyle.im_file, is_new=False)
             im.image.show()
         elif show == ImShow.windows:
-            im = self.to_style(ImStyle.im_file, is_new=False)
+            im = self.to_style(ImStyle.cv_ndarray, is_new=False)
+            image = im.image
+            if image.dtype != np.uint8:
+                add_msg(MsgLevel.Warning, f"The image dtype, {image.dtype}, is not {np.uint8}")
             winname = datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')
-            cv2.imshow(winname, im.image)
+            cv2.imshow(winname, image)
             cv2.waitKey(0)
             cv2.destroyWindow(winname)
         else:
@@ -403,9 +440,16 @@ class ImStd:
                 f"ERROR: Showing Type {ImShow.get_name_(show)} is not implemented!!!")
         return
 
-    def save_image(self, path: str) -> None:
-        """保存图像"""
-        ensure_path_writable(path, is_raise=True)
-        im = self.to_style(ImStyle.im_file, is_new=False)
-        im.image.save(path)
+    def save_image(self, path: str, is_cache: bool = False) -> None:
+        """
+        保存图像 \n
+        `is_cache` 指定了是否使用数据的序列化缓存格式
+        """
+        if is_cache:
+            save_data_to_pkl(self._image, path)
+        else:
+            ensure_path_writable(path, is_raise=True)
+            im = self.to_style(ImStyle.im_file, is_new=False)
+            im.image.save(path)
+
 

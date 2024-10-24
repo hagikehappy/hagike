@@ -13,6 +13,51 @@ class FileWritableError(Exception):
         self.code = code
 
 
+class FileReadableError(Exception):
+    """文件不可读异常"""
+    def __init__(self, msg, code=None):
+        super().__init__(msg)
+        self.code = code
+
+
+def check_path_readable(path: str, is_raise: bool = True) -> bool:
+    """
+    确保目标可读取，检查项包括： \n
+    0. 检查路径本身的合法性 \n
+    1. 路径本身存在 \n
+    2. 路径是文件而非文件夹 \n
+    3. 路径有读取权限 \n
+    """
+    # 0
+    try:
+        os.path.dirname(path)
+    except TypeError:
+        if is_raise:
+            raise FileReadableError(f"ERROR: {path} is not a string!!!")
+        else:
+            return False
+    # 1
+    if not os.path.exists(path):
+        if is_raise:
+            raise FileReadableError(f"ERROR: {path} does not exist!!!")
+        else:
+            return False
+    # 2
+    if os.path.isdir(path):
+        if is_raise:
+            raise FileReadableError(f"ERROR: {path} is a dir!!!")
+        else:
+            return False
+    # 3
+    if os.access(path, os.R_OK):
+        return True
+    else:
+        if is_raise:
+            raise FileReadableError(f"ERROR: {path} is not Readable, Permission Denied!!!")
+        else:
+            return False
+
+
 def ensure_path_writable(path: str, is_raise: bool = True) -> bool:
     """
     确保目标路径可写入，包括检查项： \n
@@ -49,7 +94,7 @@ def ensure_path_writable(path: str, is_raise: bool = True) -> bool:
         return True
     else:
         if is_raise:
-            FileWritableError(f"ERROR: dir {directory} is not Writable, Permission Denied!!!")
+            raise FileWritableError(f"ERROR: dir {directory} is not Writable, Permission Denied!!!")
         else:
             return False
 

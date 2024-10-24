@@ -3,8 +3,9 @@
 """
 
 
+from .file import *
 import numpy as np
-from PIL import Image, ImageFile
+from PIL import Image
 import matplotlib.pyplot as plt
 import typing
 
@@ -41,23 +42,23 @@ def draw_cdf(raw_cdf: typing.Sequence, fla_cdf: typing.Sequence, ide_cdf: typing
             plt.show()
 
 
-def convert_histogram(image: ImageFile.ImageFile) -> np.ndarray:
+def convert_histogram(im: ImStd) -> np.ndarray:
     """提取图片各通道的灰度直方图"""
     # 确保图片是灰度图
-    gray_image = image.convert('L')
-    # 计算灰度直方图
-    histogram = np.array(gray_image.histogram()).astype('float')
+    im = im.to_gray().to_style(ImStyle.im_file)
+    image = im.image
+    histogram = np.array(image).astype('float')
     # 标准化直方图
-    num_pixels = gray_image.size[0] * gray_image.size[1]
+    num_pixels = image.size[0] * image.size[1]
     histogram_nm = histogram / num_pixels
     return histogram_nm
 
 
-def flatten_histogram(image: ImageFile.ImageFile) -> tuple:
+def flatten_histogram(im: ImStd) -> tuple:
     """直方图均衡化"""
     # 初始化结构
     quan_size = 256
-    raw_his = convert_histogram(image)
+    raw_his = convert_histogram(im)
     ideal_cdf = np.linspace(0, 1, quan_size, dtype=float)
     raw_cdf = np.zeros(quan_size, dtype=float)
     fla_cdf = np.zeros(quan_size, dtype=float)
@@ -101,11 +102,12 @@ def flatten_histogram(image: ImageFile.ImageFile) -> tuple:
         # 更新fla_cdf指针
         j = n
 
-    image_np = np.array(image)
-    for i in range(image_np.shape[0]):
-        for j in range(image_np.shape[1]):
-            image_np[i, j] = map_sheet[image_np[i, j]]
-    image_fla = Image.fromarray(image_np)
+    im = im.to_style(ImStyle.im_ndarray).to_gray()
+    image = im.image
+    for i in range(image.shape[0]):
+        for j in range(image.shape[1]):
+            image[i, j] = map_sheet[image[i, j]]
+    image_fla = Image.fromarray(image)
 
     return image_fla, raw_his, fla_his, raw_cdf, fla_cdf, ideal_cdf
 
