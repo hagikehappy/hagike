@@ -2,58 +2,73 @@
 噪声添加
 """
 
-
 import cv2
 import numpy as np
 from ...utils import *
+from .file import *
+from typing import Mapping, Any
+
+
+class ImageNoiseError(Exception):
+    """图像噪声异常"""
+
+    def __init__(self, msg, code=None):
+        super().__init__(msg)
+        self.code = code
 
 
 @advanced_enum()
-class NoiseType(SuperEnum):
-    """噪声类型"""
+class ImNoise(SuperEnum):
+    """
+    噪声类型 \n
+    .. important::
+        参数是在图像归一化情况下的
+    """
 
     class gaussian(SuperEnum):
         """高斯噪声"""
-        mean = 0
-        var = 0.01
+        mean: uuid_t = 0
+        """均值"""
+        var: uuid_t = 0.01
+        """方差"""
 
     class salt_pepper(SuperEnum):
         """椒盐噪声"""
-        prob = 0.02
+        prob_salt: uuid_t = 0.02
+        """白色块概率"""
+        prob_pepper: uuid_t = 0.02
+        """黑色块概率"""
 
     class poisson(SuperEnum):
         """泊松噪声"""
-        lam = 255
+        lam: uuid_t = 0.1
+        """λ"""
 
 
-def add_noise_to_image(image, noise_type='gaussian', **kwargs):
+def add_noise_to_image(image: cv_ndarray, noise: uuid_t, para: Mapping[uuid_t, Any] | None = None):
     """
-    向图像添加不同类型的噪声。
+    向图像添加指定类型的噪声 \n
 
-    :param image: 输入图像（numpy数组）。
-    :param noise_type: 噪声类型，'gaussian'、'salt_and_pepper' 或 'poisson'。
-    :param kwargs: 其他参数，例如高斯噪声的均值和方差，椒盐噪声的概率等。
-    :return: 带噪声的图像。
     """
-    if noise_type == 'gaussian':
-        mean = kwargs.get('mean', 0)
-        var = kwargs.get('var', 0.01)  # 方差
-        sigma = var ** 0.5
-        gaussian = np.random.normal(mean, sigma, image.shape).astype('float32')
+    ImNoise.check_in_(noise)
+    noise_type = ImNoise.get_cls_(noise)
+    noise_type.dict_(para, is_force=True)
+    # 将图像转换到[0, 1]之间
+    if noise == ImNoise.gaussian:
+        sigma = para[ImNoise.gaussian.var] ** 0.5
+        gaussian = np.random.normal(para[ImNoise.gaussian.mean], sigma, image.shape).astype('float32')
         gaussian = np.clip(gaussian * 255, 0, 255).astype('uint8')
         noisy = cv2.addWeighted(image, 1, gaussian, 1, 0)
-    elif noise_type == 'salt_and_pepper':
-        prob = kwargs.get('prob', 0.02)
-        salt_pepper = np.random.rand(*image.shape) < prob
-        salt_pepper = np.where(salt_pepper, 255, 0).astype('uint8')
-        noisy = cv2.addWeighted(image, 1 - prob, salt_pepper, prob, 0)
-    elif noise_type == 'poisson':
-        lam = kwargs.get('lam', 255)  # λ为图像的平均亮度
-        poisson = np.random.poisson(lam)
-        noisy = cv2.poissonNoise(image, lam)
-
+    elif noise == ImNoise.salt_pepper:
+        salt = np.random.rand(*image.shape) < para[ImNoise.salt_pepper.prob_salt]
+        image[salt] = 255
+        pepper = np.random.rand(*image.shape) < para[ImNoise.salt_pepper.prob_pepper]
+        image[pepper] = 0
+        noisy = image
+    elif noise == ImNoise.poisson:
+        poisson = np.random.poisson(para[ImNoise.poisson.lam], image.shape).astype('float32')
+        noisy_image = np.clip(noisy_image, 0, 1)
     else:
-        raise ValueError("Unsupported noise type")
+        raise ImageNoiseError(
+            f"ERROR: Noise {ImStyle.get_value_(noise)} is not implemented a 'to' function!!!")
     return noisy
-
-

@@ -3,7 +3,7 @@
 """
 
 
-from .file import *
+from .file.image.im import *
 from PIL import Image
 from typing import Callable
 

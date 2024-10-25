@@ -28,6 +28,7 @@ hljs.highlightAll();
 </header>
 <section id="section-intro">
 <p><strong><em>图像导入库与格式转换库</em></strong> </p>
+<p><strong>description</strong> </p>
 <p>与<strong>图像处理相关的库</strong>主要有2个，现在阐明其区别与联系： </p>
 <ol>
 <li>
@@ -57,31 +58,31 @@ hljs.highlightAll();
 <p><code>torch.Tensor</code>：卷积神经网络的期待输入为$[C, H, W]$，即使是灰度图也依然需要通道维度 </p>
 </li>
 </ol>
-<p>同时，各层级上<strong>图片的数值属性</strong>也存在区别： </p>
-<ol>
-<li>
-<p><code>np.ndarray</code>：cv2读入或Image转化后默认为 <code>np.uint8</code> 类型，范围在$[0, 255]$ </p>
-</li>
-<li>
-<p><code>torch.Tensor</code>：需要与待输入的网络保持格式一致，默认类型为<code>torch.float32</code>，
-考虑到计算复杂度，初始时不进行归一化，保持$[0.0, 255.0]$，归一化过程在网络中定义 </p>
-</li>
-</ol>
 <p>值得<strong>注意</strong>的是，python中的对整型的除法 <code>/</code> 默认会将原类型转换为小数格式，这对 <code>np.ndarray</code> 和 <code>torch.Tensor</code> 同样均成立； </p>
 <p>如果希望整除，这需要使用 <code>//</code> 操作 </p>
 <p>下面在各个图像操作函数内会具体说明操作差异。 </p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>图像标准化容器 <code><a title="hagike.basics.cv.file.ImStd" href="#hagike.basics.cv.file.ImStd">ImStd</a></code> 设计的思想是，实现常量表中列出的最常用的配置； </p>
+<p>但对于非标准化的或待实现的配置，也允许使用，但要主动标记为 <code>else__</code> 来回避内置检查，但是不能调用该配置项相关的库函数，否则会报错； </p>
+<p><code>auto__</code> 情况下在自动判断时会将不可识别项标记为 <code>else__</code> 并给出警告，
+考虑到自动判断是可能是不可靠的，最好主动标记为 <code>else__</code>，以避免不可预知的行为； </p>
+<p>对 <code>color</code> 和 <code>scale</code> 的判断依赖于 <code>style</code>，如果 <code>style</code> 项被标记为 <code>else__</code>，则 <code>color</code> 和 <code>scale</code> 也会被判断为 <code>else__</code>，
+但 <code>color</code> 与 <code>scale</code> 相互独立；</p>
+</div>
 <p><strong>term</strong> </p>
 <pre><code>im - 图像容器
 image - 图像文件
 style - 格式类型
 color - 颜色类型
+scale - 数据范围
 show - 显示方式
 </code></pre>
 <div class="admonition todo">
 <p class="admonition-title">TODO</p>
 <ol>
 <li>
-<p>目前开放并未开放某一图片格式的自定义参数输入，而只能使用默认方式 </p>
+<p>目前开放并未开放某一图片格式的自定义参数输入，而只能使用默认方式，缺少灵活拓展的功能 </p>
 </li>
 <li>
 <p>目前ImStd容器集成了对各格式的具体处理，后续需要将格式特定部分分散到具体格式的封装中</p>
@@ -92,6 +93,13 @@ show - 显示方式
 <section>
 </section>
 <section>
+<h2 class="section-title" id="header-variables">Global variables</h2>
+<dl>
+<dt id="hagike.basics.cv.file.vscale_t"><code class="name">var <span class="ident">vscale_t</span></code></dt>
+<dd>
+<div class="desc"><p>数据范围类型</p></div>
+</dd>
+</dl>
 </section>
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
@@ -126,7 +134,9 @@ class ImColor(SuperEnum):
     colored: uuid_t = None
     &#34;&#34;&#34;彩色&#34;&#34;&#34;
     auto__: uuid_t = None
-    &#34;&#34;&#34;自动判断&#34;&#34;&#34;</code></pre>
+    &#34;&#34;&#34;自动判断&#34;&#34;&#34;
+    else__: uuid_t = None
+    &#34;&#34;&#34;非标准颜色&#34;&#34;&#34;</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -142,6 +152,10 @@ class ImColor(SuperEnum):
 <dd>
 <div class="desc"><p>彩色</p></div>
 </dd>
+<dt id="hagike.basics.cv.file.ImColor.else__"><code class="name">var <span class="ident">else__</span> : int</code></dt>
+<dd>
+<div class="desc"><p>非标准颜色</p></div>
+</dd>
 <dt id="hagike.basics.cv.file.ImColor.gray"><code class="name">var <span class="ident">gray</span> : int</code></dt>
 <dd>
 <div class="desc"><p>单色</p></div>
@@ -154,6 +168,149 @@ class ImColor(SuperEnum):
 <li><code><a title="hagike.utils.enum.SuperEnum.check_in_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.check_in_">check_in_</a></code></li>
 <li><code><a title="hagike.utils.enum.SuperEnum.check_include_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.check_include_">check_include_</a></code></li>
 <li><code><a title="hagike.utils.enum.SuperEnum.dict_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.dict_">dict_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_cls_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_cls_">get_cls_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_index_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_index_">get_index_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_name_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_name_">get_name_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_uuid_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_uuid_">get_uuid_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_value_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_value_">get_value_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.iter_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.iter_">iter_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.list_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.list_">list_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.print_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.print_">print_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.print_pack_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.print_pack_">print_pack_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.tree_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.tree_">tree_</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="hagike.basics.cv.file.ImInfo"><code class="flex name class">
+<span>class <span class="ident">ImInfo</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>图片的个性化信息，主要服务于非标准化情况，并提供用户个性化存储的容器 </p>
+<p>这里列出的仅为常用类型，实际使用时包括且不限于此，这里仅 others 中的项是用户有自由设置权限的，其它都需要通过接口设置</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@advanced_enum()
+class ImInfo(SuperEnum):
+    &#34;&#34;&#34;
+    图片的个性化信息，主要服务于非标准化情况，并提供用户个性化存储的容器 \n
+    这里列出的仅为常用类型，实际使用时包括且不限于此，这里仅 others 中的项是用户有自由设置权限的，其它都需要通过接口设置 \n
+    &#34;&#34;&#34;
+    vscale = None
+    &#34;&#34;&#34;范围，要求为有两项的元组&#34;&#34;&#34;
+    others = dict()
+    &#34;&#34;&#34;用户自定义项，是一个字典&#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="hagike.utils.enum.SuperEnum" href="../../utils/enum.html#hagike.utils.enum.SuperEnum">SuperEnum</a></li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="hagike.basics.cv.file.ImInfo.others"><code class="name">var <span class="ident">others</span></code></dt>
+<dd>
+<div class="desc"><p>用户自定义项，是一个字典</p></div>
+</dd>
+<dt id="hagike.basics.cv.file.ImInfo.vscale"><code class="name">var <span class="ident">vscale</span></code></dt>
+<dd>
+<div class="desc"><p>范围，要求为有两项的元组</p></div>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="hagike.utils.enum.SuperEnum" href="../../utils/enum.html#hagike.utils.enum.SuperEnum">SuperEnum</a></b></code>:
+<ul class="hlist">
+<li><code><a title="hagike.utils.enum.SuperEnum.check_in_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.check_in_">check_in_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.check_include_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.check_include_">check_include_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.dict_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.dict_">dict_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_cls_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_cls_">get_cls_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_index_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_index_">get_index_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_name_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_name_">get_name_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_uuid_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_uuid_">get_uuid_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_value_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_value_">get_value_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.iter_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.iter_">iter_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.list_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.list_">list_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.print_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.print_">print_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.print_pack_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.print_pack_">print_pack_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.tree_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.tree_">tree_</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="hagike.basics.cv.file.ImScale"><code class="flex name class">
+<span>class <span class="ident">ImScale</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>图像值范围</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@advanced_enum()
+class ImScale(SuperEnum):
+    &#34;&#34;&#34;图像值范围&#34;&#34;&#34;
+    uint8_t: uuid_t = ((0, 255), np.uint8)
+    &#34;&#34;&#34;
+    标准RGB值 \n
+    .. important::
+        这里将所有的整数类型型都归为这一范围，
+        且不会检查其范围是否真的在该区间内，但默认该区间为对应范围！！！
+    &#34;&#34;&#34;
+    float_n: uuid_t = ((0.0, 1.0), np.float32)
+    &#34;&#34;&#34;
+    归一化的像素值 \n
+    .. important::
+        这里将所有的浮点类型都归为这一范围，
+        且不会检查其范围是否真的在该区间内，但默认该区间为对应范围！！！
+    &#34;&#34;&#34;
+    auto__: uuid_t = None
+    &#34;&#34;&#34;自动判断&#34;&#34;&#34;
+    else__: uuid_t = None
+    &#34;&#34;&#34;非标准范围&#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="hagike.utils.enum.SuperEnum" href="../../utils/enum.html#hagike.utils.enum.SuperEnum">SuperEnum</a></li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="hagike.basics.cv.file.ImScale.auto__"><code class="name">var <span class="ident">auto__</span> : int</code></dt>
+<dd>
+<div class="desc"><p>自动判断</p></div>
+</dd>
+<dt id="hagike.basics.cv.file.ImScale.else__"><code class="name">var <span class="ident">else__</span> : int</code></dt>
+<dd>
+<div class="desc"><p>非标准范围</p></div>
+</dd>
+<dt id="hagike.basics.cv.file.ImScale.float_n"><code class="name">var <span class="ident">float_n</span> : int</code></dt>
+<dd>
+<div class="desc"><p>归一化的像素值 </p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>这里将所有的浮点类型都归为这一范围，
+且不会检查其范围是否真的在该区间内，但默认该区间为对应范围！！！</p>
+</div></div>
+</dd>
+<dt id="hagike.basics.cv.file.ImScale.uint8_t"><code class="name">var <span class="ident">uint8_t</span> : int</code></dt>
+<dd>
+<div class="desc"><p>标准RGB值 </p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>这里将所有的整数类型型都归为这一范围，
+且不会检查其范围是否真的在该区间内，但默认该区间为对应范围！！！</p>
+</div></div>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="hagike.utils.enum.SuperEnum" href="../../utils/enum.html#hagike.utils.enum.SuperEnum">SuperEnum</a></b></code>:
+<ul class="hlist">
+<li><code><a title="hagike.utils.enum.SuperEnum.check_in_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.check_in_">check_in_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.check_include_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.check_include_">check_include_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.dict_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.dict_">dict_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_cls_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_cls_">get_cls_</a></code></li>
 <li><code><a title="hagike.utils.enum.SuperEnum.get_index_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_index_">get_index_</a></code></li>
 <li><code><a title="hagike.utils.enum.SuperEnum.get_name_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_name_">get_name_</a></code></li>
 <li><code><a title="hagike.utils.enum.SuperEnum.get_uuid_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_uuid_">get_uuid_</a></code></li>
@@ -246,6 +403,7 @@ class ImShow(SuperEnum):
 <li><code><a title="hagike.utils.enum.SuperEnum.check_in_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.check_in_">check_in_</a></code></li>
 <li><code><a title="hagike.utils.enum.SuperEnum.check_include_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.check_include_">check_include_</a></code></li>
 <li><code><a title="hagike.utils.enum.SuperEnum.dict_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.dict_">dict_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_cls_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_cls_">get_cls_</a></code></li>
 <li><code><a title="hagike.utils.enum.SuperEnum.get_index_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_index_">get_index_</a></code></li>
 <li><code><a title="hagike.utils.enum.SuperEnum.get_name_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_name_">get_name_</a></code></li>
 <li><code><a title="hagike.utils.enum.SuperEnum.get_uuid_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_uuid_">get_uuid_</a></code></li>
@@ -261,12 +419,12 @@ class ImShow(SuperEnum):
 </dd>
 <dt id="hagike.basics.cv.file.ImStd"><code class="flex name class">
 <span>class <span class="ident">ImStd</span></span>
-<span>(</span><span>image: im_all, style: uuid_t = 0, color: uuid_t = 0, check_style: bool = False, check_color: bool = False)</span>
+<span>(</span><span>image: im_all, style: uuid_t = 1, color: uuid_t = 1, scale: uuid_t = 1, check_style: bool = False, check_color: bool = False, check_scale: bool = False)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>标准图像容器</p>
-<p>初始化，<code>is_check</code> 指定是否进行检查与判断；
-如果未显式指定，且 <code>style</code> 或 <code>color</code> 为 <code>_auto</code> 时使用懒惰思路，即当有转换需求的时候进行判断</p></div>
+<p>初始化，<code>is_check</code> 指定是否进行检查与判断； </p>
+<p>如果未显式指定，且 <code>style</code> 或 <code>color</code> 或 <code>scale</code> 为 <code>_auto</code> 时使用懒惰思路，即当有转换需求的时候进行判断</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -274,51 +432,120 @@ class ImShow(SuperEnum):
 <pre><code class="python">class ImStd:
     &#34;&#34;&#34;标准图像容器&#34;&#34;&#34;
 
-    def __init__(self, image: im_all, style: uuid_t = ImStyle.auto__, color: uuid_t = ImColor.auto__,
-                 check_style: bool = False, check_color: bool = False) -&gt; None:
+    _int = (torch.int64, torch.int32, torch.int16, torch.int8,
+            torch.uint64, torch.uint32, torch.uint16, torch.uint8, torch.bool,
+            np.uint64, np.uint32, np.uint16, np.uint8, np.bool)
+    &#34;&#34;&#34; `np` 和 `torch` 中的整型集合&#34;&#34;&#34;
+    _float = (torch.float64, torch.float32, torch.float16, torch.bfloat16,
+              torch.float8_e4m3fn, torch.float8_e4m3fnuz, torch.float8_e5m2, torch.float8_e5m2fnuz,
+              np.float16, np.float32, np.float64, np.float64)
+    &#34;&#34;&#34; `np` 和 `torch` 中的浮点型集合&#34;&#34;&#34;
+    _else = {ImTerm.style: ImStyle.else__, ImTerm.color: ImColor.else__, ImTerm.scale: ImScale.else__}
+    &#34;&#34;&#34; 非标准化项在各 `term` 下对应的 `uuid` 值 &#34;&#34;&#34;
+
+    def __init__(self,
+                 image: im_all,
+                 style: uuid_t = ImStyle.auto__,
+                 color: uuid_t = ImColor.auto__,
+                 scale: uuid_t = ImScale.auto__,
+                 check_style: bool = False,
+                 check_color: bool = False,
+                 check_scale: bool = False,
+                 ) -&gt; None:
         &#34;&#34;&#34;
-        初始化，`is_check` 指定是否进行检查与判断；
-        如果未显式指定，且 `style` 或 `color` 为 `_auto` 时使用懒惰思路，即当有转换需求的时候进行判断
+        初始化，`is_check` 指定是否进行检查与判断； \n
+        如果未显式指定，且 `style` 或 `color` 或 `scale` 为 `_auto` 时使用懒惰思路，即当有转换需求的时候进行判断 \n
         &#34;&#34;&#34;
         self._image: im_all = image
         self._style: uuid_t = style
         self._color: uuid_t = color
+        self._scale: uuid_t = scale
+        self._info: Dict = ImInfo.dict_()
+
         ImStyle.check_in_(self._style, all_or_index=True), ImColor.check_in_(self._color, all_or_index=True)
-        self._is_check_style, self._is_check_color = False, False
+        self._is_check_style, self._is_check_color, self._is_check_scale = False, False, False
         if check_style:
             self._judge_style()
         if check_color:
             self._judge_color()
+        if check_scale:
+            self._judge_scale()
 
     @property
-    def image(self):
+    def image(self) -&gt; im_all | Any:
+        &#34;&#34;&#34;返回 `image` 本身&#34;&#34;&#34;
         return self._image
 
+    @property
+    def terms(self) -&gt; Dict[uuid_t, Any]:
+        &#34;&#34;&#34;返回配置信息表&#34;&#34;&#34;
+        return {ImTerm.style: self._style,
+                ImTerm.color: self._color,
+                ImTerm.scale: self._scale}
+
     @image.setter
-    def image(self, image):
-        &#34;&#34;&#34;重设 `image` 时更新检查状态&#34;&#34;&#34;
+    def image(self, image: Any) -&gt; None:
+        &#34;&#34;&#34;重设 `image` 时更新检查状态，这里默认认为各配置项不变，若变则需要显式更改其它配置项，否则后续调用内置函数时自动检查会触发异常&#34;&#34;&#34;
         self._image = image
-        self._is_check_style, self._is_check_color = False, False
+        self._is_check_style, self._is_check_color, self._is_check_scale = False, False, False
 
     @property
-    def style(self):
+    def style(self) -&gt; uuid_t:
+        &#34;&#34;&#34;给出 `style` 前进行检查&#34;&#34;&#34;
+        self._judge_style()
         return self._style
 
     @style.setter
-    def style(self, style):
+    def style(self, style: uuid_t) -&gt; None:
         &#34;&#34;&#34;重设 `style` 时更新检查状态&#34;&#34;&#34;
         self._style = style
         self._is_check_style = False
 
     @property
-    def color(self):
+    def color(self) -&gt; uuid_t:
+        &#34;&#34;&#34;给出 `color` 前进行检查&#34;&#34;&#34;
+        self._judge_color()
         return self._color
 
     @color.setter
-    def color(self, color):
+    def color(self, color) -&gt; None:
         &#34;&#34;&#34;重设 `color` 时更新检查状态&#34;&#34;&#34;
         self._color = color
         self._is_check_color = False
+
+    @property
+    def scale(self) -&gt; uuid_t:
+        &#34;&#34;&#34;给出 `scale` 前进行检查&#34;&#34;&#34;
+        self._judge_scale()
+        return self._scale
+
+    @scale.setter
+    def scale(self, scale) -&gt; None:
+        &#34;&#34;&#34;重设 `scale` 时更新检查状态，并重置 `vscale`&#34;&#34;&#34;
+        self._scale = scale
+        self._info[ImInfo.vscale] = None
+        self._is_check_scale = False
+
+    @property
+    def info(self) -&gt; MappingProxyType:
+        &#34;&#34;&#34;返回只读信息表&#34;&#34;&#34;
+        return MappingProxyType(self._info)
+
+    @property
+    def others(self) -&gt; Dict:
+        &#34;&#34;&#34;返回用户自定义信息表&#34;&#34;&#34;
+        return self._info[ImInfo.others]
+
+    @property
+    def vscale(self) -&gt; None | tuple:
+        &#34;&#34;&#34;返回自定义数据范围&#34;&#34;&#34;
+        return self._info[ImInfo.vscale]
+
+    @vscale.setter
+    def vscale(self, vscale: vscale_t) -&gt; None:
+        &#34;&#34;&#34;修改自定义数据范围，启用后 `scale` 自动变为 `else__`&#34;&#34;&#34;
+        self.scale = ImScale.else__
+        self._info[ImInfo.vscale] = vscale
 
     def _auto_style(self) -&gt; None:
         &#34;&#34;&#34;自动判断类型&#34;&#34;&#34;
@@ -334,6 +561,10 @@ class ImShow(SuperEnum):
         self._is_check_style = True
         if self._style == ImStyle.auto__:
             self._auto_style()
+        elif self._style == ImStyle.else__:
+            # 由于 `color` 和 `scale` 依赖 `style`，故直接重设 `style`
+            self._color = ImColor.else__
+            self._scale = ImScale.else__
         else:
             if not isinstance(self._image, ImStyle.get_value_(self._style)):
                 raise ImageStyleError(
@@ -369,6 +600,8 @@ class ImShow(SuperEnum):
             else:
                 raise ImageInfoError(f&#34;ERROR: The image, {ImStyle.get_value_(self._style)}, &#34;
                                      f&#34;has unknown shapes, {self._image.shape}!!!&#34;)
+        elif self._style == ImStyle.else__:
+            self._color = ImColor.else__
         else:
             raise ImageStyleError(
                 f&#34;ERROR: Image style {type(self._image)} is not as given, {ImStyle.get_value_(self._style)}!!!&#34;)
@@ -378,24 +611,72 @@ class ImShow(SuperEnum):
         self._is_check_color = True
         if self._color == ImColor.auto__:
             self._auto_color()
+        elif self._color == ImColor.else__:
+            pass
         else:
             color = self._color
             self._auto_color()
             if color != self._color:
                 raise ImageInfoError(f&#34;ERROR: The image&#39;s color is different from the auto-detection!!!&#34;)
 
-    def _judge(self) -&gt; None:
-        &#34;&#34;&#34;检查类型与颜色&#34;&#34;&#34;
+    def _auto_scale(self) -&gt; None:
+        &#34;&#34;&#34;自动判断范围&#34;&#34;&#34;
+        if self._style == ImStyle.im_file:
+            self._scale = ImScale.uint8_t
+        elif self._style == ImStyle.im_tensor or self._style == ImStyle.cv_ndarray or self._style == ImStyle.im_ndarray:
+            if self._image.dtype in self._int:
+                self._scale = ImScale.uint8_t
+            elif self._image.dtype in self._float:
+                self._scale = ImScale.float_n
+            else:
+                add_msg(MsgLevel.Warning, f&#34;The image dtype, {self._image.dtype}, is not in &#34;
+                                          f&#34;{self._int} or {self._float}&#34;)
+                self._scale = ImScale.else__
+        elif self._style == ImStyle.else__:
+            self._scale = ImScale.else__
+        else:
+            raise ImageStyleError(
+                f&#34;ERROR: Image style {type(self._image)} is not as given, {ImStyle.get_value_(self._style)}!!!&#34;)
+
+    def _judge_scale(self) -&gt; None:
+        &#34;&#34;&#34;检查范围&#34;&#34;&#34;
+        self._is_check_scale = True
+        if self._scale == ImScale.auto__:
+            self._auto_scale()
+        elif self._scale == ImScale.else__:
+            pass
+        else:
+            scale = self._scale
+            self._auto_scale()
+            if scale != self._scale:
+                raise ImageInfoError(f&#34;ERROR: The image&#39;s scale is different from the auto-detection!!!&#34;)
+
+    def _judge_all(self) -&gt; None:
+        &#34;&#34;&#34;检查并刷新各项属性&#34;&#34;&#34;
+        # `check_style` 需要在最前面，因为后面两项的检查依赖 `style`
         if not self._is_check_style:
             self._judge_style()
         if not self._is_check_color:
             self._judge_color()
+        if not self._is_check_scale:
+            self._judge_scale()
+
+    def _judge_else(self, *terms) -&gt; None:
+        &#34;&#34;&#34;排除非标准化情形，输入任意数量的检查项&#34;&#34;&#34;
+        ImTerm.check_include_(terms, all_or_index=False)
+        status = self.terms
+        for term in terms:
+            if status[term] == self._else[term]:
+                raise ImageElseError(f&#34;{ImTerm.get_name_(term)} is an `else__` type, not implemented!!!&#34;)
 
     def _to_style(self, style: uuid_t) -&gt; im_all | None:
-        &#34;&#34;&#34;`to` 函数的实际执行函数，若返回 `None` 则说明没有变化&#34;&#34;&#34;
+        &#34;&#34;&#34;
+        `to` 函数的实际执行函数，若返回 `None` 则说明没有变化； \n
+        &#34;&#34;&#34;
         # 检查或判断
-        ImStyle.check_in_(style)
-        self._judge()
+        ImStyle.check_in_(style, all_or_index=False)
+        self._judge_all()
+        self._judge_else(ImTerm.style)
         # 排除同类转换
         if style == self._style:
             return
@@ -427,7 +708,6 @@ class ImShow(SuperEnum):
             if self._color == ImColor.colored:
                 image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
         elif style == ImStyle.im_file:
-            # 检查数据类型，若不为uint8型的则发出警告
             add_msg(MsgLevel.Warning, f&#34;The image dtype, {image.dtype}, is not {np.uint8}&#34;)
             if self._color == ImColor.colored:
                 mode = &#39;RGB&#39;
@@ -465,20 +745,26 @@ class ImShow(SuperEnum):
         &#34;&#34;&#34;
         格式转换 \n
         `is_new=True`，则总是返回一个全新的 `ImStd` 图像容器，无论目标类型与原有类型是否一致 \n
-        `is_new=False`，则仅在目标类型与原有类型不一致时返回深拷贝结果，否则返回本身；
+        `is_new=False`，则仅在目标类型与原有类型不一致时返回深拷贝结果，否则返回本身； \n
         当明确知道后续只有只读操作后可以这样做，会节省算力与内存 \n
+        要求 `style` 为标准化情形 \n
         &#34;&#34;&#34;
         image = self._to_style(style)
-        if image is None:
-            image = self._image
         if image is None and is_new is False:
             return self
         else:
-            return ImStd(deepcopy(image), style, self._color)
+            im = deepcopy(self)
+            if image is not None:
+                im._image = image
+            im._style = style
+            return im
 
     def _to_gray(self) -&gt; im_all | None:
-        &#34;&#34;&#34;`to_gray` 的实质执行函数，如果本身就是灰度图则返回 `None`&#34;&#34;&#34;
-        self._judge()
+        &#34;&#34;&#34;
+        `to_gray` 的实质执行函数，如果本身就是灰度图则返回 `None` \n
+         &#34;&#34;&#34;
+        self._judge_all()
+        self._judge_else(ImTerm.style, ImTerm.color)
         if self._color == ImColor.gray:
             return
         elif self._color == ImColor.colored:
@@ -501,7 +787,9 @@ class ImShow(SuperEnum):
         return image
 
     def to_gray_(self) -&gt; None:
-        &#34;&#34;&#34;将图像转为灰度图，并返回新的图像，本地转换&#34;&#34;&#34;
+        &#34;&#34;&#34;
+        将图像转为灰度图，并返回新的图像，本地转换 \n
+        &#34;&#34;&#34;
         image = self._to_gray()
         if image is not None:
             self._image = image
@@ -511,26 +799,103 @@ class ImShow(SuperEnum):
         &#34;&#34;&#34;
         格式转换 \n
         `is_new=True`，则总是返回一个全新的 `ImStd` 图像容器，无论原有颜色是否为 `gray` \n
-        `is_new=False`，则仅在原有颜色不为 `gray` 时返回深拷贝结果，否则返回本身；
+        `is_new=False`，则仅在原有颜色不为 `gray` 时返回深拷贝结果，否则返回本身； \n
         当明确知道后续只有只读操作后可以这样做，会节省算力与内存 \n
+        要求 `style` 和 `color` 为标准化情形，否则报错 \n
         &#34;&#34;&#34;
         image = self._to_gray()
-        if image is None:
-            image = self._image
         if image is None and is_new is False:
             return self
         else:
-            return ImStd(deepcopy(image), self._style, ImColor.gray)
+            im = deepcopy(self)
+            if image is not None:
+                im._image = image
+            im._color = ImColor.gray
+            return im
+
+    def _to_scale(self, scale: uuid_t, vscale: vscale_t | None = None) -&gt; im_all | None:
+        &#34;&#34;&#34;
+        `to_scale` 的实质执行函数，如果转换前后无变化则返回 `None` \n
+        &#34;&#34;&#34;
+        ImScale.check_in_(scale, all_or_index=False)
+        self._judge_all()
+        self._judge_else(ImTerm.style)
+        src_scale = self._info[ImInfo.vscale] if self._scale == ImScale.else__ else ImScale.get_value_(self._scale)
+        if scale == ImScale.else__:
+            dst_scale = vscale
+            if vscale is None:
+                raise ImageInfoError(f&#34;ERROR: The dst vscale, is not set when scale is `else__`!!!&#34;)
+        else:
+            dst_scale = ImScale.get_value_(scale)
+            if vscale is not None:
+                raise ImageInfoError(f&#34;ERROR: The dst vscale, {vscale}, is set &#34;
+                                     f&#34;when scale, {dst_scale}, has been set in default!!!&#34;)
+        if src_scale == dst_scale:
+            return
+        if self._style == ImStyle.im_file:
+            image = self.to_style(ImStyle.im_ndarray).image
+            image = np.clip(
+                (dst_scale[0][1] - dst_scale[0][0]) / (src_scale[0][1] - src_scale[0][0])
+                * (image - src_scale[0][0]) + dst_scale[0][0],
+                0, 255).astype(np.uint8)
+            image = self.to_style(ImStyle.im_file).image
+        elif self._style == ImStyle.im_ndarray or self._style == ImStyle.cv_ndarray or self._style == ImStyle.im_tensor:
+            image = ((dst_scale[0][1] - dst_scale[0][0]) / (src_scale[0][1] - src_scale[0][0])
+                     * (self._image - src_scale[0][0]) + dst_scale[0][0])
+            if self._style == ImStyle.im_ndarray or self._style == ImStyle.cv_ndarray:
+                image = image.astype(dst_scale[1])
+            else:
+                # 将 `dtype` 类型改为 `dtype`
+                image = image.type(dtype=dst_scale[1])
+        else:
+            raise ImageStyleError(
+                f&#34;ERROR: Image style {ImStyle.get_value_(self._style)} is not implemented a &#39;to_scale&#39; function!!!&#34;)
+        return image
+
+    def to_scale_(self, scale: uuid_t, vscale: vscale_t | None = None) -&gt; None:
+        &#34;&#34;&#34;本地转换&#34;&#34;&#34;
+        image = self._to_scale(scale, vscale)
+        if image is not None:
+            self._image = image
+            self._scale = scale
+            self._info[ImTerm.scale] = vscale
+
+    def to_scale(self, scale: uuid_t, vscale: vscale_t | None = None, is_new: bool = False) -&gt; ImStd:
+        &#34;&#34;&#34;
+        范围转换，如果源范围是非标准化的，则要求 `info.vscale` 被设置 \n
+        `is_new=True`，则总是返回一个全新的 `ImStd` 图像容器 \n
+        `is_new=False`，则仅在原有范围不为 `scale` 或 `vscale` 时返回深拷贝结果，否则返回本身； \n
+        要求 `style` 为标准化情形，否则报错； \n
+        若 `style` 为 `im_file`，则无视类型说明，转换后的实际类型总是 `np.uint8`，但设置类型时依然设置为目标类型 \n
+        .. important::
+            `vscale` 只能在非标准情况下设置，如果标准情况下设置则会报错 \n
+        &#34;&#34;&#34;
+        image = self._to_scale(scale, vscale)
+        if image is None and is_new is False:
+            return self
+        else:
+            im = deepcopy(self)
+            if image is not None:
+                im._image = image
+            im._scale = scale
+            im._info[ImTerm.scale] = vscale
+            return im
 
     def show_image(self, show: uuid_t) -&gt; None:
         &#34;&#34;&#34;显示图像，`show` 指定了图像显示的方式&#34;&#34;&#34;
-        ImShow.check_in_(show)
-        self._judge()
+        ImShow.check_in_(show, all_or_index=False)
+        self._judge_all()
+        self._judge_else(ImTerm.style, ImTerm.color, ImTerm.scale)
         if show == ImShow.inner:
             im = self.to_style(ImStyle.im_ndarray, is_new=False)
             if self._image.dtype != np.uint8:
                 add_msg(MsgLevel.Warning, f&#34;The image dtype, {self._image.dtype}, is not {np.uint8}&#34;)
-            cmap = &#39;gray&#39; if im.color == ImColor.gray else None
+            if im.color == ImColor.gray:
+                cmap = &#39;gray&#39;
+            elif im.color == ImColor.colored:
+                cmap = None
+            else:
+                raise ImageInfoError(f&#34;ERROR: The image color format, {self._color}, is not implemented!!!&#34;)
             plt.imshow(im.image, cmap=cmap)
             plt.show()
         elif show == ImShow.system:
@@ -553,7 +918,7 @@ class ImShow(SuperEnum):
     def save_image(self, path: str, is_cache: bool = False) -&gt; None:
         &#34;&#34;&#34;
         保存图像 \n
-        `is_cache` 指定了是否使用数据的序列化缓存格式
+        `is_cache` 指定了是否使用数据的序列化缓存格式，缓存格式下不需要 `style` 是标准化的 \n
         &#34;&#34;&#34;
         if is_cache:
             save_data_to_pkl(self._image, path)
@@ -564,40 +929,113 @@ class ImShow(SuperEnum):
 </details>
 <h3>Instance variables</h3>
 <dl>
-<dt id="hagike.basics.cv.file.ImStd.color"><code class="name">prop <span class="ident">color</span></code></dt>
+<dt id="hagike.basics.cv.file.ImStd.color"><code class="name">prop <span class="ident">color</span> : uuid_t</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>给出 <code>color</code> 前进行检查</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@property
-def color(self):
+def color(self) -&gt; uuid_t:
+    &#34;&#34;&#34;给出 `color` 前进行检查&#34;&#34;&#34;
+    self._judge_color()
     return self._color</code></pre>
 </details>
 </dd>
-<dt id="hagike.basics.cv.file.ImStd.image"><code class="name">prop <span class="ident">image</span></code></dt>
+<dt id="hagike.basics.cv.file.ImStd.image"><code class="name">prop <span class="ident">image</span> : im_all | Any</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>返回 <code>image</code> 本身</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@property
-def image(self):
+def image(self) -&gt; im_all | Any:
+    &#34;&#34;&#34;返回 `image` 本身&#34;&#34;&#34;
     return self._image</code></pre>
 </details>
 </dd>
-<dt id="hagike.basics.cv.file.ImStd.style"><code class="name">prop <span class="ident">style</span></code></dt>
+<dt id="hagike.basics.cv.file.ImStd.info"><code class="name">prop <span class="ident">info</span> : MappingProxyType</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>返回只读信息表</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@property
-def style(self):
+def info(self) -&gt; MappingProxyType:
+    &#34;&#34;&#34;返回只读信息表&#34;&#34;&#34;
+    return MappingProxyType(self._info)</code></pre>
+</details>
+</dd>
+<dt id="hagike.basics.cv.file.ImStd.others"><code class="name">prop <span class="ident">others</span> : Dict</code></dt>
+<dd>
+<div class="desc"><p>返回用户自定义信息表</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def others(self) -&gt; Dict:
+    &#34;&#34;&#34;返回用户自定义信息表&#34;&#34;&#34;
+    return self._info[ImInfo.others]</code></pre>
+</details>
+</dd>
+<dt id="hagike.basics.cv.file.ImStd.scale"><code class="name">prop <span class="ident">scale</span> : uuid_t</code></dt>
+<dd>
+<div class="desc"><p>给出 <code>scale</code> 前进行检查</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def scale(self) -&gt; uuid_t:
+    &#34;&#34;&#34;给出 `scale` 前进行检查&#34;&#34;&#34;
+    self._judge_scale()
+    return self._scale</code></pre>
+</details>
+</dd>
+<dt id="hagike.basics.cv.file.ImStd.style"><code class="name">prop <span class="ident">style</span> : uuid_t</code></dt>
+<dd>
+<div class="desc"><p>给出 <code>style</code> 前进行检查</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def style(self) -&gt; uuid_t:
+    &#34;&#34;&#34;给出 `style` 前进行检查&#34;&#34;&#34;
+    self._judge_style()
     return self._style</code></pre>
+</details>
+</dd>
+<dt id="hagike.basics.cv.file.ImStd.terms"><code class="name">prop <span class="ident">terms</span> : Dict[uuid_t, Any]</code></dt>
+<dd>
+<div class="desc"><p>返回配置信息表</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def terms(self) -&gt; Dict[uuid_t, Any]:
+    &#34;&#34;&#34;返回配置信息表&#34;&#34;&#34;
+    return {ImTerm.style: self._style,
+            ImTerm.color: self._color,
+            ImTerm.scale: self._scale}</code></pre>
+</details>
+</dd>
+<dt id="hagike.basics.cv.file.ImStd.vscale"><code class="name">prop <span class="ident">vscale</span> : None | tuple</code></dt>
+<dd>
+<div class="desc"><p>返回自定义数据范围</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def vscale(self) -&gt; None | tuple:
+    &#34;&#34;&#34;返回自定义数据范围&#34;&#34;&#34;
+    return self._info[ImInfo.vscale]</code></pre>
 </details>
 </dd>
 </dl>
@@ -608,7 +1046,7 @@ def style(self):
 </code></dt>
 <dd>
 <div class="desc"><p>保存图像 </p>
-<p><code>is_cache</code> 指定了是否使用数据的序列化缓存格式</p></div>
+<p><code>is_cache</code> 指定了是否使用数据的序列化缓存格式，缓存格式下不需要 <code>style</code> 是标准化的</p></div>
 </dd>
 <dt id="hagike.basics.cv.file.ImStd.show_image"><code class="name flex">
 <span>def <span class="ident">show_image</span></span>(<span>self, show: uuid_t) ‑> None</span>
@@ -622,8 +1060,9 @@ def style(self):
 <dd>
 <div class="desc"><p>格式转换 </p>
 <p><code>is_new=True</code>，则总是返回一个全新的 <code><a title="hagike.basics.cv.file.ImStd" href="#hagike.basics.cv.file.ImStd">ImStd</a></code> 图像容器，无论原有颜色是否为 <code>gray</code> </p>
-<p><code>is_new=False</code>，则仅在原有颜色不为 <code>gray</code> 时返回深拷贝结果，否则返回本身；
-当明确知道后续只有只读操作后可以这样做，会节省算力与内存</p></div>
+<p><code>is_new=False</code>，则仅在原有颜色不为 <code>gray</code> 时返回深拷贝结果，否则返回本身； </p>
+<p>当明确知道后续只有只读操作后可以这样做，会节省算力与内存 </p>
+<p>要求 <code>style</code> 和 <code>color</code> 为标准化情形，否则报错</p></div>
 </dd>
 <dt id="hagike.basics.cv.file.ImStd.to_gray_"><code class="name flex">
 <span>def <span class="ident">to_gray_</span></span>(<span>self) ‑> None</span>
@@ -631,14 +1070,35 @@ def style(self):
 <dd>
 <div class="desc"><p>将图像转为灰度图，并返回新的图像，本地转换</p></div>
 </dd>
+<dt id="hagike.basics.cv.file.ImStd.to_scale"><code class="name flex">
+<span>def <span class="ident">to_scale</span></span>(<span>self, scale: uuid_t, vscale: <a title="hagike.basics.cv.file.vscale_t" href="#hagike.basics.cv.file.vscale_t">vscale_t</a> | None = None, is_new: bool = False) ‑> <a title="hagike.basics.cv.file.ImStd" href="#hagike.basics.cv.file.ImStd">ImStd</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>范围转换，如果源范围是非标准化的，则要求 <code>info.vscale</code> 被设置 </p>
+<p><code>is_new=True</code>，则总是返回一个全新的 <code><a title="hagike.basics.cv.file.ImStd" href="#hagike.basics.cv.file.ImStd">ImStd</a></code> 图像容器 </p>
+<p><code>is_new=False</code>，则仅在原有范围不为 <code>scale</code> 或 <code>vscale</code> 时返回深拷贝结果，否则返回本身； </p>
+<p>要求 <code>style</code> 为标准化情形，否则报错； </p>
+<p>若 <code>style</code> 为 <code>im_file</code>，则无视类型说明，转换后的实际类型总是 <code>np.uint8</code>，但设置类型时依然设置为目标类型 </p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p><code>vscale</code> 只能在非标准情况下设置，如果标准情况下设置则会报错</p>
+</div></div>
+</dd>
+<dt id="hagike.basics.cv.file.ImStd.to_scale_"><code class="name flex">
+<span>def <span class="ident">to_scale_</span></span>(<span>self, scale: uuid_t, vscale: <a title="hagike.basics.cv.file.vscale_t" href="#hagike.basics.cv.file.vscale_t">vscale_t</a> | None = None) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>本地转换</p></div>
+</dd>
 <dt id="hagike.basics.cv.file.ImStd.to_style"><code class="name flex">
 <span>def <span class="ident">to_style</span></span>(<span>self, style: uuid_t, is_new: bool = False) ‑> <a title="hagike.basics.cv.file.ImStd" href="#hagike.basics.cv.file.ImStd">ImStd</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>格式转换 </p>
 <p><code>is_new=True</code>，则总是返回一个全新的 <code><a title="hagike.basics.cv.file.ImStd" href="#hagike.basics.cv.file.ImStd">ImStd</a></code> 图像容器，无论目标类型与原有类型是否一致 </p>
-<p><code>is_new=False</code>，则仅在目标类型与原有类型不一致时返回深拷贝结果，否则返回本身；
-当明确知道后续只有只读操作后可以这样做，会节省算力与内存</p></div>
+<p><code>is_new=False</code>，则仅在目标类型与原有类型不一致时返回深拷贝结果，否则返回本身； </p>
+<p>当明确知道后续只有只读操作后可以这样做，会节省算力与内存 </p>
+<p>要求 <code>style</code> 为标准化情形</p></div>
 </dd>
 <dt id="hagike.basics.cv.file.ImStd.to_style_"><code class="name flex">
 <span>def <span class="ident">to_style_</span></span>(<span>self, style: uuid_t) ‑> None</span>
@@ -672,7 +1132,9 @@ class ImStyle(SuperEnum):
     im_tensor: uuid_t = im_tensor
     &#34;&#34;&#34;torch格式&#34;&#34;&#34;
     auto__: uuid_t = None
-    &#34;&#34;&#34;自动判断&#34;&#34;&#34;</code></pre>
+    &#34;&#34;&#34;自动判断&#34;&#34;&#34;
+    else__: uuid_t = None
+    &#34;&#34;&#34;非标准格式&#34;&#34;&#34;</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -687,6 +1149,10 @@ class ImStyle(SuperEnum):
 <dt id="hagike.basics.cv.file.ImStyle.cv_ndarray"><code class="name">var <span class="ident">cv_ndarray</span> : int</code></dt>
 <dd>
 <div class="desc"><p>cv2格式</p></div>
+</dd>
+<dt id="hagike.basics.cv.file.ImStyle.else__"><code class="name">var <span class="ident">else__</span> : int</code></dt>
+<dd>
+<div class="desc"><p>非标准格式</p></div>
 </dd>
 <dt id="hagike.basics.cv.file.ImStyle.im_file"><code class="name">var <span class="ident">im_file</span> : int</code></dt>
 <dd>
@@ -708,6 +1174,7 @@ class ImStyle(SuperEnum):
 <li><code><a title="hagike.utils.enum.SuperEnum.check_in_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.check_in_">check_in_</a></code></li>
 <li><code><a title="hagike.utils.enum.SuperEnum.check_include_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.check_include_">check_include_</a></code></li>
 <li><code><a title="hagike.utils.enum.SuperEnum.dict_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.dict_">dict_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_cls_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_cls_">get_cls_</a></code></li>
 <li><code><a title="hagike.utils.enum.SuperEnum.get_index_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_index_">get_index_</a></code></li>
 <li><code><a title="hagike.utils.enum.SuperEnum.get_name_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_name_">get_name_</a></code></li>
 <li><code><a title="hagike.utils.enum.SuperEnum.get_uuid_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_uuid_">get_uuid_</a></code></li>
@@ -719,6 +1186,94 @@ class ImStyle(SuperEnum):
 <li><code><a title="hagike.utils.enum.SuperEnum.tree_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.tree_">tree_</a></code></li>
 </ul>
 </li>
+</ul>
+</dd>
+<dt id="hagike.basics.cv.file.ImTerm"><code class="flex name class">
+<span>class <span class="ident">ImTerm</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p><code><a title="hagike.basics.cv.file.ImStd" href="#hagike.basics.cv.file.ImStd">ImStd</a></code> 中的项</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@advanced_enum()
+class ImTerm(SuperEnum):
+    &#34;&#34;&#34;`ImStd` 中的项&#34;&#34;&#34;
+    image__ = None
+    style = None
+    color = None
+    scale = None
+    info__ = None</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="hagike.utils.enum.SuperEnum" href="../../utils/enum.html#hagike.utils.enum.SuperEnum">SuperEnum</a></li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="hagike.basics.cv.file.ImTerm.color"><code class="name">var <span class="ident">color</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="hagike.basics.cv.file.ImTerm.image__"><code class="name">var <span class="ident">image__</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="hagike.basics.cv.file.ImTerm.info__"><code class="name">var <span class="ident">info__</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="hagike.basics.cv.file.ImTerm.scale"><code class="name">var <span class="ident">scale</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="hagike.basics.cv.file.ImTerm.style"><code class="name">var <span class="ident">style</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="hagike.utils.enum.SuperEnum" href="../../utils/enum.html#hagike.utils.enum.SuperEnum">SuperEnum</a></b></code>:
+<ul class="hlist">
+<li><code><a title="hagike.utils.enum.SuperEnum.check_in_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.check_in_">check_in_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.check_include_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.check_include_">check_include_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.dict_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.dict_">dict_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_cls_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_cls_">get_cls_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_index_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_index_">get_index_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_name_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_name_">get_name_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_uuid_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_uuid_">get_uuid_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_value_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_value_">get_value_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.iter_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.iter_">iter_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.list_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.list_">list_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.print_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.print_">print_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.print_pack_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.print_pack_">print_pack_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.tree_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.tree_">tree_</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="hagike.basics.cv.file.ImageElseError"><code class="flex name class">
+<span>class <span class="ident">ImageElseError</span></span>
+<span>(</span><span>msg, code=None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>对非标准化情形使用内置函数</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ImageElseError(Exception):
+    &#34;&#34;&#34;对非标准化情形使用内置函数&#34;&#34;&#34;
+    def __init__(self, msg, code=None):
+        super().__init__(msg)
+        self.code = code</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
 </ul>
 </dd>
 <dt id="hagike.basics.cv.file.ImageFunctionError"><code class="flex name class">
@@ -787,28 +1342,6 @@ class ImStyle(SuperEnum):
 <li>builtins.BaseException</li>
 </ul>
 </dd>
-<dt id="hagike.basics.cv.file.ImageTransferError"><code class="flex name class">
-<span>class <span class="ident">ImageTransferError</span></span>
-<span>(</span><span>msg, code=None)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>无法正常转换图像类型</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class ImageTransferError(Exception):
-    &#34;&#34;&#34;无法正常转换图像类型&#34;&#34;&#34;
-    def __init__(self, msg, code=None):
-        super().__init__(msg)
-        self.code = code</code></pre>
-</details>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li>builtins.Exception</li>
-<li>builtins.BaseException</li>
-</ul>
-</dd>
 </dl>
 </section>
 </article>
@@ -820,6 +1353,11 @@ class ImStyle(SuperEnum):
 <li><h3>Super-module</h3>
 <ul>
 <li><code><a title="hagike.basics.cv" href="index.html">hagike.basics.cv</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-variables">Global variables</a></h3>
+<ul class="">
+<li><code><a title="hagike.basics.cv.file.vscale_t" href="#hagike.basics.cv.file.vscale_t">vscale_t</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-functions">Functions</a></h3>
@@ -834,7 +1372,24 @@ class ImStyle(SuperEnum):
 <ul class="">
 <li><code><a title="hagike.basics.cv.file.ImColor.auto__" href="#hagike.basics.cv.file.ImColor.auto__">auto__</a></code></li>
 <li><code><a title="hagike.basics.cv.file.ImColor.colored" href="#hagike.basics.cv.file.ImColor.colored">colored</a></code></li>
+<li><code><a title="hagike.basics.cv.file.ImColor.else__" href="#hagike.basics.cv.file.ImColor.else__">else__</a></code></li>
 <li><code><a title="hagike.basics.cv.file.ImColor.gray" href="#hagike.basics.cv.file.ImColor.gray">gray</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="hagike.basics.cv.file.ImInfo" href="#hagike.basics.cv.file.ImInfo">ImInfo</a></code></h4>
+<ul class="">
+<li><code><a title="hagike.basics.cv.file.ImInfo.others" href="#hagike.basics.cv.file.ImInfo.others">others</a></code></li>
+<li><code><a title="hagike.basics.cv.file.ImInfo.vscale" href="#hagike.basics.cv.file.ImInfo.vscale">vscale</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="hagike.basics.cv.file.ImScale" href="#hagike.basics.cv.file.ImScale">ImScale</a></code></h4>
+<ul class="">
+<li><code><a title="hagike.basics.cv.file.ImScale.auto__" href="#hagike.basics.cv.file.ImScale.auto__">auto__</a></code></li>
+<li><code><a title="hagike.basics.cv.file.ImScale.else__" href="#hagike.basics.cv.file.ImScale.else__">else__</a></code></li>
+<li><code><a title="hagike.basics.cv.file.ImScale.float_n" href="#hagike.basics.cv.file.ImScale.float_n">float_n</a></code></li>
+<li><code><a title="hagike.basics.cv.file.ImScale.uint8_t" href="#hagike.basics.cv.file.ImScale.uint8_t">uint8_t</a></code></li>
 </ul>
 </li>
 <li>
@@ -850,24 +1405,45 @@ class ImStyle(SuperEnum):
 <ul class="two-column">
 <li><code><a title="hagike.basics.cv.file.ImStd.color" href="#hagike.basics.cv.file.ImStd.color">color</a></code></li>
 <li><code><a title="hagike.basics.cv.file.ImStd.image" href="#hagike.basics.cv.file.ImStd.image">image</a></code></li>
+<li><code><a title="hagike.basics.cv.file.ImStd.info" href="#hagike.basics.cv.file.ImStd.info">info</a></code></li>
+<li><code><a title="hagike.basics.cv.file.ImStd.others" href="#hagike.basics.cv.file.ImStd.others">others</a></code></li>
 <li><code><a title="hagike.basics.cv.file.ImStd.save_image" href="#hagike.basics.cv.file.ImStd.save_image">save_image</a></code></li>
+<li><code><a title="hagike.basics.cv.file.ImStd.scale" href="#hagike.basics.cv.file.ImStd.scale">scale</a></code></li>
 <li><code><a title="hagike.basics.cv.file.ImStd.show_image" href="#hagike.basics.cv.file.ImStd.show_image">show_image</a></code></li>
 <li><code><a title="hagike.basics.cv.file.ImStd.style" href="#hagike.basics.cv.file.ImStd.style">style</a></code></li>
+<li><code><a title="hagike.basics.cv.file.ImStd.terms" href="#hagike.basics.cv.file.ImStd.terms">terms</a></code></li>
 <li><code><a title="hagike.basics.cv.file.ImStd.to_gray" href="#hagike.basics.cv.file.ImStd.to_gray">to_gray</a></code></li>
 <li><code><a title="hagike.basics.cv.file.ImStd.to_gray_" href="#hagike.basics.cv.file.ImStd.to_gray_">to_gray_</a></code></li>
+<li><code><a title="hagike.basics.cv.file.ImStd.to_scale" href="#hagike.basics.cv.file.ImStd.to_scale">to_scale</a></code></li>
+<li><code><a title="hagike.basics.cv.file.ImStd.to_scale_" href="#hagike.basics.cv.file.ImStd.to_scale_">to_scale_</a></code></li>
 <li><code><a title="hagike.basics.cv.file.ImStd.to_style" href="#hagike.basics.cv.file.ImStd.to_style">to_style</a></code></li>
 <li><code><a title="hagike.basics.cv.file.ImStd.to_style_" href="#hagike.basics.cv.file.ImStd.to_style_">to_style_</a></code></li>
+<li><code><a title="hagike.basics.cv.file.ImStd.vscale" href="#hagike.basics.cv.file.ImStd.vscale">vscale</a></code></li>
 </ul>
 </li>
 <li>
 <h4><code><a title="hagike.basics.cv.file.ImStyle" href="#hagike.basics.cv.file.ImStyle">ImStyle</a></code></h4>
-<ul class="">
+<ul class="two-column">
 <li><code><a title="hagike.basics.cv.file.ImStyle.auto__" href="#hagike.basics.cv.file.ImStyle.auto__">auto__</a></code></li>
 <li><code><a title="hagike.basics.cv.file.ImStyle.cv_ndarray" href="#hagike.basics.cv.file.ImStyle.cv_ndarray">cv_ndarray</a></code></li>
+<li><code><a title="hagike.basics.cv.file.ImStyle.else__" href="#hagike.basics.cv.file.ImStyle.else__">else__</a></code></li>
 <li><code><a title="hagike.basics.cv.file.ImStyle.im_file" href="#hagike.basics.cv.file.ImStyle.im_file">im_file</a></code></li>
 <li><code><a title="hagike.basics.cv.file.ImStyle.im_ndarray" href="#hagike.basics.cv.file.ImStyle.im_ndarray">im_ndarray</a></code></li>
 <li><code><a title="hagike.basics.cv.file.ImStyle.im_tensor" href="#hagike.basics.cv.file.ImStyle.im_tensor">im_tensor</a></code></li>
 </ul>
+</li>
+<li>
+<h4><code><a title="hagike.basics.cv.file.ImTerm" href="#hagike.basics.cv.file.ImTerm">ImTerm</a></code></h4>
+<ul class="">
+<li><code><a title="hagike.basics.cv.file.ImTerm.color" href="#hagike.basics.cv.file.ImTerm.color">color</a></code></li>
+<li><code><a title="hagike.basics.cv.file.ImTerm.image__" href="#hagike.basics.cv.file.ImTerm.image__">image__</a></code></li>
+<li><code><a title="hagike.basics.cv.file.ImTerm.info__" href="#hagike.basics.cv.file.ImTerm.info__">info__</a></code></li>
+<li><code><a title="hagike.basics.cv.file.ImTerm.scale" href="#hagike.basics.cv.file.ImTerm.scale">scale</a></code></li>
+<li><code><a title="hagike.basics.cv.file.ImTerm.style" href="#hagike.basics.cv.file.ImTerm.style">style</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="hagike.basics.cv.file.ImageElseError" href="#hagike.basics.cv.file.ImageElseError">ImageElseError</a></code></h4>
 </li>
 <li>
 <h4><code><a title="hagike.basics.cv.file.ImageFunctionError" href="#hagike.basics.cv.file.ImageFunctionError">ImageFunctionError</a></code></h4>
@@ -877,9 +1453,6 @@ class ImStyle(SuperEnum):
 </li>
 <li>
 <h4><code><a title="hagike.basics.cv.file.ImageStyleError" href="#hagike.basics.cv.file.ImageStyleError">ImageStyleError</a></code></h4>
-</li>
-<li>
-<h4><code><a title="hagike.basics.cv.file.ImageTransferError" href="#hagike.basics.cv.file.ImageTransferError">ImageTransferError</a></code></h4>
 </li>
 </ul>
 </li>

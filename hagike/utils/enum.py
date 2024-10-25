@@ -22,9 +22,11 @@
 .. todo::
     待添加实例化常量表为本地配置表的功能； \n
     待添加从文件中加载 / 赋值常量表的功能； \n
-    待添加对 `uuid_t` 类型的封装，使得封装内可以带有Enum类标识符，防止误输入属于另一个Enum类的标识符而绕过检查
+    待添加对 `uuid_t` 类型的封装，使得封装内可以带有Enum类标识符，防止误输入属于另一个Enum类的标识符而绕过检查 \n
+    待添加常量表类型的配置，如可选直接访问的是 `uuid` 还是 `value` \n
 """
 
+from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any, List, Tuple, Dict, Sequence, Set, Iterator, Mapping
 from copy import deepcopy
@@ -132,7 +134,7 @@ class SuperEnum:
     _length: int
     _index2uuid: List[uuid_t]
     _uuid2pack: Dict[uuid_t, _EnumPack]
-    _uuid2sub: Dict[uuid_t, Any]
+    _uuid2sub: Dict[uuid_t, SuperEnum]
     _uuid_all: List[uuid_t]
     _uuid_hide: Set[uuid_t]
     _uuid_sub: Set[uuid_t]
@@ -141,6 +143,11 @@ class SuperEnum:
     def get_uuid_(cls) -> uuid_t:
         """获得类本身的uuid"""
         return cls._uuid
+
+    @classmethod
+    def get_cls_(cls, uuid: uuid_t) -> SuperEnum:
+        """获得子类，这要求 `uuid` 必须对应某子类，否则会报错"""
+        return cls._uuid2sub[uuid]
 
     @classmethod
     def get_name_(cls, uuid: uuid_t) -> str:
@@ -172,7 +179,7 @@ class SuperEnum:
         return is_in
 
     @classmethod
-    def check_include_(cls, enum_list: List[uuid_t], all_or_index: bool = False) -> bool:
+    def check_include_(cls, enum_list: Sequence[uuid_t], all_or_index: bool = False) -> bool:
         """检查列表内的uuid是否都包含在枚举类中，all_or_hide指定是否仅考虑显变量"""
         is_include = True
         for uuid in enum_list:
@@ -184,7 +191,7 @@ class SuperEnum:
     @classmethod
     def dict_(cls, enum_dict: Mapping[uuid_t, Any] = None, is_force: bool = True) -> Dict[uuid_t, Any]:
         """
-        填补Enum类中不在常量表部分的默认赋值，生成dict； \n
+        填补Enum类中不在常量表部分的默认赋值，本地替换； \n
         如果选中is_force则会检查enum_dict中的key是否都在enum类的非隐藏部分中，若不满足则会报错； \n
         此项检查用于排除不正常输入的字典项，如隐藏的enum成员。 \n
         """

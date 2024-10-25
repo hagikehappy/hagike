@@ -53,7 +53,8 @@ value - 值
 <p class="admonition-title">TODO</p>
 <p>待添加实例化常量表为本地配置表的功能； </p>
 <p>待添加从文件中加载 / 赋值常量表的功能； </p>
-<p>待添加对 <code>uuid_t</code> 类型的封装，使得封装内可以带有Enum类标识符，防止误输入属于另一个Enum类的标识符而绕过检查</p>
+<p>待添加对 <code>uuid_t</code> 类型的封装，使得封装内可以带有Enum类标识符，防止误输入属于另一个Enum类的标识符而绕过检查 </p>
+<p>待添加常量表类型的配置，如可选直接访问的是 <code>uuid</code> 还是 <code>value</code></p>
 </div>
 </section>
 <section>
@@ -184,7 +185,7 @@ value - 值
     _length: int
     _index2uuid: List[uuid_t]
     _uuid2pack: Dict[uuid_t, _EnumPack]
-    _uuid2sub: Dict[uuid_t, Any]
+    _uuid2sub: Dict[uuid_t, SuperEnum]
     _uuid_all: List[uuid_t]
     _uuid_hide: Set[uuid_t]
     _uuid_sub: Set[uuid_t]
@@ -193,6 +194,11 @@ value - 值
     def get_uuid_(cls) -&gt; uuid_t:
         &#34;&#34;&#34;获得类本身的uuid&#34;&#34;&#34;
         return cls._uuid
+
+    @classmethod
+    def get_cls_(cls, uuid: uuid_t) -&gt; SuperEnum:
+        &#34;&#34;&#34;获得子类，这要求 `uuid` 必须对应某子类，否则会报错&#34;&#34;&#34;
+        return cls._uuid2sub[uuid]
 
     @classmethod
     def get_name_(cls, uuid: uuid_t) -&gt; str:
@@ -224,7 +230,7 @@ value - 值
         return is_in
 
     @classmethod
-    def check_include_(cls, enum_list: List[uuid_t], all_or_index: bool = False) -&gt; bool:
+    def check_include_(cls, enum_list: Sequence[uuid_t], all_or_index: bool = False) -&gt; bool:
         &#34;&#34;&#34;检查列表内的uuid是否都包含在枚举类中，all_or_hide指定是否仅考虑显变量&#34;&#34;&#34;
         is_include = True
         for uuid in enum_list:
@@ -236,7 +242,7 @@ value - 值
     @classmethod
     def dict_(cls, enum_dict: Mapping[uuid_t, Any] = None, is_force: bool = True) -&gt; Dict[uuid_t, Any]:
         &#34;&#34;&#34;
-        填补Enum类中不在常量表部分的默认赋值，生成dict； \n
+        填补Enum类中不在常量表部分的默认赋值，本地替换； \n
         如果选中is_force则会检查enum_dict中的key是否都在enum类的非隐藏部分中，若不满足则会报错； \n
         此项检查用于排除不正常输入的字典项，如隐藏的enum成员。 \n
         &#34;&#34;&#34;
@@ -321,45 +327,54 @@ value - 值
 <h3>Subclasses</h3>
 <ul class="hlist">
 <li><a title="hagike.basics.cv.file.ImColor" href="../basics/cv/file.html#hagike.basics.cv.file.ImColor">ImColor</a></li>
+<li><a title="hagike.basics.cv.file.ImInfo" href="../basics/cv/file.html#hagike.basics.cv.file.ImInfo">ImInfo</a></li>
+<li><a title="hagike.basics.cv.file.ImScale" href="../basics/cv/file.html#hagike.basics.cv.file.ImScale">ImScale</a></li>
 <li><a title="hagike.basics.cv.file.ImShow" href="../basics/cv/file.html#hagike.basics.cv.file.ImShow">ImShow</a></li>
 <li><a title="hagike.basics.cv.file.ImStyle" href="../basics/cv/file.html#hagike.basics.cv.file.ImStyle">ImStyle</a></li>
-<li><a title="hagike.basics.cv.noise.NoiseType" href="../basics/cv/noise.html#hagike.basics.cv.noise.NoiseType">NoiseType</a></li>
-<li><a title="hagike.basics.cv.noise.NoiseType.gaussian" href="../basics/cv/noise.html#hagike.basics.cv.noise.NoiseType.gaussian">NoiseType.gaussian</a></li>
-<li><a title="hagike.basics.cv.noise.NoiseType.poisson" href="../basics/cv/noise.html#hagike.basics.cv.noise.NoiseType.poisson">NoiseType.poisson</a></li>
-<li><a title="hagike.basics.cv.noise.NoiseType.salt_pepper" href="../basics/cv/noise.html#hagike.basics.cv.noise.NoiseType.salt_pepper">NoiseType.salt_pepper</a></li>
+<li><a title="hagike.basics.cv.file.ImTerm" href="../basics/cv/file.html#hagike.basics.cv.file.ImTerm">ImTerm</a></li>
+<li><a title="hagike.basics.cv.noise.ImNoise" href="../basics/cv/noise.html#hagike.basics.cv.noise.ImNoise">ImNoise</a></li>
+<li><a title="hagike.basics.cv.noise.ImNoise.gaussian" href="../basics/cv/noise.html#hagike.basics.cv.noise.ImNoise.gaussian">ImNoise.gaussian</a></li>
+<li><a title="hagike.basics.cv.noise.ImNoise.poisson" href="../basics/cv/noise.html#hagike.basics.cv.noise.ImNoise.poisson">ImNoise.poisson</a></li>
+<li><a title="hagike.basics.cv.noise.ImNoise.salt_pepper" href="../basics/cv/noise.html#hagike.basics.cv.noise.ImNoise.salt_pepper">ImNoise.salt_pepper</a></li>
 <li><a title="hagike.models.temp.module.ModuleKey" href="../models/temp/module.html#hagike.models.temp.module.ModuleKey">ModuleKey</a></li>
 <li><a title="hagike.utils.message.MsgLevel" href="message.html#hagike.utils.message.MsgLevel">MsgLevel</a></li>
 </ul>
 <h3>Static methods</h3>
 <dl>
 <dt id="hagike.utils.enum.SuperEnum.check_in_"><code class="name flex">
-<span>def <span class="ident">check_in_</span></span>(<span>uuid: int, all_or_index: bool = False, is_raise: bool = True) ‑> bool</span>
+<span>def <span class="ident">check_in_</span></span>(<span>uuid: uuid_t, all_or_index: bool = False, is_raise: bool = True) ‑> bool</span>
 </code></dt>
 <dd>
 <div class="desc"><p>检查是否uuid是否被枚举类包含，all_or_hide指定是否仅考虑显变量，is_raise指定若不存在是否引发错误</p></div>
 </dd>
 <dt id="hagike.utils.enum.SuperEnum.check_include_"><code class="name flex">
-<span>def <span class="ident">check_include_</span></span>(<span>enum_list: List[int], all_or_index: bool = False) ‑> bool</span>
+<span>def <span class="ident">check_include_</span></span>(<span>enum_list: Sequence[uuid_t], all_or_index: bool = False) ‑> bool</span>
 </code></dt>
 <dd>
 <div class="desc"><p>检查列表内的uuid是否都包含在枚举类中，all_or_hide指定是否仅考虑显变量</p></div>
 </dd>
 <dt id="hagike.utils.enum.SuperEnum.dict_"><code class="name flex">
-<span>def <span class="ident">dict_</span></span>(<span>enum_dict: Mapping[int, Any] = None, is_force: bool = True) ‑> Dict[int, Any]</span>
+<span>def <span class="ident">dict_</span></span>(<span>enum_dict: Mapping[uuid_t, Any] = None, is_force: bool = True) ‑> Dict[int, Any]</span>
 </code></dt>
 <dd>
-<div class="desc"><p>填补Enum类中不在常量表部分的默认赋值，生成dict； </p>
+<div class="desc"><p>填补Enum类中不在常量表部分的默认赋值，本地替换； </p>
 <p>如果选中is_force则会检查enum_dict中的key是否都在enum类的非隐藏部分中，若不满足则会报错； </p>
 <p>此项检查用于排除不正常输入的字典项，如隐藏的enum成员。</p></div>
 </dd>
+<dt id="hagike.utils.enum.SuperEnum.get_cls_"><code class="name flex">
+<span>def <span class="ident">get_cls_</span></span>(<span>uuid: uuid_t) ‑> <a title="hagike.utils.enum.SuperEnum" href="#hagike.utils.enum.SuperEnum">SuperEnum</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>获得子类，这要求 <code>uuid</code> 必须对应某子类，否则会报错</p></div>
+</dd>
 <dt id="hagike.utils.enum.SuperEnum.get_index_"><code class="name flex">
-<span>def <span class="ident">get_index_</span></span>(<span>uuid: int) ‑> int</span>
+<span>def <span class="ident">get_index_</span></span>(<span>uuid: uuid_t) ‑> int</span>
 </code></dt>
 <dd>
 <div class="desc"><p>获得枚举量的名称</p></div>
 </dd>
 <dt id="hagike.utils.enum.SuperEnum.get_name_"><code class="name flex">
-<span>def <span class="ident">get_name_</span></span>(<span>uuid: int) ‑> str</span>
+<span>def <span class="ident">get_name_</span></span>(<span>uuid: uuid_t) ‑> str</span>
 </code></dt>
 <dd>
 <div class="desc"><p>获得枚举量的名称</p></div>
@@ -371,7 +386,7 @@ value - 值
 <div class="desc"><p>获得类本身的uuid</p></div>
 </dd>
 <dt id="hagike.utils.enum.SuperEnum.get_value_"><code class="name flex">
-<span>def <span class="ident">get_value_</span></span>(<span>src: int, index_or_uuid: bool = False) ‑> Any</span>
+<span>def <span class="ident">get_value_</span></span>(<span>src: index_t | uuid_t, index_or_uuid: bool = False) ‑> Any</span>
 </code></dt>
 <dd>
 <div class="desc"><p>返回深拷贝赋值，index_or_uuid决定根据index还是uuid返回值</p></div>
@@ -383,7 +398,7 @@ value - 值
 <div class="desc"><p>返回index2uuid迭代器</p></div>
 </dd>
 <dt id="hagike.utils.enum.SuperEnum.list_"><code class="name flex">
-<span>def <span class="ident">list_</span></span>(<span>enum_dict: Mapping[int, Any] = None, is_default: bool = False) ‑> List[Any]</span>
+<span>def <span class="ident">list_</span></span>(<span>enum_dict: Mapping[uuid_t, Any] = None, is_default: bool = False) ‑> List[Any]</span>
 </code></dt>
 <dd>
 <div class="desc"><p>将dict根据index顺序进行排序，要求所有enum_dict中的key都被包含于enum类的非隐藏部分； </p>
@@ -396,7 +411,7 @@ value - 值
 <div class="desc"><p>打印枚举类单级信息</p></div>
 </dd>
 <dt id="hagike.utils.enum.SuperEnum.print_pack_"><code class="name flex">
-<span>def <span class="ident">print_pack_</span></span>(<span>uuid: int, blank: int = 0, is_value: bool = False) ‑> None</span>
+<span>def <span class="ident">print_pack_</span></span>(<span>uuid: uuid_t, blank: int = 0, is_value: bool = False) ‑> None</span>
 </code></dt>
 <dd>
 <div class="desc"><p>打印单个枚举量的信息</p></div>
@@ -447,6 +462,7 @@ value - 值
 <li><code><a title="hagike.utils.enum.SuperEnum.check_in_" href="#hagike.utils.enum.SuperEnum.check_in_">check_in_</a></code></li>
 <li><code><a title="hagike.utils.enum.SuperEnum.check_include_" href="#hagike.utils.enum.SuperEnum.check_include_">check_include_</a></code></li>
 <li><code><a title="hagike.utils.enum.SuperEnum.dict_" href="#hagike.utils.enum.SuperEnum.dict_">dict_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_cls_" href="#hagike.utils.enum.SuperEnum.get_cls_">get_cls_</a></code></li>
 <li><code><a title="hagike.utils.enum.SuperEnum.get_index_" href="#hagike.utils.enum.SuperEnum.get_index_">get_index_</a></code></li>
 <li><code><a title="hagike.utils.enum.SuperEnum.get_name_" href="#hagike.utils.enum.SuperEnum.get_name_">get_name_</a></code></li>
 <li><code><a title="hagike.utils.enum.SuperEnum.get_uuid_" href="#hagike.utils.enum.SuperEnum.get_uuid_">get_uuid_</a></code></li>
