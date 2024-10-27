@@ -45,7 +45,7 @@ def draw_cdf(raw_cdf: typing.Sequence, fla_cdf: typing.Sequence, ide_cdf: typing
 def convert_histogram(im: ImStd) -> np.ndarray:
     """提取图片各通道的灰度直方图"""
     # 确保图片是灰度图
-    im = im.to_gray().to_style(ImStyle.im_file)
+    im = im.to_color(ImColor.gray).to_style(ImStyle.im_file)
     image = im.image
     histogram = np.array(image).astype('float')
     # 标准化直方图
@@ -102,7 +102,7 @@ def flatten_histogram(im: ImStd) -> tuple:
         # 更新fla_cdf指针
         j = n
 
-    im = im.to_style(ImStyle.im_ndarray).to_gray()
+    im = im.to_style(ImStyle.im_ndarray).to_color(ImColor.gray)
     image = im.image
     for i in range(image.shape[0]):
         for j in range(image.shape[1]):

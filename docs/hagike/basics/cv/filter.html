@@ -37,27 +37,19 @@ hljs.highlightAll();
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="hagike.basics.cv.filter.apply_sharpening_filter"><code class="name flex">
-<span>def <span class="ident">apply_sharpening_filter</span></span>(<span>image, filter_type='laplacian', **kwargs)</span>
+<span>def <span class="ident">apply_sharpening_filter</span></span>(<span>im: <a title="hagike.basics.cv.file.image.im.ImStd" href="file/image/im.html#hagike.basics.cv.file.image.im.ImStd">ImStd</a>, sharp: int, para: Optional[Mapping[int, Any]] = None) ‑> <a title="hagike.basics.cv.file.image.im.ImStd" href="file/image/im.html#hagike.basics.cv.file.image.im.ImStd">ImStd</a></span>
 </code></dt>
 <dd>
-<div class="desc"><p>对图像应用锐化滤波。</p>
-<p>:param image: 输入图像（numpy数组）。
-:param filter_type: 滤波器类型，'laplacian' 或 'sharpening'（自定义锐化）。
-:param kwargs: 其他参数，例如锐化滤波器的强度等。
-:return: 锐化处理后的图像。</p></div>
+<div class="desc"><p>对图像应用锐化滤波</p></div>
 </dd>
 <dt id="hagike.basics.cv.filter.apply_smoothing_filter"><code class="name flex">
-<span>def <span class="ident">apply_smoothing_filter</span></span>(<span>image, filter_type='mean', **kwargs)</span>
+<span>def <span class="ident">apply_smoothing_filter</span></span>(<span>im: <a title="hagike.basics.cv.file.image.im.ImStd" href="file/image/im.html#hagike.basics.cv.file.image.im.ImStd">ImStd</a>, smooth: int, para: Optional[Mapping[int, Any]] = None) ‑> <a title="hagike.basics.cv.file.image.im.ImStd" href="file/image/im.html#hagike.basics.cv.file.image.im.ImStd">ImStd</a></span>
 </code></dt>
 <dd>
-<div class="desc"><p>对图像应用平滑滤波。</p>
-<p>:param image: 输入图像（numpy数组）。
-:param filter_type: 滤波器类型，'mean' 或 'gaussian'。
-:param kwargs: 其他参数，例如均值滤波器的卷积核大小，高斯滤波器的标准差等。
-:return: 平滑处理后的图像。</p></div>
+<div class="desc"><p>对图像应用平滑滤波</p></div>
 </dd>
 <dt id="hagike.basics.cv.filter.frequency_domain_filtering"><code class="name flex">
-<span>def <span class="ident">frequency_domain_filtering</span></span>(<span>image_path)</span>
+<span>def <span class="ident">frequency_domain_filtering</span></span>(<span>im: <a title="hagike.basics.cv.file.image.im.ImStd" href="file/image/im.html#hagike.basics.cv.file.image.im.ImStd">ImStd</a>, freq: int, para: Optional[Mapping[int, Any]] = None) ‑> <a title="hagike.basics.cv.file.image.im.ImStd" href="file/image/im.html#hagike.basics.cv.file.image.im.ImStd">ImStd</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>频域滤波</p></div>
@@ -65,6 +57,212 @@ hljs.highlightAll();
 </dl>
 </section>
 <section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="hagike.basics.cv.filter.ImFreq"><code class="flex name class">
+<span>class <span class="ident">ImFreq</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>频域滤波</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@advanced_enum()
+class ImFreq(SuperEnum):
+    &#34;&#34;&#34;频域滤波&#34;&#34;&#34;
+
+    class LPF(SuperEnum):
+        &#34;&#34;&#34;理想低通&#34;&#34;&#34;
+        radius: uuid_t = 0.5
+        &#34;&#34;&#34;半径相比原图半径的比例&#34;&#34;&#34;
+
+    class HPF(SuperEnum):
+        &#34;&#34;&#34;理想高通&#34;&#34;&#34;
+        radius: uuid_t = 0.5
+        &#34;&#34;&#34;半径相比原图半径的比例&#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="hagike.utils.enum.SuperEnum" href="../../utils/enum.html#hagike.utils.enum.SuperEnum">SuperEnum</a></li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="hagike.basics.cv.filter.ImFreq.HPF"><code class="name">var <span class="ident">HPF</span></code></dt>
+<dd>
+<div class="desc"><p>理想高通</p></div>
+</dd>
+<dt id="hagike.basics.cv.filter.ImFreq.LPF"><code class="name">var <span class="ident">LPF</span></code></dt>
+<dd>
+<div class="desc"><p>理想低通</p></div>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="hagike.utils.enum.SuperEnum" href="../../utils/enum.html#hagike.utils.enum.SuperEnum">SuperEnum</a></b></code>:
+<ul class="hlist">
+<li><code><a title="hagike.utils.enum.SuperEnum.check_in_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.check_in_">check_in_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.check_include_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.check_include_">check_include_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.dict_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.dict_">dict_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_cls_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_cls_">get_cls_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_index_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_index_">get_index_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_name_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_name_">get_name_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_uuid_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_uuid_">get_uuid_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_value_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_value_">get_value_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.iter_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.iter_">iter_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.len_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.len_">len_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.list_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.list_">list_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.print_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.print_">print_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.print_pack_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.print_pack_">print_pack_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.tree_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.tree_">tree_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.update_dict_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.update_dict_">update_dict_</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="hagike.basics.cv.filter.ImSharp"><code class="flex name class">
+<span>class <span class="ident">ImSharp</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>锐化滤波</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@advanced_enum()
+class ImSharp(SuperEnum):
+    &#34;&#34;&#34;锐化滤波&#34;&#34;&#34;
+
+    class laplacian(SuperEnum):
+        &#34;&#34;&#34;拉普拉斯滤波&#34;&#34;&#34;
+        ksize: uuid_t = 5
+
+    class sharpening(SuperEnum):
+        &#34;&#34;&#34;锐化滤波&#34;&#34;&#34;
+        alpha: uuid_t = 1.5
+        beta: uuid_t = -0.5</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="hagike.utils.enum.SuperEnum" href="../../utils/enum.html#hagike.utils.enum.SuperEnum">SuperEnum</a></li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="hagike.basics.cv.filter.ImSharp.laplacian"><code class="name">var <span class="ident">laplacian</span></code></dt>
+<dd>
+<div class="desc"><p>拉普拉斯滤波</p></div>
+</dd>
+<dt id="hagike.basics.cv.filter.ImSharp.sharpening"><code class="name">var <span class="ident">sharpening</span></code></dt>
+<dd>
+<div class="desc"><p>锐化滤波</p></div>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="hagike.utils.enum.SuperEnum" href="../../utils/enum.html#hagike.utils.enum.SuperEnum">SuperEnum</a></b></code>:
+<ul class="hlist">
+<li><code><a title="hagike.utils.enum.SuperEnum.check_in_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.check_in_">check_in_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.check_include_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.check_include_">check_include_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.dict_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.dict_">dict_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_cls_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_cls_">get_cls_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_index_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_index_">get_index_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_name_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_name_">get_name_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_uuid_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_uuid_">get_uuid_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_value_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_value_">get_value_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.iter_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.iter_">iter_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.len_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.len_">len_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.list_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.list_">list_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.print_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.print_">print_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.print_pack_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.print_pack_">print_pack_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.tree_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.tree_">tree_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.update_dict_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.update_dict_">update_dict_</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="hagike.basics.cv.filter.ImSmooth"><code class="flex name class">
+<span>class <span class="ident">ImSmooth</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>平滑滤波</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@advanced_enum()
+class ImSmooth(SuperEnum):
+    &#34;&#34;&#34;平滑滤波&#34;&#34;&#34;
+
+    class mean(SuperEnum):
+        &#34;&#34;&#34;均值滤波&#34;&#34;&#34;
+        ksize: uuid_t = (5, 5)
+
+    class gaussian(SuperEnum):
+        &#34;&#34;&#34;高斯滤波&#34;&#34;&#34;
+        sigma: uuid_t = 1</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="hagike.utils.enum.SuperEnum" href="../../utils/enum.html#hagike.utils.enum.SuperEnum">SuperEnum</a></li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="hagike.basics.cv.filter.ImSmooth.gaussian"><code class="name">var <span class="ident">gaussian</span></code></dt>
+<dd>
+<div class="desc"><p>高斯滤波</p></div>
+</dd>
+<dt id="hagike.basics.cv.filter.ImSmooth.mean"><code class="name">var <span class="ident">mean</span></code></dt>
+<dd>
+<div class="desc"><p>均值滤波</p></div>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="hagike.utils.enum.SuperEnum" href="../../utils/enum.html#hagike.utils.enum.SuperEnum">SuperEnum</a></b></code>:
+<ul class="hlist">
+<li><code><a title="hagike.utils.enum.SuperEnum.check_in_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.check_in_">check_in_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.check_include_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.check_include_">check_include_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.dict_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.dict_">dict_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_cls_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_cls_">get_cls_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_index_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_index_">get_index_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_name_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_name_">get_name_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_uuid_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_uuid_">get_uuid_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_value_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_value_">get_value_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.iter_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.iter_">iter_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.len_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.len_">len_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.list_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.list_">list_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.print_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.print_">print_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.print_pack_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.print_pack_">print_pack_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.tree_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.tree_">tree_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.update_dict_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.update_dict_">update_dict_</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="hagike.basics.cv.filter.ImageFilterError"><code class="flex name class">
+<span>class <span class="ident">ImageFilterError</span></span>
+<span>(</span><span>msg, code=None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>图像滤波器异常</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ImageFilterError(Exception):
+    &#34;&#34;&#34;图像滤波器异常&#34;&#34;&#34;
+
+    def __init__(self, msg, code=None):
+        super().__init__(msg)
+        self.code = code</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+</dl>
 </section>
 </article>
 <nav id="sidebar">
@@ -82,6 +280,34 @@ hljs.highlightAll();
 <li><code><a title="hagike.basics.cv.filter.apply_sharpening_filter" href="#hagike.basics.cv.filter.apply_sharpening_filter">apply_sharpening_filter</a></code></li>
 <li><code><a title="hagike.basics.cv.filter.apply_smoothing_filter" href="#hagike.basics.cv.filter.apply_smoothing_filter">apply_smoothing_filter</a></code></li>
 <li><code><a title="hagike.basics.cv.filter.frequency_domain_filtering" href="#hagike.basics.cv.filter.frequency_domain_filtering">frequency_domain_filtering</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="hagike.basics.cv.filter.ImFreq" href="#hagike.basics.cv.filter.ImFreq">ImFreq</a></code></h4>
+<ul class="">
+<li><code><a title="hagike.basics.cv.filter.ImFreq.HPF" href="#hagike.basics.cv.filter.ImFreq.HPF">HPF</a></code></li>
+<li><code><a title="hagike.basics.cv.filter.ImFreq.LPF" href="#hagike.basics.cv.filter.ImFreq.LPF">LPF</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="hagike.basics.cv.filter.ImSharp" href="#hagike.basics.cv.filter.ImSharp">ImSharp</a></code></h4>
+<ul class="">
+<li><code><a title="hagike.basics.cv.filter.ImSharp.laplacian" href="#hagike.basics.cv.filter.ImSharp.laplacian">laplacian</a></code></li>
+<li><code><a title="hagike.basics.cv.filter.ImSharp.sharpening" href="#hagike.basics.cv.filter.ImSharp.sharpening">sharpening</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="hagike.basics.cv.filter.ImSmooth" href="#hagike.basics.cv.filter.ImSmooth">ImSmooth</a></code></h4>
+<ul class="">
+<li><code><a title="hagike.basics.cv.filter.ImSmooth.gaussian" href="#hagike.basics.cv.filter.ImSmooth.gaussian">gaussian</a></code></li>
+<li><code><a title="hagike.basics.cv.filter.ImSmooth.mean" href="#hagike.basics.cv.filter.ImSmooth.mean">mean</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="hagike.basics.cv.filter.ImageFilterError" href="#hagike.basics.cv.filter.ImageFilterError">ImageFilterError</a></code></h4>
+</li>
 </ul>
 </li>
 </ul>

@@ -67,6 +67,12 @@ class ImColor(SuperEnum):
     """单色"""
     colored: uuid_t = None
     """彩色"""
+    freq: uuid_t = None
+    """
+    频域，限定单色或指定彩色某通道向此类型转换 \n
+    频谱类型无视数值类型转换，容器中的 `scale` 指示的是频谱图来源的范围，而非频谱图本身的范围 \n
+    容器中为实部虚部还是幅度相位，在附加信息表中会进行记录 \n
+    """
     auto__: uuid_t = None
     """自动判断"""
     else__: uuid_t = None
@@ -120,8 +126,21 @@ class ImInfo(SuperEnum):
     """
     vscale = None
     """范围，要求为有两项的元组"""
+    ap_or_ri = None
+    """频域情况下，图像为 `amplitude-phase` 还是 `real-imaginary`"""
     others = dict()
     """用户自定义项，是一个字典"""
+
+
+@advanced_enum()
+class ImOutput(SuperEnum):
+    """
+    显示图像时的选择性参数 \n
+    """
+    mag_or_phase = None
+    """如果是频域，那显示幅频还是相频"""
+    others = dict()
+    """用户自定义项，是一个字典，会在下层调用时展开"""
 
 
 vscale_t = Tuple[Tuple[int | float, int | float], np.dtype]

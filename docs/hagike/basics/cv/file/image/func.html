@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
 <meta name="generator" content="pdoc3 0.11.1">
-<title>hagike.utils.message API documentation</title>
-<meta name="description" content="日志消息">
+<title>hagike.basics.cv.file.image.func API documentation</title>
+<meta name="description" content="***对于图像容器的函数API***">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
@@ -24,10 +24,10 @@ hljs.highlightAll();
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>hagike.utils.message</code></h1>
+<h1 class="title">Module <code>hagike.basics.cv.file.image.func</code></h1>
 </header>
 <section id="section-intro">
-<p>日志消息</p>
+<p><strong><em>对于图像容器的函数API</em></strong></p>
 </section>
 <section>
 </section>
@@ -36,86 +36,21 @@ hljs.highlightAll();
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
-<dt id="hagike.utils.message.add_msg"><code class="name flex">
-<span>def <span class="ident">add_msg</span></span>(<span>level: int, script: str, is_print=True)</span>
+<dt id="hagike.basics.cv.file.image.func.import_image"><code class="name flex">
+<span>def <span class="ident">import_image</span></span>(<span>path: str, style: int, is_cache: bool = False) ‑> <a title="hagike.basics.cv.file.image.im.ImStd" href="im.html#hagike.basics.cv.file.image.im.ImStd">ImStd</a></span>
 </code></dt>
 <dd>
-<div class="desc"><p>添加消息</p></div>
-</dd>
-<dt id="hagike.utils.message.error_proc"><code class="name flex">
-<span>def <span class="ident">error_proc</span></span>(<span>is_exit=True)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>错误处理</p></div>
+<div class="desc"><p>从路径中导入图像 </p>
+<p><code>style</code> 指定了导入方式 </p>
+<p><code>is_cache</code> 指定了是否是从缓存中导入，期望类型由 <code>style</code> 指定，可以为 <code>auto__</code>
+</p>
+<p><code>scale</code>，如果从路径导入，一般为 <code>uint8</code>，若从 cache 导入则与存入情况一样 </p>
+<p><code>freq</code>，只能从缓存中导入，因为一般图片无法有效保存频谱信息 </p>
+<p>如果以 <code>cv2.imread</code> 方式导入，默认指定 <code>cv2.IMREAD_ANYCOLOR</code>，否则灰度图也会有3个通道</p></div>
 </dd>
 </dl>
 </section>
 <section>
-<h2 class="section-title" id="header-classes">Classes</h2>
-<dl>
-<dt id="hagike.utils.message.MsgLevel"><code class="flex name class">
-<span>class <span class="ident">MsgLevel</span></span>
-</code></dt>
-<dd>
-<div class="desc"><p>Enum类的父类</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@advanced_enum()
-class MsgLevel(SuperEnum):
-    Run = Fore.GREEN + &#34;RUN: &#34;
-    Warning = Fore.YELLOW + &#34;WARNING: &#34;
-    Error = Fore.RED + &#34;ERROR: &#34;
-    Panic = Fore.RED + &#34;PANIC: &#34;</code></pre>
-</details>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li><a title="hagike.utils.enum.SuperEnum" href="enum.html#hagike.utils.enum.SuperEnum">SuperEnum</a></li>
-</ul>
-<h3>Class variables</h3>
-<dl>
-<dt id="hagike.utils.message.MsgLevel.Error"><code class="name">var <span class="ident">Error</span></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="hagike.utils.message.MsgLevel.Panic"><code class="name">var <span class="ident">Panic</span></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="hagike.utils.message.MsgLevel.Run"><code class="name">var <span class="ident">Run</span></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="hagike.utils.message.MsgLevel.Warning"><code class="name">var <span class="ident">Warning</span></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-</dl>
-<h3>Inherited members</h3>
-<ul class="hlist">
-<li><code><b><a title="hagike.utils.enum.SuperEnum" href="enum.html#hagike.utils.enum.SuperEnum">SuperEnum</a></b></code>:
-<ul class="hlist">
-<li><code><a title="hagike.utils.enum.SuperEnum.check_in_" href="enum.html#hagike.utils.enum.SuperEnum.check_in_">check_in_</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.check_include_" href="enum.html#hagike.utils.enum.SuperEnum.check_include_">check_include_</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.dict_" href="enum.html#hagike.utils.enum.SuperEnum.dict_">dict_</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.get_cls_" href="enum.html#hagike.utils.enum.SuperEnum.get_cls_">get_cls_</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.get_index_" href="enum.html#hagike.utils.enum.SuperEnum.get_index_">get_index_</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.get_name_" href="enum.html#hagike.utils.enum.SuperEnum.get_name_">get_name_</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.get_uuid_" href="enum.html#hagike.utils.enum.SuperEnum.get_uuid_">get_uuid_</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.get_value_" href="enum.html#hagike.utils.enum.SuperEnum.get_value_">get_value_</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.iter_" href="enum.html#hagike.utils.enum.SuperEnum.iter_">iter_</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.len_" href="enum.html#hagike.utils.enum.SuperEnum.len_">len_</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.list_" href="enum.html#hagike.utils.enum.SuperEnum.list_">list_</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.print_" href="enum.html#hagike.utils.enum.SuperEnum.print_">print_</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.print_pack_" href="enum.html#hagike.utils.enum.SuperEnum.print_pack_">print_pack_</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.tree_" href="enum.html#hagike.utils.enum.SuperEnum.tree_">tree_</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.update_dict_" href="enum.html#hagike.utils.enum.SuperEnum.update_dict_">update_dict_</a></code></li>
-</ul>
-</li>
-</ul>
-</dd>
-</dl>
 </section>
 </article>
 <nav id="sidebar">
@@ -125,26 +60,12 @@ class MsgLevel(SuperEnum):
 <ul id="index">
 <li><h3>Super-module</h3>
 <ul>
-<li><code><a title="hagike.utils" href="index.html">hagike.utils</a></code></li>
+<li><code><a title="hagike.basics.cv.file.image" href="index.html">hagike.basics.cv.file.image</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
-<li><code><a title="hagike.utils.message.add_msg" href="#hagike.utils.message.add_msg">add_msg</a></code></li>
-<li><code><a title="hagike.utils.message.error_proc" href="#hagike.utils.message.error_proc">error_proc</a></code></li>
-</ul>
-</li>
-<li><h3><a href="#header-classes">Classes</a></h3>
-<ul>
-<li>
-<h4><code><a title="hagike.utils.message.MsgLevel" href="#hagike.utils.message.MsgLevel">MsgLevel</a></code></h4>
-<ul class="">
-<li><code><a title="hagike.utils.message.MsgLevel.Error" href="#hagike.utils.message.MsgLevel.Error">Error</a></code></li>
-<li><code><a title="hagike.utils.message.MsgLevel.Panic" href="#hagike.utils.message.MsgLevel.Panic">Panic</a></code></li>
-<li><code><a title="hagike.utils.message.MsgLevel.Run" href="#hagike.utils.message.MsgLevel.Run">Run</a></code></li>
-<li><code><a title="hagike.utils.message.MsgLevel.Warning" href="#hagike.utils.message.MsgLevel.Warning">Warning</a></code></li>
-</ul>
-</li>
+<li><code><a title="hagike.basics.cv.file.image.func.import_image" href="#hagike.basics.cv.file.image.func.import_image">import_image</a></code></li>
 </ul>
 </li>
 </ul>

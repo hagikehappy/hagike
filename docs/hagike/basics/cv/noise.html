@@ -37,7 +37,7 @@ hljs.highlightAll();
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="hagike.basics.cv.noise.add_noise_to_image"><code class="name flex">
-<span>def <span class="ident">add_noise_to_image</span></span>(<span>image: numpy.ndarray, noise: int, para: Optional[Mapping[int, Any]] = None)</span>
+<span>def <span class="ident">add_noise_to_image</span></span>(<span>im: <a title="hagike.basics.cv.file.image.im.ImStd" href="file/image/im.html#hagike.basics.cv.file.image.im.ImStd">ImStd</a>, noise: int, para: Optional[Mapping[int, Any]] = None) ‑> <a title="hagike.basics.cv.file.image.im.ImStd" href="file/image/im.html#hagike.basics.cv.file.image.im.ImStd">ImStd</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>向图像添加指定类型的噪声</p></div>
@@ -84,8 +84,20 @@ class ImNoise(SuperEnum):
 
     class poisson(SuperEnum):
         &#34;&#34;&#34;泊松噪声&#34;&#34;&#34;
-        lam: uuid_t = 0.1
-        &#34;&#34;&#34;λ&#34;&#34;&#34;</code></pre>
+        scale: uuid_t = 0.12
+        &#34;&#34;&#34;
+        泊松分布是一种离散概率分布，用于预测在固定时间或空间内发生某事件的平均次数。 \n
+        在图像处理中，泊松噪声通常用于模拟光子到达传感器的随机性，特别是在低光照条件下。 \n
+        将图像的每个像素值除以一个尺度参数 `scale`，调整图像数据的“亮度”，以便与泊松分布的参数相匹配。 \n
+        `scale` 参数在这里起到了调节噪声强度的作用，较小的 `scale` 值会导致更强烈的噪声 \n
+        当 `scale` 足够大时，趋向于椒盐噪声中白点的效果果，且随着 `scale` 继续增大，噪声效果变小 \n
+        因为每个像素值被“缩放”得更小，然后泊松分布会在这个更小的值上产生更大的随机变化。 \n
+        最后将上一步生成的泊松随机数乘以scale，缩放回原尺度。 \n
+        &#34;&#34;&#34;
+        alpha: uuid_t = 0.3
+        &#34;&#34;&#34;
+        附加比例因子，用于控制噪声相比原图的占比
+        &#34;&#34;&#34;</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -119,10 +131,12 @@ class ImNoise(SuperEnum):
 <li><code><a title="hagike.utils.enum.SuperEnum.get_uuid_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_uuid_">get_uuid_</a></code></li>
 <li><code><a title="hagike.utils.enum.SuperEnum.get_value_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_value_">get_value_</a></code></li>
 <li><code><a title="hagike.utils.enum.SuperEnum.iter_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.iter_">iter_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.len_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.len_">len_</a></code></li>
 <li><code><a title="hagike.utils.enum.SuperEnum.list_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.list_">list_</a></code></li>
 <li><code><a title="hagike.utils.enum.SuperEnum.print_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.print_">print_</a></code></li>
 <li><code><a title="hagike.utils.enum.SuperEnum.print_pack_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.print_pack_">print_pack_</a></code></li>
 <li><code><a title="hagike.utils.enum.SuperEnum.tree_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.tree_">tree_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.update_dict_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.update_dict_">update_dict_</a></code></li>
 </ul>
 </li>
 </ul>
@@ -139,7 +153,6 @@ class ImNoise(SuperEnum):
 </summary>
 <pre><code class="python">class ImageNoiseError(Exception):
     &#34;&#34;&#34;图像噪声异常&#34;&#34;&#34;
-
     def __init__(self, msg, code=None):
         super().__init__(msg)
         self.code = code</code></pre>

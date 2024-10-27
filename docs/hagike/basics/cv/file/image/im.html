@@ -1,0 +1,1044 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.1">
+<title>hagike.basics.cv.file.image.im API documentation</title>
+<meta name="description" content="***图像导入库与格式转换库*** …">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script type="text/x-mathjax-config">MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], processEscapes: true } });</script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS_CHTML" integrity="sha256-kZafAc6mZvK3W3v1pHOcUix30OHQN6pU/NO2oFkqZVw=" crossorigin></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>hagike.basics.cv.file.image.im</code></h1>
+</header>
+<section id="section-intro">
+<p><strong><em>图像导入库与格式转换库</em></strong> </p>
+<p><strong>description</strong> </p>
+<p>与<strong>图像处理相关的库</strong>主要有2个，现在阐明其区别与联系： </p>
+<ol>
+<li>
+<p><code>cv2</code>，图像格式为 <code>np.ndarray</code>，作为向量格式，主要用于计算机视觉中对于图像的高级处理算法 </p>
+</li>
+<li>
+<p><code>Image</code>，图像格式为 <code>ImageFile</code> 或 <code>Image</code>，作为文件格式，主要用于对图像的直接操作，如格式转换等；但可以转化为<code>np.ndarray</code> </p>
+</li>
+</ol>
+<p>而<strong>图片</strong>在各层级上存在如下区别与联系： </p>
+<ol>
+<li>
+<p>屏幕显示：坐标原点在左上角，y轴向下，x轴向右 </p>
+</li>
+<li>
+<p><code>np.ndarray</code>： </p>
+</li>
+</ol>
+<p>索引访问与形状获取：先y后x；np与cv2库函数调用，先x后y </p>
+<ul>
+<li>
+<p><code>im_ndarray</code>：源于Image的导入后直接转换；彩图为三维，$[H, W, C]$，通道顺序为 <code>R, G, B</code> ；灰度图为二维，$[H, W]$； </p>
+</li>
+<li>
+<p><code>cv_ndarray</code>：源于cv2的导入，彩图的通道顺序为 <code>B, G, R</code> </p>
+</li>
+<li>
+<p><code>torch.Tensor</code>：卷积神经网络的期待输入为$[C, H, W]$，即使是灰度图也依然需要通道维度 </p>
+</li>
+</ul>
+<p>值得<strong>注意</strong>的是，python中的对整型的除法 <code>/</code> 默认会将原类型转换为小数格式，这对 <code>np.ndarray</code> 和 <code>torch.Tensor</code> 同样均成立； </p>
+<p>如果希望整除，这需要使用 <code>//</code> 操作 </p>
+<p>下面在各个图像操作函数内会具体说明操作差异。 </p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>图像标准化容器 <code><a title="hagike.basics.cv.file.image.im.ImStd" href="#hagike.basics.cv.file.image.im.ImStd">ImStd</a></code> 设计的思想是，实现常量表中列出的最常用的配置； </p>
+<p>但对于非标准化的或待实现的配置，也允许使用，但要主动标记为 <code>else__</code> 来回避内置检查，但是不能调用该配置项相关的库函数，否则会报错； </p>
+<p><code>auto__</code> 情况下在自动判断时会将不可识别项标记为 <code>else__</code> 并给出警告，
+考虑到自动判断是可能是不可靠的，最好主动标记为 <code>else__</code>，以避免不可预知的行为； </p>
+<p>对 <code>color</code> 和 <code>scale</code> 的判断依赖于 <code>style</code>，如果 <code>style</code> 项被标记为 <code>else__</code>，则 <code>color</code> 和 <code>scale</code> 也会被判断为 <code>else__</code>，
+但 <code>color</code> 与 <code>scale</code> 相互独立；</p>
+</div>
+<p><strong>term</strong> </p>
+<pre><code>im - 图像容器
+image - 图像文件
+style - 格式类型
+color - 颜色类型
+scale - 数据范围
+show - 显示方式
+</code></pre>
+<div class="admonition todo">
+<p class="admonition-title">TODO</p>
+<ol>
+<li>对用户添加 <code>check</code> 类函数来帮助用户确保数据符合预期</li>
+</ol>
+</div>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="hagike.basics.cv.file.image.im.im_ap2ri"><code class="name flex">
+<span>def <span class="ident">im_ap2ri</span></span>(<span>image: im_ndarray) ‑> numpy.ndarray</span>
+</code></dt>
+<dd>
+<div class="desc"><p><code>幅频、相频</code> 转 <code>实部、虚部</code>，目前仅支持 <code>im_ndarray</code> 格式，要求输入的通道数为2</p></div>
+</dd>
+<dt id="hagike.basics.cv.file.image.im.im_ri2ap"><code class="name flex">
+<span>def <span class="ident">im_ri2ap</span></span>(<span>image: im_ndarray) ‑> numpy.ndarray</span>
+</code></dt>
+<dd>
+<div class="desc"><p><code>实部、虚部</code> 转 <code>幅频、相频</code>，目前仅支持 <code>im_ndarray</code> 格式，要求输入的类型为复数类型</p></div>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="hagike.basics.cv.file.image.im.ImStd"><code class="flex name class">
+<span>class <span class="ident">ImStd</span></span>
+<span>(</span><span>image: im_all, style: uuid_t = 1, color: uuid_t = 1, scale: uuid_t = 1, check_style: bool = False, check_color: bool = False, check_scale: bool = False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>标准图像容器</p>
+<p>初始化，<code>is_check</code> 指定是否进行检查与判断； </p>
+<p>如果未显式指定，且 <code>style</code> 或 <code>color</code> 或 <code>scale</code> 为 <code>_auto</code> 时使用懒惰思路，即当有转换需求的时候进行判断</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ImStd:
+    &#34;&#34;&#34;标准图像容器&#34;&#34;&#34;
+
+    _np_int = (np.int64, np.int32, np.int16, np.int8,
+               np.uint64, np.uint32, np.uint16, np.uint8, np.bool)
+    &#34;&#34;&#34; `np` 中的整型集合&#34;&#34;&#34;
+    _torch_int = (torch.int64, torch.int32, torch.int16, torch.int8,
+                  torch.uint64, torch.uint32, torch.uint16, torch.uint8, torch.bool)
+    &#34;&#34;&#34; `torch` 中的整型集合&#34;&#34;&#34;
+    _np_float = (np.float64, np.float32, np.float16, np.complex64, np.complex128)
+    &#34;&#34;&#34; `np` 中的浮点型集合&#34;&#34;&#34;
+    _torch_float = (torch.float64, torch.float32, torch.float16, torch.complex64, torch.complex128)
+    &#34;&#34;&#34; `torch` 中的浮点型集合&#34;&#34;&#34;
+    _else = {ImTerm.style: ImStyle.else__, ImTerm.color: ImColor.else__, ImTerm.scale: ImScale.else__}
+    &#34;&#34;&#34; 非标准化项在各 `term` 下对应的 `uuid` 值 &#34;&#34;&#34;
+
+    def __init__(self,
+                 image: im_all,
+                 style: uuid_t = ImStyle.auto__,
+                 color: uuid_t = ImColor.auto__,
+                 scale: uuid_t = ImScale.auto__,
+                 check_style: bool = False,
+                 check_color: bool = False,
+                 check_scale: bool = False,
+                 ) -&gt; None:
+        &#34;&#34;&#34;
+        初始化，`is_check` 指定是否进行检查与判断； \n
+        如果未显式指定，且 `style` 或 `color` 或 `scale` 为 `_auto` 时使用懒惰思路，即当有转换需求的时候进行判断 \n
+        &#34;&#34;&#34;
+        self._image: im_all = image
+        self._style: uuid_t = style
+        self._color: uuid_t = color
+        self._scale: uuid_t = scale
+        self._info: Dict = ImInfo.dict_()
+
+        ImStyle.check_in_(self._style, all_or_index=True), ImColor.check_in_(self._color, all_or_index=True)
+        self._is_check_style, self._is_check_color, self._is_check_scale = False, False, False
+        if check_style:
+            self._judge_style()
+        if check_color:
+            self._judge_color()
+        if check_scale:
+            self._judge_scale()
+
+    @property
+    def image(self) -&gt; im_all | Any:
+        &#34;&#34;&#34;返回 `image` 本身&#34;&#34;&#34;
+        return self._image
+
+    @property
+    def terms(self) -&gt; Dict[uuid_t, Any]:
+        &#34;&#34;&#34;返回配置信息表&#34;&#34;&#34;
+        return {ImTerm.style: self._style,
+                ImTerm.color: self._color,
+                ImTerm.scale: self._scale}
+
+    @image.setter
+    def image(self, image: Any) -&gt; None:
+        &#34;&#34;&#34;重设 `image` 时更新检查状态，这里默认认为各配置项不变，若变则需要显式更改其它配置项，否则后续调用内置函数时自动检查会触发异常&#34;&#34;&#34;
+        self._image = image
+        self._is_check_style, self._is_check_color, self._is_check_scale = False, False, False
+
+    @property
+    def style(self) -&gt; uuid_t:
+        &#34;&#34;&#34;给出 `style` 前进行检查&#34;&#34;&#34;
+        self._judge_style()
+        return self._style
+
+    @style.setter
+    def style(self, style: uuid_t) -&gt; None:
+        &#34;&#34;&#34;重设 `style` 时更新检查状态&#34;&#34;&#34;
+        self._style = style
+        self._is_check_style = False
+
+    @property
+    def color(self) -&gt; uuid_t:
+        &#34;&#34;&#34;给出 `color` 前进行检查&#34;&#34;&#34;
+        self._judge_color()
+        return self._color
+
+    @color.setter
+    def color(self, color) -&gt; None:
+        &#34;&#34;&#34;重设 `color` 时更新检查状态，并重置 `ap_or_ri`&#34;&#34;&#34;
+        self._color = color
+        self._info[ImInfo.ap_or_ri] = None
+        self._is_check_color = False
+
+    @property
+    def scale(self) -&gt; uuid_t:
+        &#34;&#34;&#34;给出 `scale` 前进行检查&#34;&#34;&#34;
+        self._judge_scale()
+        return self._scale
+
+    @scale.setter
+    def scale(self, scale) -&gt; None:
+        &#34;&#34;&#34;重设 `scale` 时更新检查状态，并重置 `vscale`&#34;&#34;&#34;
+        self._scale = scale
+        self._info[ImInfo.vscale] = None
+        self._is_check_scale = False
+
+    @property
+    def info(self) -&gt; MappingProxyType:
+        &#34;&#34;&#34;返回只读信息表&#34;&#34;&#34;
+        return MappingProxyType(self._info)
+
+    @property
+    def others(self) -&gt; Dict:
+        &#34;&#34;&#34;返回用户自定义信息表&#34;&#34;&#34;
+        return self._info[ImInfo.others]
+
+    @property
+    def vscale(self) -&gt; None | tuple:
+        &#34;&#34;&#34;返回自定义数据范围&#34;&#34;&#34;
+        return self._info[ImInfo.vscale]
+
+    @vscale.setter
+    def vscale(self, vscale: vscale_t) -&gt; None:
+        &#34;&#34;&#34;修改自定义数据范围，启用后 `scale` 自动变为 `else__`&#34;&#34;&#34;
+        self.scale = ImScale.else__
+        self._info[ImInfo.vscale] = vscale
+
+    @property
+    def ap_or_ri(self) -&gt; None | bool:
+        &#34;&#34;&#34;返回频域类型，`幅度相位` / `实部虚部`&#34;&#34;&#34;
+        self._judge_color()
+        return self._info[ImInfo.ap_or_ri]
+
+    @ap_or_ri.setter
+    def ap_or_ri(self, ap_or_ri: bool) -&gt; None:
+        &#34;&#34;&#34;修改频域类型&#34;&#34;&#34;
+        self._is_check_color = False
+        self._info[ImInfo.ap_or_ri] = ap_or_ri
+
+    def _auto_style(self) -&gt; None:
+        &#34;&#34;&#34;自动判断类型，如果值已经为 `else__`，则没有调用该函数的场景&#34;&#34;&#34;
+        for uuid in ImStyle.iter_():
+            if isinstance(self._image, ImStyle.get_value_(uuid)):
+                self._style = uuid
+                break
+        else:
+            self._style = ImStyle.else__
+            warnings.warn(f&#34;Image style {type(self._image)} is unknown!!!&#34;, ImageStyleWarning)
+
+    def _judge_style(self) -&gt; None:
+        &#34;&#34;&#34;检查图像类型&#34;&#34;&#34;
+        if self._is_check_style:
+            return
+        self._is_check_style = True
+        if self._style == ImStyle.auto__:
+            self._auto_style()
+        elif self._style == ImStyle.else__:
+            # 由于 `color` 和 `scale` 依赖 `style`，故直接重设 `style`
+            self._color = ImColor.else__
+            self._scale = ImScale.else__
+        else:
+            if not isinstance(self._image, ImStyle.get_value_(self._style)):
+                raise ImageStyleError(
+                    f&#34;Image style {type(self._image)} is not as given, {ImStyle.get_value_(self._style)}!!!&#34;)
+
+    def _auto_color(self) -&gt; None:
+        &#34;&#34;&#34;判断颜色类型，同时检查数据是否符合预期；如果值已经为 `else__`，则没有调用该函数的场景&#34;&#34;&#34;
+        if self._style == ImStyle.im_file:
+            if self._image.mode == &#39;L&#39;:
+                self._color = ImColor.gray
+            elif self._image.mode == &#39;RGB&#39;:
+                self._color = ImColor.colored
+            else:
+                self._color = ImColor.else__
+                warnings.warn(f&#34;The image, {ImStyle.get_value_(self._style)}, &#34;
+                              f&#34;has an unknown color format, f{self._image.mode}!!!&#34;, ImageInfoWarning)
+        elif self._style == ImStyle.im_tensor:
+            if len(self._image.shape) != 3:
+                self._color = ImColor.else__
+                warnings.warn(f&#34;The image, {ImStyle.get_value_(self._style)}, &#34;
+                              f&#34;has wrong shape, {self._image.shape}!!!&#34;, ImageInfoWarning)
+            else:
+                if self._image.shape[0] == 1:
+                    if self._info[ImInfo.ap_or_ri] is None:
+                        self._color = ImColor.gray
+                    elif self._info[ImInfo.ap_or_ri] is False:
+                        self._color = ImColor.freq
+                    else:
+                        self._color = ImColor.else__
+                        warnings.warn(f&#34;The image color is unrecognized, &#34;
+                                      f&#34;with style {ImStyle.get_value_(self._style)}, &#34;
+                                      f&#34;and shape {self._image.shape}!!!&#34;, ImageInfoWarning)
+                elif self._image.shape[0] == 3:
+                    self._color = ImColor.colored
+                elif self._image.shape[0] == 2 and self._info[ImInfo.ap_or_ri] is True:
+                    self._color = ImColor.freq
+                else:
+                    self._color = ImColor.else__
+                    warnings.warn(f&#34;The image, {ImStyle.get_value_(self._style)}, &#34;
+                                  f&#34;has unknown numbers of color channel, {self._image.shape}!!!&#34;, ImageInfoWarning)
+        elif self._style == ImStyle.im_ndarray or self._style == ImStyle.cv_ndarray:
+            if len(self._image.shape) == 3:
+                if self._image.shape[2] == 3:
+                    self._color = ImColor.colored
+                elif self._image.shape[2] == 2 and self._info[ImInfo.ap_or_ri] is True:
+                    self._color = ImColor.freq
+                else:
+                    self._color = ImColor.else__
+                    warnings.warn(f&#34;The image color is unrecognized!!!&#34;, ImageInfoWarning)
+            elif len(self._image.shape) == 2:
+                if self._info[ImInfo.ap_or_ri] is None:
+                    self._color = ImColor.gray
+                elif self._info[ImInfo.ap_or_ri] is False:
+                    self._color = ImColor.freq
+                else:
+                    self._color = ImColor.else__
+                    warnings.warn(f&#34;The image color is unrecognized!!!&#34;, ImageInfoWarning)
+            else:
+                self._color = ImColor.else__
+                warnings.warn(f&#34;The image, {ImStyle.get_value_(self._style)}, &#34;
+                              f&#34;has unknown shapes, {self._image.shape}!!!&#34;, ImageInfoWarning)
+        elif self._style == ImStyle.else__:
+            self._color = ImColor.else__
+        else:
+            raise ImageStyleError(
+                f&#34;Image style, {ImStyle.get_value_(self._style)} is not implemented, a &#39;color&#39;!!!&#34;)
+
+    def _judge_color(self) -&gt; None:
+        &#34;&#34;&#34;检查颜色类型&#34;&#34;&#34;
+        if self._is_check_color:
+            return
+        self._is_check_color = True
+        if self._color == ImColor.auto__:
+            self._auto_color()
+        elif self._color == ImColor.else__:
+            pass
+        else:
+            color = self._color
+            self._auto_color()
+            if color != self._color:
+                raise ImageInfoError(f&#34;The image&#39;s color is different from the auto-detection!!!&#34;)
+
+    def _auto_scale(self) -&gt; None:
+        &#34;&#34;&#34;
+        自动判断范围；如果值已经为 `else__`，则没有调用该函数的场景 \n
+        如果未 `freq`，则 `scale` 不变，但此时不可用 `auto__`，因为此时 `scale` 指的是频谱来源的类型 \n
+        &#34;&#34;&#34;
+        if self._color == ImColor.freq:
+            if self._scale == ImScale.auto__:
+                raise ImageInfoError(f&#34;The scale cannot be `auto__` when the color is `freq`!!!&#34;)
+            return
+        if self._style == ImStyle.im_file:
+            self._scale = ImScale.uint8_t
+        elif self._style == ImStyle.im_tensor or self._style == ImStyle.cv_ndarray or self._style == ImStyle.im_ndarray:
+            if self._image.dtype in self._np_int:
+                self._scale = ImScale.uint8_t
+            elif self._image.dtype in self._np_float:
+                self._scale = ImScale.float_n
+            else:
+                self._scale = ImScale.else__
+                warnings.warn(f&#34;The image dtype, {self._image.dtype}, &#34;
+                              f&#34;is not in {self._np_int} or {self._np_float}&#34;, ImageInfoWarning)
+        elif self._style == ImStyle.else__:
+            self._scale = ImScale.else__
+        else:
+            raise ImageStyleError(
+                f&#34;Image style {ImStyle.get_value_(self._style)} is not implemented, a &#39;scale&#39;!!!&#34;)
+
+    def _judge_scale(self) -&gt; None:
+        &#34;&#34;&#34;检查范围&#34;&#34;&#34;
+        if self._is_check_scale:
+            return
+        self._is_check_scale = True
+        if self._scale == ImScale.auto__:
+            self._auto_scale()
+        elif self._scale == ImScale.else__:
+            pass
+        else:
+            scale = self._scale
+            self._auto_scale()
+            if scale != self._scale:
+                raise ImageInfoError(f&#34;The image&#39;s scale is different from the auto-detection!!!&#34;)
+
+    def _judge_all(self) -&gt; None:
+        &#34;&#34;&#34;检查并刷新各项属性&#34;&#34;&#34;
+        # `check_style` 需要在最前面，因为后面两项的检查依赖 `style`
+        self._judge_style()
+        self._judge_color()
+        self._judge_scale()
+
+    def _judge_else(self, *terms) -&gt; None:
+        &#34;&#34;&#34;排除非标准化情形，输入任意数量的检查项&#34;&#34;&#34;
+        ImTerm.check_include_(terms, all_or_index=False)
+        status = self.terms
+        for term in terms:
+            if status[term] == self._else[term]:
+                raise ImageElseError(f&#34;{ImTerm.get_name_(term)} is an `else__` type, not implemented!!!&#34;)
+
+    def _to_style(self, style: uuid_t) -&gt; Tuple[im_all, Dict] | None:
+        &#34;&#34;&#34;
+        `to` 函数的实际执行函数，若返回 `None` 则说明没有变化； \n
+        &#34;&#34;&#34;
+        # 检查或判断
+        ImStyle.check_in_(style, all_or_index=False)
+        self._judge_all()
+        self._judge_else(ImTerm.style)
+        # 排除同类转换
+        if style == self._style:
+            return
+        info = dict()
+        # 转换为中间格式
+        if self._style == ImStyle.im_ndarray:
+            image = self._image
+        elif self._style == ImStyle.cv_ndarray:
+            if self._color == ImColor.colored:
+                image = cv2.cvtColor(self._image, cv2.COLOR_BGR2RGB)
+            else:
+                image = self._image
+        elif self._style == ImStyle.im_file:
+            image = np.array(self._image)
+        elif self._style == ImStyle.im_tensor:
+            image = self._image.to(&#39;cpu&#39;)
+            if self._color == ImColor.gray:
+                image.squeeze_(0)
+            elif self._color == ImColor.colored:
+                image = image.permute(1, 2, 0)
+            else:
+                raise ImageInfoError(f&#34;The image color format, {self._color}, is not implemented!!!&#34;)
+            image = image.numpy()
+        else:
+            raise ImageStyleError(
+                f&#34;Image style {ImStyle.get_value_(self._style)} is not implemented a &#39;to&#39; function!!!&#34;)
+        # 从中间格式转换为目标格式并进行必要的转换检查
+        if style == ImStyle.im_ndarray:
+            pass
+        elif style == ImStyle.cv_ndarray:
+            if self._color == ImColor.colored:
+                image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+        elif style == ImStyle.im_file:
+            if image.dtype != np.uint8:
+                warnings.warn(f&#34;The image dtype, {image.dtype}, is not {np.uint8}&#34;, ImageFunctionWarning)
+            if self._color == ImColor.colored:
+                mode = &#39;RGB&#39;
+            elif self._color == ImColor.gray:
+                mode = &#39;L&#39;
+            # &#39;freq&#39; 颜色不可转为 &#39;im_file&#39; 格式
+            else:
+                raise ImageInfoError(f&#34;The image color format, {self._color}, is not implemented!!!&#34;)
+            image = Image.fromarray(image, mode=mode)
+        elif style == ImStyle.im_tensor:
+            image = torch.tensor(image, device=&#39;cpu&#39;)
+            if self._color == ImColor.gray:
+                image = np.expand_dims(image, axis=0)
+            elif self._color == ImColor.colored:
+                image = np.transpose(image, (2, 0, 1))
+            else:
+                raise ImageInfoError(f&#34;The image color format, {self._color}, is not implemented!!!&#34;)
+        else:
+            raise ImageStyleError(
+                f&#34;Image style {ImStyle.get_value_(style)} is not implemented a &#39;to&#39; function!!!&#34;)
+        return image, info
+
+    def to_style_(self, style: uuid_t) -&gt; None:
+        &#34;&#34;&#34;
+        格式转换为指定 `style` \n
+        这里将 `im_ndarray` 作为中间格式用于转换 \n
+        在因为格式原因无法进行转换时，会抛出异常 \n
+        转换会就地进行 \n
+        &#34;&#34;&#34;
+        result = self._to_style(style)
+        if result is not None:
+            image, info = result
+            self._image = image
+            self._style = style
+            ImInfo.update_dict_(self._info, info)
+
+    def to_style(self, style: uuid_t, is_new: bool = False) -&gt; ImStd:
+        &#34;&#34;&#34;
+        格式转换 \n
+        `is_new=True`，则总是返回一个全新的 `ImStd` 图像容器，无论目标类型与原有类型是否一致 \n
+        `is_new=False`，则仅在目标类型与原有类型不一致时返回深拷贝结果，否则返回本身； \n
+        当明确知道后续只有只读操作后可以这样做，会节省算力与内存 \n
+        要求 `style` 为标准化情形 \n
+        &#34;&#34;&#34;
+        result = self._to_style(style)
+        if result is None and is_new is False:
+            return self
+        else:
+            im = deepcopy(self)
+            if result is not None:
+                image, info = result
+                im._image = image
+                ImInfo.update_dict_(im._info, info)
+            im._style = style
+            return im
+
+    def _to_color(self, color: uuid_t) -&gt; Tuple[im_all, Dict] | None:
+        &#34;&#34;&#34;
+        `to_color` 的实质执行函数，如果本身就是灰度图则返回 `None` \n
+         &#34;&#34;&#34;
+        self._judge_all()
+        self._judge_else(ImTerm.style, ImTerm.color)
+        if self._color == color:
+            return
+        info = dict()
+        if self._color == ImColor.colored:
+            if color == ImColor.gray:
+                if self._style == ImStyle.im_file:
+                    image = self._image.convert(&#39;L&#39;)
+                elif self._style == ImStyle.im_ndarray:
+                    image = cv2.cvtColor(self._image, cv2.COLOR_RGB2GRAY)
+                elif self._style == ImStyle.cv_ndarray:
+                    image = cv2.cvtColor(self._image, cv2.COLOR_BGR2GRAY)
+                elif self._style == ImStyle.im_tensor:
+                    # 在此处手动转化时需要注意前后数据类型不变
+                    image = (self._image[0: 1, :, :] * 0.299 +
+                             self._image[1: 2, :, :] * 0.587 +
+                             self._image[2: 3, :, :] * 0.114).to(self._image.dtype)
+                else:
+                    raise ImageStyleError(
+                        f&#34;Image style {ImStyle.get_value_(self._style)} is not implemented from &#39;colored&#39; function!!!&#34;)
+            else:
+                raise ImageInfoError(f&#34;The image color format, {ImColor.get_name_(self._color)}, is illegal, &#34;
+                                     f&#34;when transferring to {ImColor.get_name_(color)}!!!&#34;)
+        elif self._color == ImColor.gray:
+            if color == ImColor.colored:
+                raise ImageInfoError(f&#34;It&#39;s illegal to transfer color from &#39;gray&#39; to &#39;colored&#39;!!!&#34;)
+            elif color == ImColor.freq:
+                if self._style == ImStyle.im_ndarray or self._style == ImStyle.cv_ndarray:
+                    image = np.fft.fft2(self._image)
+                    image = np.fft.fftshift(image)
+                else:
+                    im = self.to_style(ImStyle.im_ndarray, is_new=True)
+                    im._image = np.fft.fft2(im._image)
+                    im._image = np.fft.fftshift(im._image)
+                    im._color = ImColor.freq
+                    im.to_style_(self._style)
+                    image = im._image
+                info[ImInfo.ap_or_ri] = False
+            else:
+                raise ImageInfoError(f&#34;It&#39;s illegal to transfer color from &#39;gray&#39; to &#39;colored&#39;!!!&#34;)
+        elif self._color == ImColor.freq:
+            if color == ImColor.colored:
+                raise ImageInfoError(f&#34;It&#39;s illegal to transfer color from &#39;freq&#39; to &#39;colored&#39;!!!&#34;)
+            elif color == ImColor.gray:
+                im = self.to_style(ImStyle.im_ndarray, is_new=True)
+                if self._info[ImInfo.ap_or_ri]:
+                    im._image = im_ap2ri(im._image)
+                src_scale = self._get_vscale(self._scale, self._info[ImInfo.vscale])
+                im._image = np.fft.ifftshift(im._image)
+                im._image = np.fft.ifft2(im._image).real.astype(src_scale[1])
+                im.to_style_(self._style)
+                image = im._image
+                info[ImInfo.ap_or_ri] = False
+            else:
+                raise ImageInfoError(
+                    f&#34;Image color {ImColor.get_name_(color)} is not implemented from &#39;freq&#39; function!!!&#34;)
+        else:
+            raise ImageInfoError(f&#34;The image color format, {self._color}, is not implemented!!!&#34;)
+        return image, info
+
+    def to_color_(self, color: uuid_t) -&gt; None:
+        &#34;&#34;&#34;
+        转换颜色模式，并返回新的图像，本地转换 \n
+        &#34;&#34;&#34;
+        result = self._to_color(color)
+        if result is not None:
+            image, info = result
+            self._image = image
+            self._color = color
+            ImInfo.update_dict_(self._info, info)
+
+    def to_color(self, color: uuid_t, is_new: bool = False) -&gt; ImStd:
+        &#34;&#34;&#34;
+        转换颜色模式 \n
+        `is_new=True`，则总是返回一个全新的 `ImStd` 图像容器，无论原有是否一致 \n
+        `is_new=False`，则仅在与原有不一致时返回深拷贝结果，否则返回本身； \n
+        当明确知道后续只有只读操作后可以这样做，会节省算力与内存 \n
+        要求 `style` 和 `color` 为标准化情形，否则报错 \n
+        &#34;&#34;&#34;
+        result = self._to_color(color)
+        if result is None and is_new is False:
+            return self
+        else:
+            im = deepcopy(self)
+            if result is not None:
+                image, info = result
+                im._image = image
+                ImInfo.update_dict_(im._info, info)
+            im._color = color
+            return im
+
+    @staticmethod
+    def _get_vscale(scale: uuid_t, vscale: vscale_t | None = None) -&gt; vscale_t:
+        &#34;&#34;&#34;获取 `vscale` 值&#34;&#34;&#34;
+        if scale == ImScale.else__:
+            if vscale is None:
+                raise ImageInfoError(f&#34;The dst vscale, is not set when scale is `else__`!!!&#34;)
+        else:
+            if vscale is not None:
+                raise ImageInfoError(f&#34;The dst vscale, {vscale}, is set &#34;
+                                     f&#34;when scale, {vscale}, has been set in default!!!&#34;)
+            vscale = ImScale.get_value_(scale)
+        return vscale
+
+    def _to_scale(self, scale: uuid_t, vscale: vscale_t | None = None) -&gt; Tuple[im_all, Dict] | None:
+        &#34;&#34;&#34;
+        `to_scale` 的实质执行函数，如果转换前后无变化则返回 `None` \n
+        &#34;&#34;&#34;
+        ImScale.check_in_(scale, all_or_index=False)
+        self._judge_all()
+        self._judge_else(ImTerm.style)
+        src_scale = self._get_vscale(self._scale, self._info[ImInfo.vscale])
+        dst_scale = self._get_vscale(scale, vscale)
+        if src_scale is None or dst_scale is None:
+            raise ImageInfoError(f&#34;src_scale {src_scale} or dst_scale {dst_scale} is None, &#34;
+                                 f&#34;cannot implement &#39;to-scale&#39;!!!&#34;)
+        if src_scale == dst_scale:
+            return
+        info = dict()
+        info[ImInfo.vscale] = vscale
+        if self._style == ImStyle.im_file:
+            im = self.to_style(ImStyle.im_ndarray)
+            im._image = np.clip(
+                (dst_scale[0][1] - dst_scale[0][0]) / (src_scale[0][1] - src_scale[0][0])
+                * (im.image - src_scale[0][0]) + dst_scale[0][0],
+                0, 255).astype(np.uint8)
+            im.to_style_(ImStyle.im_file)
+            image = im.image
+        elif self._style == ImStyle.im_ndarray or self._style == ImStyle.cv_ndarray or self._style == ImStyle.im_tensor:
+            image = ((dst_scale[0][1] - dst_scale[0][0]) / (src_scale[0][1] - src_scale[0][0])
+                     * (self._image - src_scale[0][0]) + dst_scale[0][0])
+            # `freq` 颜色不进行截断和类型转换
+            if self._color != ImColor.freq:
+                if self._style == ImStyle.im_ndarray or self._style == ImStyle.cv_ndarray:
+                    image = np.clip(image, dst_scale[0][0], dst_scale[0][1]).astype(dst_scale[1])
+                else:
+                    # 将 `dtype` 类型由 `np.dtype` 映射为 `torch.dtype`
+                    if dst_scale[1] in self._np_int:
+                        dtype = self._torch_int[self._np_int.index(dst_scale[1])]
+                    elif dst_scale[1] in self._np_float:
+                        dtype = self._torch_float[self._np_float.index(dst_scale[1])]
+                    else:
+                        raise ImageInfoError(
+                            f&#34;The dst dtype, {dst_scale[1]}, is not in {self._np_int} or {self._np_float}&#34;)
+                    image = torch.clip(image, dst_scale[0][0], dst_scale[0][1]).type(dtype)
+        else:
+            raise ImageStyleError(
+                f&#34;Image style {ImStyle.get_value_(self._style)} is not implemented a &#39;to_scale&#39; function!!!&#34;)
+        return image, info
+
+    def to_scale_(self, scale: uuid_t, vscale: vscale_t | None = None) -&gt; None:
+        &#34;&#34;&#34;本地转换&#34;&#34;&#34;
+        result = self._to_scale(scale, vscale)
+        if result is not None:
+            image, info = result
+            self._image = image
+            self._scale = scale
+            ImInfo.update_dict_(self._info, info)
+
+    def to_scale(self, scale: uuid_t, vscale: vscale_t | None = None, is_new: bool = False) -&gt; ImStd:
+        &#34;&#34;&#34;
+        范围转换，如果源范围是非标准化的，则要求 `info.vscale` 被设置 \n
+        `is_new=True`，则总是返回一个全新的 `ImStd` 图像容器 \n
+        `is_new=False`，则仅在原有范围不为 `scale` 或 `vscale` 时返回深拷贝结果，否则返回本身； \n
+        要求 `style` 为标准化情形，否则报错； \n
+        若 `style` 为 `im_file`，则无视类型说明，转换后的实际类型总是 `np.uint8`，但设置类型时依然设置为目标类型 \n
+        如果只是想要扩展 int 或 float 类型的精度，则直接用 image 替换原有 image 即可，均与默认选项兼容 \n
+        .. important::
+            `vscale` 只能在非标准情况下设置，如果标准情况下设置则会报错 \n
+        &#34;&#34;&#34;
+        result = self._to_scale(scale, vscale)
+        if result is None and is_new is False:
+            return self
+        else:
+            im = deepcopy(self)
+            if result is not None:
+                image, info = result
+                im._image = image
+                ImInfo.update_dict_(im._info, info)
+            im._scale = scale
+            return im
+
+    @staticmethod
+    def _checkout_freq(im: ImStd, mag_or_phase: bool | None) -&gt; ImStd:
+        &#34;&#34;&#34;将频域图转换为灰度图，用于显示的灰度图，转换后的灰度图范围总会被缩放至 $[0, 1]$ 区间&#34;&#34;&#34;
+        if im._color == ImColor.freq:
+            style = im.style
+            im = im.to_style(ImStyle.im_ndarray, is_new=True)
+            image_n = im.image
+            if im._info[ImInfo.ap_or_ri] is False:
+                image_n = im_ri2ap(image_n)
+            if mag_or_phase is True:
+                image_n = image_n[:, :, 0]
+                image_n = np.log(image_n + 1)
+            elif mag_or_phase is False:
+                image_n = image_n[:, :, 1]
+            else:
+                raise ImageFunctionError(f&#34;mag_or_phase is not set correctly when showing freq image!!!&#34;)
+            image_n = image_n / np.max(image_n)
+            im._image = image_n
+            im._color = ImColor.gray
+            im._scale = ImScale.float_n
+            im.to_style_(style)
+        return im
+
+    def show_image(self, show: uuid_t, para=None) -&gt; None:
+        &#34;&#34;&#34;
+        显示图像，`show` 指定了图像显示的方式 \n
+        `para` 中是附加参数项
+        &#34;&#34;&#34;
+        ImShow.check_in_(show, all_or_index=False)
+        self._judge_all()
+        self._judge_else(ImTerm.style, ImTerm.color)
+        para = ImOutput.dict_(para)
+
+        if show == ImShow.inner:
+            im = self.to_style(ImStyle.im_ndarray, is_new=False)
+            im = self._checkout_freq(im, para[ImOutput.mag_or_phase])
+            # 此处不会缩放至 `uint8`，因为 `plt.imshow` 本身就是自带缩放的
+            if &#39;cmap&#39; not in para[ImOutput.others].keys():
+                if im._color == ImColor.gray or im._color == ImColor.freq:
+                    cmap = &#39;gray&#39;
+                elif im._color == ImColor.colored:
+                    cmap = None
+                else:
+                    raise ImageInfoError(f&#34;The image color format, {self._color}, is not implemented!!!&#34;)
+            else:
+                cmap = para[ImOutput.others].pop(&#39;cmap&#39;)
+            plt.imshow(im.image, cmap=cmap, **para[ImOutput.others])
+            plt.show()
+        elif show == ImShow.system:
+            im = self._checkout_freq(self, para[ImOutput.mag_or_phase])
+            im = im.to_scale(ImScale.uint8_t)
+            im.to_style(ImStyle.im_file)
+            im.image.show(**para[ImOutput.others])
+        elif show == ImShow.windows:
+            im = self.to_style(ImStyle.cv_ndarray, is_new=False)
+            im = self._checkout_freq(im, para[ImOutput.mag_or_phase])
+            im = im.to_scale(ImScale.uint8_t)
+            if &#39;winname&#39; not in para[ImOutput.others].keys():
+                winname = datetime.now().strftime(&#39;%Y-%m-%d %H:%M:%S.%f&#39;)
+            else:
+                winname = para[ImOutput.others].pop(&#39;winname&#39;)
+            cv2.imshow(winname, im.image)
+            cv2.waitKey(0)
+            cv2.destroyWindow(winname)
+        else:
+            raise ImageFunctionError(
+                f&#34;Showing Type {ImShow.get_name_(show)} is not implemented!!!&#34;)
+        return
+
+    def save_image(self, path: str, is_cache: bool = False, para=None) -&gt; None:
+        &#34;&#34;&#34;
+        保存图像 \n
+        `is_cache` 指定了是否使用数据的序列化缓存格式，缓存格式下不需要 `style` 是标准化的 \n
+        `para` 中是附加参数项 \n
+        `freq` 格式只有在缓存模式下才是可被还原为频谱，否则只能作为灰度图 \n
+        &#34;&#34;&#34;
+        if is_cache:
+            save_data_to_pkl(self, path)
+        else:
+            self._judge_all()
+            self._judge_else(ImTerm.style, ImTerm.color)
+            para = ImOutput.dict_(para)
+            ensure_path_writable(path, is_raise=True)
+            im = self._checkout_freq(self, para[ImOutput.mag_or_phase])
+            im = im.to_scale(ImScale.uint8_t)
+            im = im.to_style(ImStyle.im_file, is_new=False)
+            im.image.save(path, **para[ImOutput.others])</code></pre>
+</details>
+<h3>Instance variables</h3>
+<dl>
+<dt id="hagike.basics.cv.file.image.im.ImStd.ap_or_ri"><code class="name">prop <span class="ident">ap_or_ri</span> : None | bool</code></dt>
+<dd>
+<div class="desc"><p>返回频域类型，<code>幅度相位</code> / <code>实部虚部</code></p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def ap_or_ri(self) -&gt; None | bool:
+    &#34;&#34;&#34;返回频域类型，`幅度相位` / `实部虚部`&#34;&#34;&#34;
+    self._judge_color()
+    return self._info[ImInfo.ap_or_ri]</code></pre>
+</details>
+</dd>
+<dt id="hagike.basics.cv.file.image.im.ImStd.color"><code class="name">prop <span class="ident">color</span> : uuid_t</code></dt>
+<dd>
+<div class="desc"><p>给出 <code>color</code> 前进行检查</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def color(self) -&gt; uuid_t:
+    &#34;&#34;&#34;给出 `color` 前进行检查&#34;&#34;&#34;
+    self._judge_color()
+    return self._color</code></pre>
+</details>
+</dd>
+<dt id="hagike.basics.cv.file.image.im.ImStd.image"><code class="name">prop <span class="ident">image</span> : im_all | Any</code></dt>
+<dd>
+<div class="desc"><p>返回 <code>image</code> 本身</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def image(self) -&gt; im_all | Any:
+    &#34;&#34;&#34;返回 `image` 本身&#34;&#34;&#34;
+    return self._image</code></pre>
+</details>
+</dd>
+<dt id="hagike.basics.cv.file.image.im.ImStd.info"><code class="name">prop <span class="ident">info</span> : MappingProxyType</code></dt>
+<dd>
+<div class="desc"><p>返回只读信息表</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def info(self) -&gt; MappingProxyType:
+    &#34;&#34;&#34;返回只读信息表&#34;&#34;&#34;
+    return MappingProxyType(self._info)</code></pre>
+</details>
+</dd>
+<dt id="hagike.basics.cv.file.image.im.ImStd.others"><code class="name">prop <span class="ident">others</span> : Dict</code></dt>
+<dd>
+<div class="desc"><p>返回用户自定义信息表</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def others(self) -&gt; Dict:
+    &#34;&#34;&#34;返回用户自定义信息表&#34;&#34;&#34;
+    return self._info[ImInfo.others]</code></pre>
+</details>
+</dd>
+<dt id="hagike.basics.cv.file.image.im.ImStd.scale"><code class="name">prop <span class="ident">scale</span> : uuid_t</code></dt>
+<dd>
+<div class="desc"><p>给出 <code>scale</code> 前进行检查</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def scale(self) -&gt; uuid_t:
+    &#34;&#34;&#34;给出 `scale` 前进行检查&#34;&#34;&#34;
+    self._judge_scale()
+    return self._scale</code></pre>
+</details>
+</dd>
+<dt id="hagike.basics.cv.file.image.im.ImStd.style"><code class="name">prop <span class="ident">style</span> : uuid_t</code></dt>
+<dd>
+<div class="desc"><p>给出 <code>style</code> 前进行检查</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def style(self) -&gt; uuid_t:
+    &#34;&#34;&#34;给出 `style` 前进行检查&#34;&#34;&#34;
+    self._judge_style()
+    return self._style</code></pre>
+</details>
+</dd>
+<dt id="hagike.basics.cv.file.image.im.ImStd.terms"><code class="name">prop <span class="ident">terms</span> : Dict[uuid_t, Any]</code></dt>
+<dd>
+<div class="desc"><p>返回配置信息表</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def terms(self) -&gt; Dict[uuid_t, Any]:
+    &#34;&#34;&#34;返回配置信息表&#34;&#34;&#34;
+    return {ImTerm.style: self._style,
+            ImTerm.color: self._color,
+            ImTerm.scale: self._scale}</code></pre>
+</details>
+</dd>
+<dt id="hagike.basics.cv.file.image.im.ImStd.vscale"><code class="name">prop <span class="ident">vscale</span> : None | tuple</code></dt>
+<dd>
+<div class="desc"><p>返回自定义数据范围</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def vscale(self) -&gt; None | tuple:
+    &#34;&#34;&#34;返回自定义数据范围&#34;&#34;&#34;
+    return self._info[ImInfo.vscale]</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="hagike.basics.cv.file.image.im.ImStd.save_image"><code class="name flex">
+<span>def <span class="ident">save_image</span></span>(<span>self, path: str, is_cache: bool = False, para=None) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>保存图像 </p>
+<p><code>is_cache</code> 指定了是否使用数据的序列化缓存格式，缓存格式下不需要 <code>style</code> 是标准化的 </p>
+<p><code>para</code> 中是附加参数项 </p>
+<p><code>freq</code> 格式只有在缓存模式下才是可被还原为频谱，否则只能作为灰度图</p></div>
+</dd>
+<dt id="hagike.basics.cv.file.image.im.ImStd.show_image"><code class="name flex">
+<span>def <span class="ident">show_image</span></span>(<span>self, show: uuid_t, para=None) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>显示图像，<code>show</code> 指定了图像显示的方式 </p>
+<p><code>para</code> 中是附加参数项</p></div>
+</dd>
+<dt id="hagike.basics.cv.file.image.im.ImStd.to_color"><code class="name flex">
+<span>def <span class="ident">to_color</span></span>(<span>self, color: uuid_t, is_new: bool = False) ‑> <a title="hagike.basics.cv.file.image.im.ImStd" href="#hagike.basics.cv.file.image.im.ImStd">ImStd</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>转换颜色模式 </p>
+<p><code>is_new=True</code>，则总是返回一个全新的 <code><a title="hagike.basics.cv.file.image.im.ImStd" href="#hagike.basics.cv.file.image.im.ImStd">ImStd</a></code> 图像容器，无论原有是否一致 </p>
+<p><code>is_new=False</code>，则仅在与原有不一致时返回深拷贝结果，否则返回本身； </p>
+<p>当明确知道后续只有只读操作后可以这样做，会节省算力与内存 </p>
+<p>要求 <code>style</code> 和 <code>color</code> 为标准化情形，否则报错</p></div>
+</dd>
+<dt id="hagike.basics.cv.file.image.im.ImStd.to_color_"><code class="name flex">
+<span>def <span class="ident">to_color_</span></span>(<span>self, color: uuid_t) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>转换颜色模式，并返回新的图像，本地转换</p></div>
+</dd>
+<dt id="hagike.basics.cv.file.image.im.ImStd.to_scale"><code class="name flex">
+<span>def <span class="ident">to_scale</span></span>(<span>self, scale: uuid_t, vscale: vscale_t | None = None, is_new: bool = False) ‑> <a title="hagike.basics.cv.file.image.im.ImStd" href="#hagike.basics.cv.file.image.im.ImStd">ImStd</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>范围转换，如果源范围是非标准化的，则要求 <code>info.vscale</code> 被设置 </p>
+<p><code>is_new=True</code>，则总是返回一个全新的 <code><a title="hagike.basics.cv.file.image.im.ImStd" href="#hagike.basics.cv.file.image.im.ImStd">ImStd</a></code> 图像容器 </p>
+<p><code>is_new=False</code>，则仅在原有范围不为 <code>scale</code> 或 <code>vscale</code> 时返回深拷贝结果，否则返回本身； </p>
+<p>要求 <code>style</code> 为标准化情形，否则报错； </p>
+<p>若 <code>style</code> 为 <code>im_file</code>，则无视类型说明，转换后的实际类型总是 <code>np.uint8</code>，但设置类型时依然设置为目标类型 </p>
+<p>如果只是想要扩展 int 或 float 类型的精度，则直接用 image 替换原有 image 即可，均与默认选项兼容 </p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p><code>vscale</code> 只能在非标准情况下设置，如果标准情况下设置则会报错</p>
+</div></div>
+</dd>
+<dt id="hagike.basics.cv.file.image.im.ImStd.to_scale_"><code class="name flex">
+<span>def <span class="ident">to_scale_</span></span>(<span>self, scale: uuid_t, vscale: vscale_t | None = None) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>本地转换</p></div>
+</dd>
+<dt id="hagike.basics.cv.file.image.im.ImStd.to_style"><code class="name flex">
+<span>def <span class="ident">to_style</span></span>(<span>self, style: uuid_t, is_new: bool = False) ‑> <a title="hagike.basics.cv.file.image.im.ImStd" href="#hagike.basics.cv.file.image.im.ImStd">ImStd</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>格式转换 </p>
+<p><code>is_new=True</code>，则总是返回一个全新的 <code><a title="hagike.basics.cv.file.image.im.ImStd" href="#hagike.basics.cv.file.image.im.ImStd">ImStd</a></code> 图像容器，无论目标类型与原有类型是否一致 </p>
+<p><code>is_new=False</code>，则仅在目标类型与原有类型不一致时返回深拷贝结果，否则返回本身； </p>
+<p>当明确知道后续只有只读操作后可以这样做，会节省算力与内存 </p>
+<p>要求 <code>style</code> 为标准化情形</p></div>
+</dd>
+<dt id="hagike.basics.cv.file.image.im.ImStd.to_style_"><code class="name flex">
+<span>def <span class="ident">to_style_</span></span>(<span>self, style: uuid_t) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>格式转换为指定 <code>style</code> </p>
+<p>这里将 <code>im_ndarray</code> 作为中间格式用于转换 </p>
+<p>在因为格式原因无法进行转换时，会抛出异常 </p>
+<p>转换会就地进行</p></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="hagike.basics.cv.file.image" href="index.html">hagike.basics.cv.file.image</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="hagike.basics.cv.file.image.im.im_ap2ri" href="#hagike.basics.cv.file.image.im.im_ap2ri">im_ap2ri</a></code></li>
+<li><code><a title="hagike.basics.cv.file.image.im.im_ri2ap" href="#hagike.basics.cv.file.image.im.im_ri2ap">im_ri2ap</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="hagike.basics.cv.file.image.im.ImStd" href="#hagike.basics.cv.file.image.im.ImStd">ImStd</a></code></h4>
+<ul class="two-column">
+<li><code><a title="hagike.basics.cv.file.image.im.ImStd.ap_or_ri" href="#hagike.basics.cv.file.image.im.ImStd.ap_or_ri">ap_or_ri</a></code></li>
+<li><code><a title="hagike.basics.cv.file.image.im.ImStd.color" href="#hagike.basics.cv.file.image.im.ImStd.color">color</a></code></li>
+<li><code><a title="hagike.basics.cv.file.image.im.ImStd.image" href="#hagike.basics.cv.file.image.im.ImStd.image">image</a></code></li>
+<li><code><a title="hagike.basics.cv.file.image.im.ImStd.info" href="#hagike.basics.cv.file.image.im.ImStd.info">info</a></code></li>
+<li><code><a title="hagike.basics.cv.file.image.im.ImStd.others" href="#hagike.basics.cv.file.image.im.ImStd.others">others</a></code></li>
+<li><code><a title="hagike.basics.cv.file.image.im.ImStd.save_image" href="#hagike.basics.cv.file.image.im.ImStd.save_image">save_image</a></code></li>
+<li><code><a title="hagike.basics.cv.file.image.im.ImStd.scale" href="#hagike.basics.cv.file.image.im.ImStd.scale">scale</a></code></li>
+<li><code><a title="hagike.basics.cv.file.image.im.ImStd.show_image" href="#hagike.basics.cv.file.image.im.ImStd.show_image">show_image</a></code></li>
+<li><code><a title="hagike.basics.cv.file.image.im.ImStd.style" href="#hagike.basics.cv.file.image.im.ImStd.style">style</a></code></li>
+<li><code><a title="hagike.basics.cv.file.image.im.ImStd.terms" href="#hagike.basics.cv.file.image.im.ImStd.terms">terms</a></code></li>
+<li><code><a title="hagike.basics.cv.file.image.im.ImStd.to_color" href="#hagike.basics.cv.file.image.im.ImStd.to_color">to_color</a></code></li>
+<li><code><a title="hagike.basics.cv.file.image.im.ImStd.to_color_" href="#hagike.basics.cv.file.image.im.ImStd.to_color_">to_color_</a></code></li>
+<li><code><a title="hagike.basics.cv.file.image.im.ImStd.to_scale" href="#hagike.basics.cv.file.image.im.ImStd.to_scale">to_scale</a></code></li>
+<li><code><a title="hagike.basics.cv.file.image.im.ImStd.to_scale_" href="#hagike.basics.cv.file.image.im.ImStd.to_scale_">to_scale_</a></code></li>
+<li><code><a title="hagike.basics.cv.file.image.im.ImStd.to_style" href="#hagike.basics.cv.file.image.im.ImStd.to_style">to_style</a></code></li>
+<li><code><a title="hagike.basics.cv.file.image.im.ImStd.to_style_" href="#hagike.basics.cv.file.image.im.ImStd.to_style_">to_style_</a></code></li>
+<li><code><a title="hagike.basics.cv.file.image.im.ImStd.vscale" href="#hagike.basics.cv.file.image.im.ImStd.vscale">vscale</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.1</a>.</p>
+</footer>
+</body>
+</html>

@@ -261,6 +261,20 @@ value - 值
         return enum_dict
 
     @classmethod
+    def update_dict_(cls, src_dict: Dict[uuid_t, Any], new_dict: Dict[uuid_t, Any] | None, is_force: bool = True) \
+            -&gt; Dict[uuid_t, Any]:
+        &#34;&#34;&#34;
+        用新配置更新原配置，`is_force` 指定在发现不在表中的量时是否报错； \n
+        对 `src_dict` 本地替换 \n
+        &#34;&#34;&#34;
+        if new_dict is None:
+            return src_dict
+        for key, value in new_dict.items():
+            cls.check_in_(key, is_raise=is_force)
+            src_dict[key] = value
+        return src_dict
+
+    @classmethod
     def list_(cls, enum_dict: Mapping[uuid_t, Any] = None, is_default: bool = False) -&gt; List[Any]:
         &#34;&#34;&#34;
         将dict根据index顺序进行排序，要求所有enum_dict中的key都被包含于enum类的非隐藏部分； \n
@@ -284,7 +298,12 @@ value - 值
         return enum_list
 
     @classmethod
-    def iter_(cls) -&gt; Iterator[int]:
+    def len_(cls) -&gt; int:
+        &#34;&#34;&#34;返回index数量&#34;&#34;&#34;
+        return cls._length
+
+    @classmethod
+    def iter_(cls) -&gt; Iterator[uuid_t]:
         &#34;&#34;&#34;返回index2uuid迭代器&#34;&#34;&#34;
         return iter(cls._index2uuid)
 
@@ -326,12 +345,22 @@ value - 值
 </details>
 <h3>Subclasses</h3>
 <ul class="hlist">
-<li><a title="hagike.basics.cv.file.ImColor" href="../basics/cv/file.html#hagike.basics.cv.file.ImColor">ImColor</a></li>
-<li><a title="hagike.basics.cv.file.ImInfo" href="../basics/cv/file.html#hagike.basics.cv.file.ImInfo">ImInfo</a></li>
-<li><a title="hagike.basics.cv.file.ImScale" href="../basics/cv/file.html#hagike.basics.cv.file.ImScale">ImScale</a></li>
-<li><a title="hagike.basics.cv.file.ImShow" href="../basics/cv/file.html#hagike.basics.cv.file.ImShow">ImShow</a></li>
-<li><a title="hagike.basics.cv.file.ImStyle" href="../basics/cv/file.html#hagike.basics.cv.file.ImStyle">ImStyle</a></li>
-<li><a title="hagike.basics.cv.file.ImTerm" href="../basics/cv/file.html#hagike.basics.cv.file.ImTerm">ImTerm</a></li>
+<li><a title="hagike.basics.cv.file.image.const.ImColor" href="../basics/cv/file/image/const.html#hagike.basics.cv.file.image.const.ImColor">ImColor</a></li>
+<li><a title="hagike.basics.cv.file.image.const.ImInfo" href="../basics/cv/file/image/const.html#hagike.basics.cv.file.image.const.ImInfo">ImInfo</a></li>
+<li><a title="hagike.basics.cv.file.image.const.ImOutput" href="../basics/cv/file/image/const.html#hagike.basics.cv.file.image.const.ImOutput">ImOutput</a></li>
+<li><a title="hagike.basics.cv.file.image.const.ImScale" href="../basics/cv/file/image/const.html#hagike.basics.cv.file.image.const.ImScale">ImScale</a></li>
+<li><a title="hagike.basics.cv.file.image.const.ImShow" href="../basics/cv/file/image/const.html#hagike.basics.cv.file.image.const.ImShow">ImShow</a></li>
+<li><a title="hagike.basics.cv.file.image.const.ImStyle" href="../basics/cv/file/image/const.html#hagike.basics.cv.file.image.const.ImStyle">ImStyle</a></li>
+<li><a title="hagike.basics.cv.file.image.const.ImTerm" href="../basics/cv/file/image/const.html#hagike.basics.cv.file.image.const.ImTerm">ImTerm</a></li>
+<li><a title="hagike.basics.cv.filter.ImFreq" href="../basics/cv/filter.html#hagike.basics.cv.filter.ImFreq">ImFreq</a></li>
+<li><a title="hagike.basics.cv.filter.ImFreq.HPF" href="../basics/cv/filter.html#hagike.basics.cv.filter.ImFreq.HPF">ImFreq.HPF</a></li>
+<li><a title="hagike.basics.cv.filter.ImFreq.LPF" href="../basics/cv/filter.html#hagike.basics.cv.filter.ImFreq.LPF">ImFreq.LPF</a></li>
+<li><a title="hagike.basics.cv.filter.ImSharp" href="../basics/cv/filter.html#hagike.basics.cv.filter.ImSharp">ImSharp</a></li>
+<li><a title="hagike.basics.cv.filter.ImSharp.laplacian" href="../basics/cv/filter.html#hagike.basics.cv.filter.ImSharp.laplacian">ImSharp.laplacian</a></li>
+<li><a title="hagike.basics.cv.filter.ImSharp.sharpening" href="../basics/cv/filter.html#hagike.basics.cv.filter.ImSharp.sharpening">ImSharp.sharpening</a></li>
+<li><a title="hagike.basics.cv.filter.ImSmooth" href="../basics/cv/filter.html#hagike.basics.cv.filter.ImSmooth">ImSmooth</a></li>
+<li><a title="hagike.basics.cv.filter.ImSmooth.gaussian" href="../basics/cv/filter.html#hagike.basics.cv.filter.ImSmooth.gaussian">ImSmooth.gaussian</a></li>
+<li><a title="hagike.basics.cv.filter.ImSmooth.mean" href="../basics/cv/filter.html#hagike.basics.cv.filter.ImSmooth.mean">ImSmooth.mean</a></li>
 <li><a title="hagike.basics.cv.noise.ImNoise" href="../basics/cv/noise.html#hagike.basics.cv.noise.ImNoise">ImNoise</a></li>
 <li><a title="hagike.basics.cv.noise.ImNoise.gaussian" href="../basics/cv/noise.html#hagike.basics.cv.noise.ImNoise.gaussian">ImNoise.gaussian</a></li>
 <li><a title="hagike.basics.cv.noise.ImNoise.poisson" href="../basics/cv/noise.html#hagike.basics.cv.noise.ImNoise.poisson">ImNoise.poisson</a></li>
@@ -397,6 +426,12 @@ value - 值
 <dd>
 <div class="desc"><p>返回index2uuid迭代器</p></div>
 </dd>
+<dt id="hagike.utils.enum.SuperEnum.len_"><code class="name flex">
+<span>def <span class="ident">len_</span></span>(<span>) ‑> int</span>
+</code></dt>
+<dd>
+<div class="desc"><p>返回index数量</p></div>
+</dd>
 <dt id="hagike.utils.enum.SuperEnum.list_"><code class="name flex">
 <span>def <span class="ident">list_</span></span>(<span>enum_dict: Mapping[uuid_t, Any] = None, is_default: bool = False) ‑> List[Any]</span>
 </code></dt>
@@ -421,6 +456,13 @@ value - 值
 </code></dt>
 <dd>
 <div class="desc"><p>以树形结构递归打印该枚举类信息</p></div>
+</dd>
+<dt id="hagike.utils.enum.SuperEnum.update_dict_"><code class="name flex">
+<span>def <span class="ident">update_dict_</span></span>(<span>src_dict: Dict[uuid_t, Any], new_dict: Dict[uuid_t, Any] | None, is_force: bool = True) ‑> Dict[int, Any]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>用新配置更新原配置，<code>is_force</code> 指定在发现不在表中的量时是否报错； </p>
+<p>对 <code>src_dict</code> 本地替换</p></div>
 </dd>
 </dl>
 </dd>
@@ -468,10 +510,12 @@ value - 值
 <li><code><a title="hagike.utils.enum.SuperEnum.get_uuid_" href="#hagike.utils.enum.SuperEnum.get_uuid_">get_uuid_</a></code></li>
 <li><code><a title="hagike.utils.enum.SuperEnum.get_value_" href="#hagike.utils.enum.SuperEnum.get_value_">get_value_</a></code></li>
 <li><code><a title="hagike.utils.enum.SuperEnum.iter_" href="#hagike.utils.enum.SuperEnum.iter_">iter_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.len_" href="#hagike.utils.enum.SuperEnum.len_">len_</a></code></li>
 <li><code><a title="hagike.utils.enum.SuperEnum.list_" href="#hagike.utils.enum.SuperEnum.list_">list_</a></code></li>
 <li><code><a title="hagike.utils.enum.SuperEnum.print_" href="#hagike.utils.enum.SuperEnum.print_">print_</a></code></li>
 <li><code><a title="hagike.utils.enum.SuperEnum.print_pack_" href="#hagike.utils.enum.SuperEnum.print_pack_">print_pack_</a></code></li>
 <li><code><a title="hagike.utils.enum.SuperEnum.tree_" href="#hagike.utils.enum.SuperEnum.tree_">tree_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.update_dict_" href="#hagike.utils.enum.SuperEnum.update_dict_">update_dict_</a></code></li>
 </ul>
 </li>
 </ul>

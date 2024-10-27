@@ -1,0 +1,678 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.1">
+<title>hagike.basics.cv.file.image.const API documentation</title>
+<meta name="description" content="***常量表***">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script type="text/x-mathjax-config">MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], processEscapes: true } });</script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS_CHTML" integrity="sha256-kZafAc6mZvK3W3v1pHOcUix30OHQN6pU/NO2oFkqZVw=" crossorigin></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>hagike.basics.cv.file.image.const</code></h1>
+</header>
+<section id="section-intro">
+<p><strong><em>常量表</em></strong></p>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-variables">Global variables</h2>
+<dl>
+<dt id="hagike.basics.cv.file.image.const.vscale_t"><code class="name">var <span class="ident">vscale_t</span></code></dt>
+<dd>
+<div class="desc"><p>数据范围类型</p></div>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="hagike.basics.cv.file.image.const.ImColor"><code class="flex name class">
+<span>class <span class="ident">ImColor</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>颜色类型</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@advanced_enum()
+class ImColor(SuperEnum):
+    &#34;&#34;&#34;颜色类型&#34;&#34;&#34;
+    gray: uuid_t = None
+    &#34;&#34;&#34;单色&#34;&#34;&#34;
+    colored: uuid_t = None
+    &#34;&#34;&#34;彩色&#34;&#34;&#34;
+    freq: uuid_t = None
+    &#34;&#34;&#34;
+    频域，限定单色或指定彩色某通道向此类型转换 \n
+    频谱类型无视数值类型转换，容器中的 `scale` 指示的是频谱图来源的范围，而非频谱图本身的范围 \n
+    容器中为实部虚部还是幅度相位，在附加信息表中会进行记录 \n
+    &#34;&#34;&#34;
+    auto__: uuid_t = None
+    &#34;&#34;&#34;自动判断&#34;&#34;&#34;
+    else__: uuid_t = None
+    &#34;&#34;&#34;非标准颜色&#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="hagike.utils.enum.SuperEnum" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum">SuperEnum</a></li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="hagike.basics.cv.file.image.const.ImColor.auto__"><code class="name">var <span class="ident">auto__</span> : int</code></dt>
+<dd>
+<div class="desc"><p>自动判断</p></div>
+</dd>
+<dt id="hagike.basics.cv.file.image.const.ImColor.colored"><code class="name">var <span class="ident">colored</span> : int</code></dt>
+<dd>
+<div class="desc"><p>彩色</p></div>
+</dd>
+<dt id="hagike.basics.cv.file.image.const.ImColor.else__"><code class="name">var <span class="ident">else__</span> : int</code></dt>
+<dd>
+<div class="desc"><p>非标准颜色</p></div>
+</dd>
+<dt id="hagike.basics.cv.file.image.const.ImColor.freq"><code class="name">var <span class="ident">freq</span> : int</code></dt>
+<dd>
+<div class="desc"><p>频域，限定单色或指定彩色某通道向此类型转换 </p>
+<p>频谱类型无视数值类型转换，容器中的 <code>scale</code> 指示的是频谱图来源的范围，而非频谱图本身的范围 </p>
+<p>容器中为实部虚部还是幅度相位，在附加信息表中会进行记录</p></div>
+</dd>
+<dt id="hagike.basics.cv.file.image.const.ImColor.gray"><code class="name">var <span class="ident">gray</span> : int</code></dt>
+<dd>
+<div class="desc"><p>单色</p></div>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="hagike.utils.enum.SuperEnum" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum">SuperEnum</a></b></code>:
+<ul class="hlist">
+<li><code><a title="hagike.utils.enum.SuperEnum.check_in_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.check_in_">check_in_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.check_include_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.check_include_">check_include_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.dict_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.dict_">dict_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_cls_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.get_cls_">get_cls_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_index_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.get_index_">get_index_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_name_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.get_name_">get_name_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_uuid_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.get_uuid_">get_uuid_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_value_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.get_value_">get_value_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.iter_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.iter_">iter_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.len_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.len_">len_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.list_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.list_">list_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.print_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.print_">print_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.print_pack_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.print_pack_">print_pack_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.tree_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.tree_">tree_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.update_dict_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.update_dict_">update_dict_</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="hagike.basics.cv.file.image.const.ImInfo"><code class="flex name class">
+<span>class <span class="ident">ImInfo</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>图片的个性化信息，主要服务于非标准化情况，并提供用户个性化存储的容器 </p>
+<p>这里列出的仅为常用类型，实际使用时包括且不限于此，这里仅 others 中的项是用户有自由设置权限的，其它都需要通过接口设置</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@advanced_enum()
+class ImInfo(SuperEnum):
+    &#34;&#34;&#34;
+    图片的个性化信息，主要服务于非标准化情况，并提供用户个性化存储的容器 \n
+    这里列出的仅为常用类型，实际使用时包括且不限于此，这里仅 others 中的项是用户有自由设置权限的，其它都需要通过接口设置 \n
+    &#34;&#34;&#34;
+    vscale = None
+    &#34;&#34;&#34;范围，要求为有两项的元组&#34;&#34;&#34;
+    ap_or_ri = None
+    &#34;&#34;&#34;频域情况下，图像为 `amplitude-phase` 还是 `real-imaginary`&#34;&#34;&#34;
+    others = dict()
+    &#34;&#34;&#34;用户自定义项，是一个字典&#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="hagike.utils.enum.SuperEnum" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum">SuperEnum</a></li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="hagike.basics.cv.file.image.const.ImInfo.ap_or_ri"><code class="name">var <span class="ident">ap_or_ri</span></code></dt>
+<dd>
+<div class="desc"><p>频域情况下，图像为 <code>amplitude-phase</code> 还是 <code>real-imaginary</code></p></div>
+</dd>
+<dt id="hagike.basics.cv.file.image.const.ImInfo.others"><code class="name">var <span class="ident">others</span></code></dt>
+<dd>
+<div class="desc"><p>用户自定义项，是一个字典</p></div>
+</dd>
+<dt id="hagike.basics.cv.file.image.const.ImInfo.vscale"><code class="name">var <span class="ident">vscale</span></code></dt>
+<dd>
+<div class="desc"><p>范围，要求为有两项的元组</p></div>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="hagike.utils.enum.SuperEnum" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum">SuperEnum</a></b></code>:
+<ul class="hlist">
+<li><code><a title="hagike.utils.enum.SuperEnum.check_in_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.check_in_">check_in_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.check_include_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.check_include_">check_include_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.dict_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.dict_">dict_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_cls_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.get_cls_">get_cls_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_index_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.get_index_">get_index_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_name_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.get_name_">get_name_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_uuid_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.get_uuid_">get_uuid_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_value_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.get_value_">get_value_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.iter_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.iter_">iter_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.len_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.len_">len_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.list_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.list_">list_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.print_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.print_">print_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.print_pack_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.print_pack_">print_pack_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.tree_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.tree_">tree_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.update_dict_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.update_dict_">update_dict_</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="hagike.basics.cv.file.image.const.ImOutput"><code class="flex name class">
+<span>class <span class="ident">ImOutput</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>显示图像时的选择性参数</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@advanced_enum()
+class ImOutput(SuperEnum):
+    &#34;&#34;&#34;
+    显示图像时的选择性参数 \n
+    &#34;&#34;&#34;
+    mag_or_phase = None
+    &#34;&#34;&#34;如果是频域，那显示幅频还是相频&#34;&#34;&#34;
+    others = dict()
+    &#34;&#34;&#34;用户自定义项，是一个字典，会在下层调用时展开&#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="hagike.utils.enum.SuperEnum" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum">SuperEnum</a></li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="hagike.basics.cv.file.image.const.ImOutput.mag_or_phase"><code class="name">var <span class="ident">mag_or_phase</span></code></dt>
+<dd>
+<div class="desc"><p>如果是频域，那显示幅频还是相频</p></div>
+</dd>
+<dt id="hagike.basics.cv.file.image.const.ImOutput.others"><code class="name">var <span class="ident">others</span></code></dt>
+<dd>
+<div class="desc"><p>用户自定义项，是一个字典，会在下层调用时展开</p></div>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="hagike.utils.enum.SuperEnum" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum">SuperEnum</a></b></code>:
+<ul class="hlist">
+<li><code><a title="hagike.utils.enum.SuperEnum.check_in_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.check_in_">check_in_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.check_include_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.check_include_">check_include_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.dict_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.dict_">dict_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_cls_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.get_cls_">get_cls_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_index_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.get_index_">get_index_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_name_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.get_name_">get_name_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_uuid_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.get_uuid_">get_uuid_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_value_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.get_value_">get_value_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.iter_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.iter_">iter_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.len_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.len_">len_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.list_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.list_">list_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.print_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.print_">print_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.print_pack_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.print_pack_">print_pack_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.tree_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.tree_">tree_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.update_dict_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.update_dict_">update_dict_</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="hagike.basics.cv.file.image.const.ImScale"><code class="flex name class">
+<span>class <span class="ident">ImScale</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>图像值范围 </p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>数据类型需要是 <code>np</code> 系列的，否则检查时会报错，内部会实现其它类型与 <code>np</code> 类型的转换！！！</p>
+</div></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@advanced_enum()
+class ImScale(SuperEnum):
+    &#34;&#34;&#34;
+    图像值范围 \n
+    .. important::
+        数据类型需要是 `np` 系列的，否则检查时会报错，内部会实现其它类型与 `np` 类型的转换！！！
+    &#34;&#34;&#34;
+    uint8_t: uuid_t = ((0, 255), np.uint8)
+    &#34;&#34;&#34;
+    标准RGB值 \n
+    .. important::
+        这里将所有的整数类型型都归为这一范围，
+        且不会检查其范围是否真的在该区间内，但默认该区间为对应范围！！！
+    &#34;&#34;&#34;
+    float_n: uuid_t = ((0.0, 1.0), np.float32)
+    &#34;&#34;&#34;
+    归一化的像素值 \n
+    .. important::
+        这里将所有的浮点类型都归为这一范围，
+        且不会检查其范围是否真的在该区间内，但默认该区间为对应范围！！！
+    &#34;&#34;&#34;
+    auto__: uuid_t = None
+    &#34;&#34;&#34;自动判断&#34;&#34;&#34;
+    else__: uuid_t = None
+    &#34;&#34;&#34;非标准范围&#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="hagike.utils.enum.SuperEnum" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum">SuperEnum</a></li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="hagike.basics.cv.file.image.const.ImScale.auto__"><code class="name">var <span class="ident">auto__</span> : int</code></dt>
+<dd>
+<div class="desc"><p>自动判断</p></div>
+</dd>
+<dt id="hagike.basics.cv.file.image.const.ImScale.else__"><code class="name">var <span class="ident">else__</span> : int</code></dt>
+<dd>
+<div class="desc"><p>非标准范围</p></div>
+</dd>
+<dt id="hagike.basics.cv.file.image.const.ImScale.float_n"><code class="name">var <span class="ident">float_n</span> : int</code></dt>
+<dd>
+<div class="desc"><p>归一化的像素值 </p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>这里将所有的浮点类型都归为这一范围，
+且不会检查其范围是否真的在该区间内，但默认该区间为对应范围！！！</p>
+</div></div>
+</dd>
+<dt id="hagike.basics.cv.file.image.const.ImScale.uint8_t"><code class="name">var <span class="ident">uint8_t</span> : int</code></dt>
+<dd>
+<div class="desc"><p>标准RGB值 </p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>这里将所有的整数类型型都归为这一范围，
+且不会检查其范围是否真的在该区间内，但默认该区间为对应范围！！！</p>
+</div></div>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="hagike.utils.enum.SuperEnum" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum">SuperEnum</a></b></code>:
+<ul class="hlist">
+<li><code><a title="hagike.utils.enum.SuperEnum.check_in_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.check_in_">check_in_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.check_include_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.check_include_">check_include_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.dict_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.dict_">dict_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_cls_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.get_cls_">get_cls_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_index_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.get_index_">get_index_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_name_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.get_name_">get_name_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_uuid_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.get_uuid_">get_uuid_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_value_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.get_value_">get_value_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.iter_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.iter_">iter_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.len_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.len_">len_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.list_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.list_">list_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.print_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.print_">print_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.print_pack_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.print_pack_">print_pack_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.tree_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.tree_">tree_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.update_dict_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.update_dict_">update_dict_</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="hagike.basics.cv.file.image.const.ImShow"><code class="flex name class">
+<span>class <span class="ident">ImShow</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>图片显示方式</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@advanced_enum()
+class ImShow(SuperEnum):
+    &#34;&#34;&#34;图片显示方式&#34;&#34;&#34;
+    inner = None
+    &#34;&#34;&#34;
+    ***调用IDE嵌入查看器*** \n
+    `plt.imshow` 可以接收 `Image` 和 `np.ndarray` 两种格式的输入，主要是用于显示数据图而非原始图像的； \n
+    在显示或转换时，如果类型不是uint8类型的，容器会给出警告，因为自动转换可能是不可靠的 \n
+    但优势在于，Pycharm等IDE中有嵌入的查看器，无需打开额外窗口，且是非阻塞的；同时，图像会带有坐标轴 \n
+    在使用上，如果输入的是灰度图，且希望以灰度方式显示，则需要指定参数cmap=&#39;gray&#39;，
+    否则会以其它颜色映射方式显示(默认为&#39;viridis&#39;，即从蓝色到绿色再到黄色的渐变) \n
+    .. warning::
+        `plt.imshow` 总是会根据 `np.ndarray` 或 `Image` 转换后得到的 `np.ndarray` 的 `min` 和 `max` 自动缩放数据到$[0, 255]$
+    &#34;&#34;&#34;
+    system = None
+    &#34;&#34;&#34;
+    ***调用系统图片查看器*** \n
+    `Image.show` ，`Image` 格式自带方式，非阻塞，但要与系统默认应用，且要打开额外窗口，较为麻烦 \n
+    .. warning::
+        在某些IDE的运行环境中，运行环境与外界环境是隔离的，这时会出现警告信息，且窗口不会被打开，但是也不会中断运行 \n
+        但如果直接在系统内使用python运行，则不会有问题
+    &#34;&#34;&#34;
+    windows = None
+    &#34;&#34;&#34;
+    ***调用窗口查看器*** \n
+    `cv2.imshow` 会启动cv2的私有窗口，但是是阻塞的，直到进行特定按键窗口才会被销毁 \n
+    &#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="hagike.utils.enum.SuperEnum" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum">SuperEnum</a></li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="hagike.basics.cv.file.image.const.ImShow.inner"><code class="name">var <span class="ident">inner</span></code></dt>
+<dd>
+<div class="desc"><p><strong><em>调用IDE嵌入查看器</em></strong> </p>
+<p><code>plt.imshow</code> 可以接收 <code>Image</code> 和 <code>np.ndarray</code> 两种格式的输入，主要是用于显示数据图而非原始图像的； </p>
+<p>在显示或转换时，如果类型不是uint8类型的，容器会给出警告，因为自动转换可能是不可靠的 </p>
+<p>但优势在于，Pycharm等IDE中有嵌入的查看器，无需打开额外窗口，且是非阻塞的；同时，图像会带有坐标轴 </p>
+<p>在使用上，如果输入的是灰度图，且希望以灰度方式显示，则需要指定参数cmap='gray'，
+否则会以其它颜色映射方式显示(默认为'viridis'，即从蓝色到绿色再到黄色的渐变) </p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><code>plt.imshow</code> 总是会根据 <code>np.ndarray</code> 或 <code>Image</code> 转换后得到的 <code>np.ndarray</code> 的 <code>min</code> 和 <code>max</code> 自动缩放数据到$[0, 255]$</p>
+</div></div>
+</dd>
+<dt id="hagike.basics.cv.file.image.const.ImShow.system"><code class="name">var <span class="ident">system</span></code></dt>
+<dd>
+<div class="desc"><p><strong><em>调用系统图片查看器</em></strong> </p>
+<p><code>Image.show</code> ，<code>Image</code> 格式自带方式，非阻塞，但要与系统默认应用，且要打开额外窗口，较为麻烦 </p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>在某些IDE的运行环境中，运行环境与外界环境是隔离的，这时会出现警告信息，且窗口不会被打开，但是也不会中断运行 </p>
+<p>但如果直接在系统内使用python运行，则不会有问题</p>
+</div></div>
+</dd>
+<dt id="hagike.basics.cv.file.image.const.ImShow.windows"><code class="name">var <span class="ident">windows</span></code></dt>
+<dd>
+<div class="desc"><p><strong><em>调用窗口查看器</em></strong> </p>
+<p><code>cv2.imshow</code> 会启动cv2的私有窗口，但是是阻塞的，直到进行特定按键窗口才会被销毁</p></div>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="hagike.utils.enum.SuperEnum" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum">SuperEnum</a></b></code>:
+<ul class="hlist">
+<li><code><a title="hagike.utils.enum.SuperEnum.check_in_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.check_in_">check_in_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.check_include_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.check_include_">check_include_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.dict_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.dict_">dict_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_cls_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.get_cls_">get_cls_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_index_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.get_index_">get_index_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_name_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.get_name_">get_name_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_uuid_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.get_uuid_">get_uuid_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_value_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.get_value_">get_value_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.iter_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.iter_">iter_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.len_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.len_">len_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.list_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.list_">list_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.print_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.print_">print_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.print_pack_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.print_pack_">print_pack_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.tree_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.tree_">tree_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.update_dict_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.update_dict_">update_dict_</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="hagike.basics.cv.file.image.const.ImStyle"><code class="flex name class">
+<span>class <span class="ident">ImStyle</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>图像格式，值为须设计为可用于 <code>isinstance</code> 的类型</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@advanced_enum()
+class ImStyle(SuperEnum):
+    &#34;&#34;&#34;图像格式，值为须设计为可用于 `isinstance` 的类型&#34;&#34;&#34;
+    im_file: uuid_t = (Image.Image, ImageFile.ImageFile)
+    &#34;&#34;&#34;Image格式&#34;&#34;&#34;
+    cv_ndarray: uuid_t = cv_ndarray
+    &#34;&#34;&#34;cv2格式&#34;&#34;&#34;
+    im_ndarray: uuid_t = im_ndarray
+    &#34;&#34;&#34;Image转array格式&#34;&#34;&#34;
+    im_tensor: uuid_t = im_tensor
+    &#34;&#34;&#34;torch格式&#34;&#34;&#34;
+    auto__: uuid_t = None
+    &#34;&#34;&#34;自动判断&#34;&#34;&#34;
+    else__: uuid_t = None
+    &#34;&#34;&#34;非标准格式&#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="hagike.utils.enum.SuperEnum" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum">SuperEnum</a></li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="hagike.basics.cv.file.image.const.ImStyle.auto__"><code class="name">var <span class="ident">auto__</span> : int</code></dt>
+<dd>
+<div class="desc"><p>自动判断</p></div>
+</dd>
+<dt id="hagike.basics.cv.file.image.const.ImStyle.cv_ndarray"><code class="name">var <span class="ident">cv_ndarray</span> : int</code></dt>
+<dd>
+<div class="desc"><p>cv2格式</p></div>
+</dd>
+<dt id="hagike.basics.cv.file.image.const.ImStyle.else__"><code class="name">var <span class="ident">else__</span> : int</code></dt>
+<dd>
+<div class="desc"><p>非标准格式</p></div>
+</dd>
+<dt id="hagike.basics.cv.file.image.const.ImStyle.im_file"><code class="name">var <span class="ident">im_file</span> : int</code></dt>
+<dd>
+<div class="desc"><p>Image格式</p></div>
+</dd>
+<dt id="hagike.basics.cv.file.image.const.ImStyle.im_ndarray"><code class="name">var <span class="ident">im_ndarray</span> : int</code></dt>
+<dd>
+<div class="desc"><p>Image转array格式</p></div>
+</dd>
+<dt id="hagike.basics.cv.file.image.const.ImStyle.im_tensor"><code class="name">var <span class="ident">im_tensor</span> : int</code></dt>
+<dd>
+<div class="desc"><p>torch格式</p></div>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="hagike.utils.enum.SuperEnum" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum">SuperEnum</a></b></code>:
+<ul class="hlist">
+<li><code><a title="hagike.utils.enum.SuperEnum.check_in_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.check_in_">check_in_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.check_include_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.check_include_">check_include_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.dict_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.dict_">dict_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_cls_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.get_cls_">get_cls_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_index_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.get_index_">get_index_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_name_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.get_name_">get_name_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_uuid_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.get_uuid_">get_uuid_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_value_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.get_value_">get_value_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.iter_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.iter_">iter_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.len_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.len_">len_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.list_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.list_">list_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.print_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.print_">print_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.print_pack_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.print_pack_">print_pack_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.tree_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.tree_">tree_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.update_dict_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.update_dict_">update_dict_</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="hagike.basics.cv.file.image.const.ImTerm"><code class="flex name class">
+<span>class <span class="ident">ImTerm</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p><code>ImStd</code> 中的项</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@advanced_enum()
+class ImTerm(SuperEnum):
+    &#34;&#34;&#34;`ImStd` 中的项&#34;&#34;&#34;
+    image__ = None
+    style = None
+    color = None
+    scale = None
+    info__ = None</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="hagike.utils.enum.SuperEnum" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum">SuperEnum</a></li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="hagike.basics.cv.file.image.const.ImTerm.color"><code class="name">var <span class="ident">color</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="hagike.basics.cv.file.image.const.ImTerm.image__"><code class="name">var <span class="ident">image__</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="hagike.basics.cv.file.image.const.ImTerm.info__"><code class="name">var <span class="ident">info__</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="hagike.basics.cv.file.image.const.ImTerm.scale"><code class="name">var <span class="ident">scale</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="hagike.basics.cv.file.image.const.ImTerm.style"><code class="name">var <span class="ident">style</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="hagike.utils.enum.SuperEnum" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum">SuperEnum</a></b></code>:
+<ul class="hlist">
+<li><code><a title="hagike.utils.enum.SuperEnum.check_in_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.check_in_">check_in_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.check_include_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.check_include_">check_include_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.dict_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.dict_">dict_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_cls_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.get_cls_">get_cls_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_index_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.get_index_">get_index_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_name_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.get_name_">get_name_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_uuid_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.get_uuid_">get_uuid_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_value_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.get_value_">get_value_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.iter_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.iter_">iter_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.len_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.len_">len_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.list_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.list_">list_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.print_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.print_">print_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.print_pack_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.print_pack_">print_pack_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.tree_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.tree_">tree_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.update_dict_" href="../../../../utils/enum.html#hagike.utils.enum.SuperEnum.update_dict_">update_dict_</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="hagike.basics.cv.file.image" href="index.html">hagike.basics.cv.file.image</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-variables">Global variables</a></h3>
+<ul class="">
+<li><code><a title="hagike.basics.cv.file.image.const.vscale_t" href="#hagike.basics.cv.file.image.const.vscale_t">vscale_t</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="hagike.basics.cv.file.image.const.ImColor" href="#hagike.basics.cv.file.image.const.ImColor">ImColor</a></code></h4>
+<ul class="">
+<li><code><a title="hagike.basics.cv.file.image.const.ImColor.auto__" href="#hagike.basics.cv.file.image.const.ImColor.auto__">auto__</a></code></li>
+<li><code><a title="hagike.basics.cv.file.image.const.ImColor.colored" href="#hagike.basics.cv.file.image.const.ImColor.colored">colored</a></code></li>
+<li><code><a title="hagike.basics.cv.file.image.const.ImColor.else__" href="#hagike.basics.cv.file.image.const.ImColor.else__">else__</a></code></li>
+<li><code><a title="hagike.basics.cv.file.image.const.ImColor.freq" href="#hagike.basics.cv.file.image.const.ImColor.freq">freq</a></code></li>
+<li><code><a title="hagike.basics.cv.file.image.const.ImColor.gray" href="#hagike.basics.cv.file.image.const.ImColor.gray">gray</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="hagike.basics.cv.file.image.const.ImInfo" href="#hagike.basics.cv.file.image.const.ImInfo">ImInfo</a></code></h4>
+<ul class="">
+<li><code><a title="hagike.basics.cv.file.image.const.ImInfo.ap_or_ri" href="#hagike.basics.cv.file.image.const.ImInfo.ap_or_ri">ap_or_ri</a></code></li>
+<li><code><a title="hagike.basics.cv.file.image.const.ImInfo.others" href="#hagike.basics.cv.file.image.const.ImInfo.others">others</a></code></li>
+<li><code><a title="hagike.basics.cv.file.image.const.ImInfo.vscale" href="#hagike.basics.cv.file.image.const.ImInfo.vscale">vscale</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="hagike.basics.cv.file.image.const.ImOutput" href="#hagike.basics.cv.file.image.const.ImOutput">ImOutput</a></code></h4>
+<ul class="">
+<li><code><a title="hagike.basics.cv.file.image.const.ImOutput.mag_or_phase" href="#hagike.basics.cv.file.image.const.ImOutput.mag_or_phase">mag_or_phase</a></code></li>
+<li><code><a title="hagike.basics.cv.file.image.const.ImOutput.others" href="#hagike.basics.cv.file.image.const.ImOutput.others">others</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="hagike.basics.cv.file.image.const.ImScale" href="#hagike.basics.cv.file.image.const.ImScale">ImScale</a></code></h4>
+<ul class="">
+<li><code><a title="hagike.basics.cv.file.image.const.ImScale.auto__" href="#hagike.basics.cv.file.image.const.ImScale.auto__">auto__</a></code></li>
+<li><code><a title="hagike.basics.cv.file.image.const.ImScale.else__" href="#hagike.basics.cv.file.image.const.ImScale.else__">else__</a></code></li>
+<li><code><a title="hagike.basics.cv.file.image.const.ImScale.float_n" href="#hagike.basics.cv.file.image.const.ImScale.float_n">float_n</a></code></li>
+<li><code><a title="hagike.basics.cv.file.image.const.ImScale.uint8_t" href="#hagike.basics.cv.file.image.const.ImScale.uint8_t">uint8_t</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="hagike.basics.cv.file.image.const.ImShow" href="#hagike.basics.cv.file.image.const.ImShow">ImShow</a></code></h4>
+<ul class="">
+<li><code><a title="hagike.basics.cv.file.image.const.ImShow.inner" href="#hagike.basics.cv.file.image.const.ImShow.inner">inner</a></code></li>
+<li><code><a title="hagike.basics.cv.file.image.const.ImShow.system" href="#hagike.basics.cv.file.image.const.ImShow.system">system</a></code></li>
+<li><code><a title="hagike.basics.cv.file.image.const.ImShow.windows" href="#hagike.basics.cv.file.image.const.ImShow.windows">windows</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="hagike.basics.cv.file.image.const.ImStyle" href="#hagike.basics.cv.file.image.const.ImStyle">ImStyle</a></code></h4>
+<ul class="two-column">
+<li><code><a title="hagike.basics.cv.file.image.const.ImStyle.auto__" href="#hagike.basics.cv.file.image.const.ImStyle.auto__">auto__</a></code></li>
+<li><code><a title="hagike.basics.cv.file.image.const.ImStyle.cv_ndarray" href="#hagike.basics.cv.file.image.const.ImStyle.cv_ndarray">cv_ndarray</a></code></li>
+<li><code><a title="hagike.basics.cv.file.image.const.ImStyle.else__" href="#hagike.basics.cv.file.image.const.ImStyle.else__">else__</a></code></li>
+<li><code><a title="hagike.basics.cv.file.image.const.ImStyle.im_file" href="#hagike.basics.cv.file.image.const.ImStyle.im_file">im_file</a></code></li>
+<li><code><a title="hagike.basics.cv.file.image.const.ImStyle.im_ndarray" href="#hagike.basics.cv.file.image.const.ImStyle.im_ndarray">im_ndarray</a></code></li>
+<li><code><a title="hagike.basics.cv.file.image.const.ImStyle.im_tensor" href="#hagike.basics.cv.file.image.const.ImStyle.im_tensor">im_tensor</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="hagike.basics.cv.file.image.const.ImTerm" href="#hagike.basics.cv.file.image.const.ImTerm">ImTerm</a></code></h4>
+<ul class="">
+<li><code><a title="hagike.basics.cv.file.image.const.ImTerm.color" href="#hagike.basics.cv.file.image.const.ImTerm.color">color</a></code></li>
+<li><code><a title="hagike.basics.cv.file.image.const.ImTerm.image__" href="#hagike.basics.cv.file.image.const.ImTerm.image__">image__</a></code></li>
+<li><code><a title="hagike.basics.cv.file.image.const.ImTerm.info__" href="#hagike.basics.cv.file.image.const.ImTerm.info__">info__</a></code></li>
+<li><code><a title="hagike.basics.cv.file.image.const.ImTerm.scale" href="#hagike.basics.cv.file.image.const.ImTerm.scale">scale</a></code></li>
+<li><code><a title="hagike.basics.cv.file.image.const.ImTerm.style" href="#hagike.basics.cv.file.image.const.ImTerm.style">style</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.1</a>.</p>
+</footer>
+</body>
+</html>

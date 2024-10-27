@@ -210,6 +210,20 @@ class SuperEnum:
         return enum_dict
 
     @classmethod
+    def update_dict_(cls, src_dict: Dict[uuid_t, Any], new_dict: Dict[uuid_t, Any] | None, is_force: bool = True) \
+            -> Dict[uuid_t, Any]:
+        """
+        用新配置更新原配置，`is_force` 指定在发现不在表中的量时是否报错； \n
+        对 `src_dict` 本地替换 \n
+        """
+        if new_dict is None:
+            return src_dict
+        for key, value in new_dict.items():
+            cls.check_in_(key, is_raise=is_force)
+            src_dict[key] = value
+        return src_dict
+
+    @classmethod
     def list_(cls, enum_dict: Mapping[uuid_t, Any] = None, is_default: bool = False) -> List[Any]:
         """
         将dict根据index顺序进行排序，要求所有enum_dict中的key都被包含于enum类的非隐藏部分； \n
@@ -233,7 +247,12 @@ class SuperEnum:
         return enum_list
 
     @classmethod
-    def iter_(cls) -> Iterator[int]:
+    def len_(cls) -> int:
+        """返回index数量"""
+        return cls._length
+
+    @classmethod
+    def iter_(cls) -> Iterator[uuid_t]:
         """返回index2uuid迭代器"""
         return iter(cls._index2uuid)
 
