@@ -10,7 +10,7 @@ from typing import Mapping, Any, Sequence
 from ...utils import *
 
 
-class _ModuleModeError(Exception):
+class ModuleModeError(Exception):
     """模块运行模式异常"""
     def __init__(self, msg, code=None):
         super().__init__(msg)
@@ -88,7 +88,7 @@ class ModuleTemp(nn.Module):
         if module_dict is not None:
             is_all = True if ModuleKey.all__ in module_dict.keys() else False
         if is_all != self._is_all:
-            raise _ModuleModeError(
+            raise ModuleModeError(
                 f"When updating module, You update it({self._is_all}) in a different way({is_all})!!!")
         # 进行更新
         if self._is_all is None:

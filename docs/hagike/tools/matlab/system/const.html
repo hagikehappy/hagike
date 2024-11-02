@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
 <meta name="generator" content="pdoc3 0.11.1">
-<title>hagike.tools API documentation</title>
-<meta name="description" content="辅助工具">
+<title>hagike.tools.matlab.system.const API documentation</title>
+<meta name="description" content="常量表">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
@@ -24,25 +24,88 @@ hljs.highlightAll();
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>hagike.tools</code></h1>
+<h1 class="title">Module <code>hagike.tools.matlab.system.const</code></h1>
 </header>
 <section id="section-intro">
-<p>辅助工具</p>
+<p>常量表</p>
 </section>
 <section>
-<h2 class="section-title" id="header-submodules">Sub-modules</h2>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt><code class="name"><a title="hagike.tools.matlab" href="matlab/index.html">hagike.tools.matlab</a></code></dt>
+<dt id="hagike.tools.matlab.system.const.MSysInput"><code class="flex name class">
+<span>class <span class="ident">MSysInput</span></span>
+</code></dt>
 <dd>
-<div class="desc"><p>在python中调用 <code><a title="hagike.tools.matlab" href="matlab/index.html">hagike.tools.matlab</a></code> 函数的容器</p></div>
+<div class="desc"><p>输入类型</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@advanced_enum()
+class MSysInput(SuperEnum):
+    &#34;&#34;&#34;输入类型&#34;&#34;&#34;
+    impulse = None
+    &#34;&#34;&#34;冲激响应&#34;&#34;&#34;
+    step = None
+    &#34;&#34;&#34;阶跃响应&#34;&#34;&#34;
+    ramp = None
+    &#34;&#34;&#34;斜坡响应&#34;&#34;&#34;
+    else__ = None
+    &#34;&#34;&#34;非标准类型&#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="hagike.utils.enum.SuperEnum" href="../../../utils/enum.html#hagike.utils.enum.SuperEnum">SuperEnum</a></li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="hagike.tools.matlab.system.const.MSysInput.else__"><code class="name">var <span class="ident">else__</span></code></dt>
+<dd>
+<div class="desc"><p>非标准类型</p></div>
+</dd>
+<dt id="hagike.tools.matlab.system.const.MSysInput.impulse"><code class="name">var <span class="ident">impulse</span></code></dt>
+<dd>
+<div class="desc"><p>冲激响应</p></div>
+</dd>
+<dt id="hagike.tools.matlab.system.const.MSysInput.ramp"><code class="name">var <span class="ident">ramp</span></code></dt>
+<dd>
+<div class="desc"><p>斜坡响应</p></div>
+</dd>
+<dt id="hagike.tools.matlab.system.const.MSysInput.step"><code class="name">var <span class="ident">step</span></code></dt>
+<dd>
+<div class="desc"><p>阶跃响应</p></div>
 </dd>
 </dl>
-</section>
-<section>
-</section>
-<section>
-</section>
-<section>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="hagike.utils.enum.SuperEnum" href="../../../utils/enum.html#hagike.utils.enum.SuperEnum">SuperEnum</a></b></code>:
+<ul class="hlist">
+<li><code><a title="hagike.utils.enum.SuperEnum.check_in_" href="../../../utils/enum.html#hagike.utils.enum.SuperEnum.check_in_">check_in_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.check_include_" href="../../../utils/enum.html#hagike.utils.enum.SuperEnum.check_include_">check_include_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.dict_" href="../../../utils/enum.html#hagike.utils.enum.SuperEnum.dict_">dict_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_cls_" href="../../../utils/enum.html#hagike.utils.enum.SuperEnum.get_cls_">get_cls_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_index_" href="../../../utils/enum.html#hagike.utils.enum.SuperEnum.get_index_">get_index_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_name_" href="../../../utils/enum.html#hagike.utils.enum.SuperEnum.get_name_">get_name_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_uuid_" href="../../../utils/enum.html#hagike.utils.enum.SuperEnum.get_uuid_">get_uuid_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_value_" href="../../../utils/enum.html#hagike.utils.enum.SuperEnum.get_value_">get_value_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.iter_" href="../../../utils/enum.html#hagike.utils.enum.SuperEnum.iter_">iter_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.len_" href="../../../utils/enum.html#hagike.utils.enum.SuperEnum.len_">len_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.list_" href="../../../utils/enum.html#hagike.utils.enum.SuperEnum.list_">list_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.print_" href="../../../utils/enum.html#hagike.utils.enum.SuperEnum.print_">print_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.print_pack_" href="../../../utils/enum.html#hagike.utils.enum.SuperEnum.print_pack_">print_pack_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.tree_" href="../../../utils/enum.html#hagike.utils.enum.SuperEnum.tree_">tree_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.update_dict_" href="../../../utils/enum.html#hagike.utils.enum.SuperEnum.update_dict_">update_dict_</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
 </section>
 </article>
 <nav id="sidebar">
@@ -52,12 +115,20 @@ hljs.highlightAll();
 <ul id="index">
 <li><h3>Super-module</h3>
 <ul>
-<li><code><a title="hagike" href="../index.html">hagike</a></code></li>
+<li><code><a title="hagike.tools.matlab.system" href="index.html">hagike.tools.matlab.system</a></code></li>
 </ul>
 </li>
-<li><h3><a href="#header-submodules">Sub-modules</a></h3>
+<li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
-<li><code><a title="hagike.tools.matlab" href="matlab/index.html">hagike.tools.matlab</a></code></li>
+<li>
+<h4><code><a title="hagike.tools.matlab.system.const.MSysInput" href="#hagike.tools.matlab.system.const.MSysInput">MSysInput</a></code></h4>
+<ul class="">
+<li><code><a title="hagike.tools.matlab.system.const.MSysInput.else__" href="#hagike.tools.matlab.system.const.MSysInput.else__">else__</a></code></li>
+<li><code><a title="hagike.tools.matlab.system.const.MSysInput.impulse" href="#hagike.tools.matlab.system.const.MSysInput.impulse">impulse</a></code></li>
+<li><code><a title="hagike.tools.matlab.system.const.MSysInput.ramp" href="#hagike.tools.matlab.system.const.MSysInput.ramp">ramp</a></code></li>
+<li><code><a title="hagike.tools.matlab.system.const.MSysInput.step" href="#hagike.tools.matlab.system.const.MSysInput.step">step</a></code></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

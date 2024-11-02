@@ -2,10 +2,12 @@ from setuptools import setup, find_packages
 
 
 def read(file) -> list:
-    """读取requirements.txt，并转换为列表"""
+    """读取 xxx.txt，并转换为列表"""
     try:
         with open(file, 'r') as f:
             requirements = f.read().splitlines()
+        requirements = [item for item in requirements
+                        if not item.startswith('matlabengineforpython')]
         return requirements
     except FileNotFoundError:
         return []
@@ -13,7 +15,7 @@ def read(file) -> list:
 
 setup(
     name='hagike',
-    version='0.0.4',
+    version='0.0.5',
     packages=find_packages(),
     install_requires=read('requirements.txt'),
     include_package_data=True,

@@ -147,6 +147,28 @@ class ModuleKey(SuperEnum):
 </li>
 </ul>
 </dd>
+<dt id="hagike.models.temp.module.ModuleModeError"><code class="flex name class">
+<span>class <span class="ident">ModuleModeError</span></span>
+<span>(</span><span>msg, code=None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>模块运行模式异常</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ModuleModeError(Exception):
+    &#34;&#34;&#34;模块运行模式异常&#34;&#34;&#34;
+    def __init__(self, msg, code=None):
+        super().__init__(msg)
+        self.code = code</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
 <dt id="hagike.models.temp.module.ModuleTemp"><code class="flex name class">
 <span>class <span class="ident">ModuleTemp</span></span>
 <span>(</span><span>module_dict: Optional[Mapping[int, torch.nn.modules.module.Module]] = None)</span>
@@ -205,7 +227,7 @@ class ModuleKey(SuperEnum):
         if module_dict is not None:
             is_all = True if ModuleKey.all__ in module_dict.keys() else False
         if is_all != self._is_all:
-            raise _ModuleModeError(
+            raise ModuleModeError(
                 f&#34;When updating module, You update it({self._is_all}) in a different way({is_all})!!!&#34;)
         # 进行更新
         if self._is_all is None:
@@ -362,6 +384,9 @@ class ModuleKey(SuperEnum):
 <li><code><a title="hagike.models.temp.module.ModuleKey.pre" href="#hagike.models.temp.module.ModuleKey.pre">pre</a></code></li>
 <li><code><a title="hagike.models.temp.module.ModuleKey.tail" href="#hagike.models.temp.module.ModuleKey.tail">tail</a></code></li>
 </ul>
+</li>
+<li>
+<h4><code><a title="hagike.models.temp.module.ModuleModeError" href="#hagike.models.temp.module.ModuleModeError">ModuleModeError</a></code></h4>
 </li>
 <li>
 <h4><code><a title="hagike.models.temp.module.ModuleTemp" href="#hagike.models.temp.module.ModuleTemp">ModuleTemp</a></code></h4>
