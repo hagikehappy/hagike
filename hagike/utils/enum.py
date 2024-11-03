@@ -51,7 +51,7 @@ SuperEnum类型配置字，在父类SuperEnum中定义的值为默认值 \n
 """
 
 _enum_hide_word = ('_uuid', '_pack', '_length',
-                   '_index2uuid', '_uuid2pack', '_uuid2sub',
+                   '_index2uuid', '_uuid2pack', '_uuid2sub', '_uuid2base',
                    '_uuid_all', '_uuid_hide', '_uuid_sub')
 """
 SuperEnum类型隐藏字 \n
@@ -68,8 +68,10 @@ SuperEnum类型隐藏字 \n
     子类下的唯一标识符到数据包的映射，不包括子类本身 \n
 :param _uuid2sub: \n
     子类下的唯一标识符到孙类的映射 \n
+:param _uuid2base: \n
+    根类下所有的唯一标识符到其父类的映射 \n
 :param _uuid_all: \n
-    子类下所有唯一标识符的列表，其中非隐藏部分在前，隐藏部分在后 \n
+    子类下所有唯一标识符的集合 \n
 :param _uuid_hide: \n
     子类下所有隐式枚举成员的集合 \n
 :param _uuid_sub: \n
@@ -135,7 +137,8 @@ class SuperEnum:
     _index2uuid: List[uuid_t]
     _uuid2pack: Dict[uuid_t, _EnumPack]
     _uuid2sub: Dict[uuid_t, SuperEnum]
-    _uuid_all: List[uuid_t]
+    _uuid2base: Dict[uuid_t, SuperEnum]
+    _uuid_all: Set[uuid_t]
     _uuid_hide: Set[uuid_t]
     _uuid_sub: Set[uuid_t]
 
@@ -148,6 +151,11 @@ class SuperEnum:
     def get_cls_(cls, uuid: uuid_t) -> SuperEnum:
         """获得子类，这要求 `uuid` 必须对应某子类，否则会报错"""
         return cls._uuid2sub[uuid]
+
+    @classmethod
+    def get_base_(cls, uuid: uuid_t) -> SuperEnum:
+        """获得常量所对应的父类"""
+        return cls._uuid2base[uuid]
 
     @classmethod
     def get_name_(cls, uuid: uuid_t) -> str:
@@ -421,17 +429,32 @@ def advanced_enum():
             cls_n._uuid2pack = uuid2pack_n
             cls_n._uuid_hide = uuid_hide_n
             cls_n._uuid2sub = uuid2sub_n
-            cls_n._uuid_all = index2uuid_n + list(uuid_hide_n)
+            cls_n._uuid_all = set(index2uuid_n) | uuid_hide_n
             cls_n._uuid_sub = set(uuid2sub_n.keys())
 
             return uuid_n
 
-        # 递归入口
+        def back_regress(cls_n: Any) -> None:
+            """递归进行反向映射"""
+            uuid2base_n = dict()
+            for uuid_n in cls_n._uuid_all:
+                uuid2base_n[uuid_n] = cls_n
+                if uuid_n in cls_n._uuid2sub:
+                    cls_sub = cls_n._uuid2sub[uuid_n]
+                    back_regress(cls_sub)
+                    uuid2base_n.update(cls_sub._uuid2base)
+            cls_n._uuid2base = uuid2base_n
+
+        # 前向递归入口
         uuid = 0
         uuid = regress_enum(uuid, cls)
         # 赋值根目录本身的属性，本身一般仅用于占位，无实际意义
         cls._uuid = uuid
         cls._pack = _EnumPack(uuid=uuid, index=(None if cls._hide else 0), name=cls.__name__, value=cls._value)
+
+        # 建立反向映射
+        back_regress(cls)
+
         return cls
 
     return decorator

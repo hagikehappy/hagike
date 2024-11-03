@@ -10,34 +10,53 @@ from .const import *
 from .error import *
 import matplotlib.pyplot as plt
 import numpy as np
-from ..engine import *
+from ..engine.engine import *
 
 
 class MSys:
     """`matlab` 系统"""
 
-    def __init__(self, m: MEngine, num: List[float], den: List[float], fb: MSys | None = None) -> None:
+    def __init__(self, m: MEngine,
+                 num: List[float] | None = None, den: List[float] | None = None,
+                 z: List[float] | None = None, p: List[float] | None = None, k: float | None = None,
+                 fb: MSys | None = None, tf: Any = None) -> None:
         """
-        初始化参数 \n
+        初始化参数，有三种输入方式（直接输入、输入零极点、输入分子分母系数），可选是否进行反馈 \n
         :param m - `matlab` 引擎 \n
+        :param tf - 若直接给出 `matlab` 中的 `tf` 系统，则忽略系数项，直接指定
         :param num - 系统函数的分子系数，降幂排列 \n
         :param den - 系统函数的分母系数，降幂排列 \n
+        :param z - 零点
+        :param p - 极点
+        :param k - 增益
         :param fb - 也需要为 `Msys` 类型 \n
         """
         self._m, self._fb = m, fb
         # 获取开环系统
-        self._G = m.call('tf', m_double(num), m_double(den), num=1)
+        if tf is not None:
+            self._G = tf
+            num = np.array(m.obj_value(self._G, 'num'))[0][0]
+            den = np.array(m.obj_value(self._G, 'den'))[0][0]
+        elif num is not None and den is not None:
+            self._G = m.call('tf', m_double(num), m_double(den), num=1)
+        elif z is not None and p is not None and k is not None:
+            num, den = m.call('zp2tf', m_double(z), m_double(p), m_double(k), num=2)
+            num, den = np.array(num)[0], np.array(den)[0]
+            self._G = m.call('tf', m_double(num), m_double(den), num=1)
+        else:
+            raise MSysInputError(f"Incorrect Input Way!!!")
+
         # 获取闭环系统
         if fb is None:
             self._H = self._G
             self._num, self._den = num, den
         else:
-
             self._H = m.call('feedback', self._G, fb.H, num=1)
-            self._num = m.obj_value(self._H, 'num')
-            self._den = m.obj_value(self._H, 'den')
+            # 返回类型为 matlab.double 类型，需要将其解包为 numpy 格式
+            self._num = np.array(m.obj_value(self._H, 'num'))[0][0]
+            self._den = np.array(m.obj_value(self._H, 'den'))[0][0]
         # 获取系统增益
-        self._amp = self._num[-1] / self._den[-1] if self._den[-1] != 0 else None
+        self._amp = self._num[-1] / self._den[-1] if self._den[-1] != 0.0 else None
         self._t, self._response, self._input_t = None, None, None
 
     @property   # 返回 `matlab` 系统
@@ -84,6 +103,7 @@ class MSys:
         if para is None:
             para = dict()
         plt.plot(self._t, self._response, **para)
+        plt.grid('on')
         if save_path is not None:
             plt.savefig(save_path)
         plt.show()
@@ -115,5 +135,5 @@ class MSysConst(MSys):
     """`matlab` 常数块"""
     def __init__(self, m: Any, amp: float = 1.0):
         """创建常数系统"""
-        super().__init__(m, [float(amp)], [1.0, 0.0])
+        super().__init__(m, [float(amp)], [1.0])
 

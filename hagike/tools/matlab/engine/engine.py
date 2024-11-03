@@ -18,35 +18,9 @@ m.feval('grid', 'on') \n
 
 import matlab.engine
 from hagike.utils.message import add_msg, MsgLevel
-from .scripts import *
-from hagike.utils.enum import *
-import warnings
-
-
-@advanced_enum()
-class MCallType(SuperEnum):
-    """调用引擎的类型"""
-    func = None
-    """调用函数或创建实例或函数化封装的特殊关键字或调用函数句柄"""
-    obj_value = None
-    """对象成员属性"""
-    obj_func = None
-    """对象成员函数"""
-    print = None
-    """打印属性"""
-    else__ = None
-    """其它"""
-
-
-class MEngineCallError(Exception):
-    """调用类型未实现"""
-    def __init__(self, msg, code=None):
-        super().__init__(msg)
-        self.code = code
-
-
-class MEngineCallWarning(Warning):
-    pass
+from hagike.tools.matlab.scripts import *
+from .error import *
+from .const import *
 
 
 class MEngine:
@@ -68,8 +42,9 @@ class MEngine:
         self._obj_value = getattr(self._m, 'subsref')
         self._obj_struct = getattr(self._m, 'substruct')
         self._func = getattr(self._m, 'm_feval')
+        self._operator = getattr(self._m, 'm_operator')
 
-    def __call__(self, call_type: uuid_t, script: str, *args,
+    def __call__(self, call_type: uuid_t, script: str | uuid_t, *args,
                  num: int = -1, obj: Any = None) -> Any:
         """
         调用引擎 \n
@@ -80,17 +55,19 @@ class MEngine:
         :param args - 函数参数，`matlab` 中不支持关键字传参，而只支持顺序传参 \n
         :return - 返回调用结果
         """
-        MCallType.check_in_(call_type)
-        if call_type == MCallType.func:
+        MCall.check_in_(call_type)
+        if call_type == MCall.func:
             return self.call(script, *args, num=num)
-        elif call_type == MCallType.obj_value:
+        elif call_type == MCall.obj_value:
             return self.obj_value(obj, script)
-        elif call_type == MCallType.obj_func:
+        elif call_type == MCall.obj_func:
             return self.obj_call(script, obj, *args, num=num)
-        elif call_type == MCallType.print:
-            self.print(script)
+        elif call_type == MCall.print:
+            self.print(script, *args)
+        elif call_type == MCall.operator:
+            return self.operator(script, *args)
         else:
-            raise MEngineCallError(f"{MCallType.get_name_(call_type)} is not implemented!!!")
+            raise MEngineCallError(f"{MCall.get_name_(call_type)} is not implemented!!!")
 
     def call(self, script, *args, num: int = -1) -> Any:
         """封装直接函数调用"""
@@ -104,9 +81,16 @@ class MEngine:
         """封装对象函数调用"""
         return self._func(script, num, obj, *args)
 
-    def print(self, script) -> None:
+    def print(self, *args) -> None:
         """封装属性打印"""
-        self._func('disp', 0, script)
+        self._func('disp', 0, *args)
+
+    def operator(self, script: uuid_t, *arg):
+        """封装运算符"""
+        base_cls = MOperator.get_base_(script)
+        op_type = MOperator.get_name_(base_cls.get_uuid_())
+        func = base_cls.get_value_(script)
+        return self._operator(op_type, func, *arg)
 
     @property
     def m(self) -> Any:
