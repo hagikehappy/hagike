@@ -69,15 +69,15 @@ class MEngine:
         else:
             raise MEngineCallError(f"{MCall.get_name_(call_type)} is not implemented!!!")
 
-    def call(self, script, *args, num: int = -1) -> Any:
+    def call(self, script: str, *args, num: int = -1) -> Any:
         """封装直接函数调用"""
         return self._func(script, num, *args)
 
-    def obj_value(self, obj, script) -> Any:
+    def obj_value(self, obj: Any, script: str) -> Any:
         """封装对象属性返回"""
         return self._obj_value(obj, self._obj_struct('.', script))
 
-    def obj_call(self, obj, script, *args, num: int = -1) -> Any:
+    def obj_call(self, obj, script: str, *args, num: int = -1) -> Any:
         """封装对象函数调用"""
         return self._func(script, num, obj, *args)
 

@@ -7,38 +7,8 @@ import torch
 import torch.nn as nn
 from torchsummary import summary
 from typing import Mapping, Any, Sequence
-from ...utils import *
-
-
-class ModuleModeError(Exception):
-    """模块运行模式异常"""
-    def __init__(self, msg, code=None):
-        super().__init__(msg)
-        self.code = code
-
-
-class IdentityModule(nn.Module):
-    """恒等变换模块，用于占位"""
-    def __init__(self):
-        super(IdentityModule, self).__init__()
-
-    def forward(self, x):
-        """直接返回输入"""
-        return x
-
-
-@advanced_enum()
-class ModuleKey(SuperEnum):
-    """模块构成，未指定部分默认为None"""
-    _sequence = (
-        'pre', 'tail', 'bone', 'head', 'final'
-    )
-    all__ = None     # 如果启用了'_all'，则是忽略其它选项，并将该模块作为一个整体处理
-    pre = None      # 预处理，将数据从原始格式转换为张量格式
-    tail = None     # 尾部，将数据规范化，如批量归一化、嵌入等，以便于骨干网处理
-    bone = None     # 骨干网，进行特征提取等操作
-    head = None     # 头部，根据需求构造输出层格式
-    final = None    # 激活层，获取最终输出
+from .const import ModuleKey, uuid_t
+from .error import ModuleModeError, ModuleModeWarning
 
 
 class ModuleTemp(nn.Module):

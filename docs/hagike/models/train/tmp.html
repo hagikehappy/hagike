@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.1">
+<title>hagike.models.train.tmp API documentation</title>
+<meta name="description" content="">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script type="text/x-mathjax-config">MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], processEscapes: true } });</script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS_CHTML" integrity="sha256-kZafAc6mZvK3W3v1pHOcUix30OHQN6pU/NO2oFkqZVw=" crossorigin></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>hagike.models.train.tmp</code></h1>
+</header>
+<section id="section-intro">
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="hagike.models.train.tmp.display_graph"><code class="name flex">
+<span>def <span class="ident">display_graph</span></span>(<span>graph_t, channel, save_path=None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>显示4D输入图</p></div>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="hagike.models.train.tmp.Train_Rfseq"><code class="flex name class">
+<span>class <span class="ident">Train_Rfseq</span></span>
+<span>(</span><span>start_detect=False, start_monitor=True, rf_or_label=True, backbone=None, train_from_exist=None, xy_or_heatmap=True)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>UNet的训练器封装类</p>
+<p>训练器初始化</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Train_Rfseq:
+    &#34;&#34;&#34;UNet的训练器封装类&#34;&#34;&#34;
+
+    def __init__(self, start_detect=False, start_monitor=True, rf_or_label=True, backbone=None,
+                 train_from_exist=None, xy_or_heatmap=True):
+        &#34;&#34;&#34;训练器初始化&#34;&#34;&#34;
+        torch.autograd.set_detect_anomaly(start_detect)
+        torch.manual_seed(int(time.time()))
+
+        self.device = settings[Config_Item.device]
+        self.rf_or_label = rf_or_label
+        self.xy_or_heatmap = xy_or_heatmap
+
+        if not rf_or_label:
+            if xy_or_heatmap:
+                if settings[Config_Item.label_loss_type] == Loss_Type.L1_Loss.name:
+                    self.label_criterion = nn.L1Loss()
+                elif settings[Config_Item.label_loss_type] == Loss_Type.L2_Loss.name:
+                    self.label_criterion = nn.MSELoss()
+                else:
+                    raise abort.TrainAbort(&#34;Wrong Loss Type!!!&#34;)
+            else:
+                if settings[Config_Item.label_loss_type] == Loss_Type.JointsMSELoss.name:
+                    self.label_criterion = JointsMSELoss(target_weight=settings[Config_Item.loss_para][&#39;p_weight&#39;])
+                else:
+                    raise abort.TrainAbort(&#34;Wrong Loss Type!!!&#34;)
+
+        if xy_or_heatmap:
+            if settings[Config_Item.loss_type] == Loss_Type.Rfseq_Static_Loss.name:
+                self.rf_criterion = Rfseq_Static_Loss(
+                    hyperpara=settings[Config_Item.loss_para][&#39;hyperpara&#39;],
+                    point_num=settings[Config_Item.seq_len],
+                    in_size=settings[Config_Item.data_crop_size],
+                    p_weight=settings[Config_Item.loss_para][&#39;p_weight&#39;]
+                )
+            else:
+                raise abort.TrainAbort(&#34;Wrong Loss Type!!!&#34;)
+        else:
+            # 待开发
+            self.rf_criterion = self.label_criterion
+
+        if xy_or_heatmap:
+            self.model = Rfseq_Static(settings[Config_Item.model_width], settings[Config_Item.model_depth],
+                                      in_channels=1, out_channels=2,
+                                      in_size=settings[Config_Item.data_crop_size], out_len=settings[Config_Item.seq_len],
+                                      backbone=backbone)
+        else:
+            hr_cfg = load_config(settings[Config_Item.model_heatmap_cfg])
+            self.model = PoseHighResolutionNet(cfg=hr_cfg)
+        if train_from_exist is not None:
+            self.model.load_state_dict(torch.load(train_from_exist, map_location=&#39;cpu&#39;))
+        self.model = self.model.to(self.device)
+
+        if settings[Config_Item.train_from_exist] is True:
+            saved_state_dict = torch.load(settings[Config_Item.train_load_path], map_location=self.device)
+            self.model.load_state_dict(saved_state_dict)
+
+        if settings[Config_Item.optimizer_type] == Optimizer_Type.SGD.name:
+            self.optimizer = optim.SGD(self.model.parameters(),
+                                       lr=settings[Config_Item.learning_rate],
+                                       momentum=settings[Config_Item.optimizer_para][&#39;momentum&#39;],
+                                       dampening=settings[Config_Item.optimizer_para][&#39;dampening&#39;],
+                                       weight_decay=settings[Config_Item.optimizer_para][&#39;weight_decay&#39;])
+        elif settings[Config_Item.optimizer_type] == Optimizer_Type.Adam.name:
+            self.optimizer = optim.Adam(self.model.parameters(),
+                                        lr=settings[Config_Item.learning_rate],
+                                        betas=settings[Config_Item.optimizer_para][&#39;betas&#39;])
+        else:
+            raise abort.TrainAbort(&#34;Wrong Optimizer!!!&#34;)
+
+        self.total_epochs = settings[Config_Item.total_epochs]
+
+        if rf_or_label:
+            self.train_dataset = Rfseq_Static_Dataset(mode=True,
+                                                      root_dir=settings[Config_Item.dataset_final_cache_path],
+                                                      rate_scale=(0.0, 0.1), rf_or_label=True,
+                                                      xy_or_heatmap=xy_or_heatmap)
+            self.train_dataloader = DataLoader(self.train_dataset,
+                                               batch_size=settings[Config_Item.train_batch_size], shuffle=True)
+            self.eval_dataset = Rfseq_Static_Dataset(mode=True, root_dir=settings[Config_Item.dataset_final_cache_path],
+                                                     rate_scale=(0.1, 0.12), xy_or_heatmap=xy_or_heatmap)
+            self.eval_dataloader = DataLoader(self.eval_dataset,
+                                              batch_size=settings[Config_Item.train_batch_size], shuffle=True)
+        else:
+            self.train_dataset = Rfseq_Static_Dataset(mode=True,
+                                                      root_dir=settings[Config_Item.dataset_final_cache_path],
+                                                      rate_scale=(0, 0.2), rf_or_label=False,
+                                                      label_path=settings[Config_Item.dataset_label_cache_path],
+                                                      xy_or_heatmap=xy_or_heatmap,
+                                                      output_size=settings[Config_Item.data_crop_size] // 4,
+                                                      input_size=settings[Config_Item.data_crop_size])
+            self.train_dataloader = DataLoader(self.train_dataset, batch_size=1, shuffle=False)
+            self.eval_dataset = copy.deepcopy(self.train_dataset)
+            self.eval_dataloader = copy.deepcopy(self.train_dataloader)
+
+        now_date = datetime.datetime.now()
+        formatted_date = now_date.strftime(&#34;%Y-%m-%d-%H-%M-%S&#34;)
+        self.model_save_path = os.path.join(settings[Config_Item.model_save_path], formatted_date)
+        if not os.path.exists(self.model_save_path):
+            os.makedirs(self.model_save_path)
+        else:
+            raise abort.TrainAbort(&#34;Model Save Dir EXIST!!!&#34;)
+
+        try:
+            shutil.copy2(settings[Config_Item.config_json_path], self.model_save_path)
+        except FileNotFoundError:
+            raise abort.TrainAbort(&#34;The config.json doesn&#39;t EXIST!!!&#34;)
+
+        self.best_eval_score = None
+        self.best_model_path = None
+
+        ## 配置tensorboard监控
+        self.monitor_path = os.path.join(self.model_save_path, settings[Config_Item.monitor_dir_name])
+        os.makedirs(self.monitor_path)
+        self.monitor = SummaryWriter(log_dir=self.monitor_path)
+        ## 可视化结构模型
+        data = torch.load(&#39;cache/final_crop/CPU/0000/unet_crop/0001/000000&#39;).to(self.device)
+        self.monitor.add_graph(self.model, data.unsqueeze(0).unsqueeze(0))
+        self.monitor.add_custom_scalars_multilinechart([&#39;Train Loss&#39;, &#39;Eval  Loss&#39;], title=&#39;Losses&#39;)
+        ## 用于在终端启动独立的tensorboard进程
+        if start_monitor:
+            self.monitor_process = subprocess.Popen(
+                [f&#39;konsole --hold -e tensorboard --logdir={self.monitor_path}&#39;], shell=True, close_fds=True)
+
+    def train_all_epochs(self):
+        &#34;&#34;&#34;全序数训练器&#34;&#34;&#34;
+        counter_t = DynamicCounter(self.total_epochs, &#34;Training Progress: &#34;, 1)
+        for epoch in range(1, 1 + self.total_epochs):
+            counter_t.increment()
+            self.train_one_epoch(epoch)
+        self.monitor.close()
+
+    def train_one_epoch(self, epoch):
+        &#34;&#34;&#34;一个训练循环&#34;&#34;&#34;
+
+        ## 训练模式
+        total_train_loss = 0
+        self.model.train()
+        train_times = 1
+        for inputs, indexes, labels in tqdm(self.train_dataloader):
+            ## 前向传播
+            inputs = inputs.to(self.device)
+            outputs = self.model(inputs)
+            if self.rf_or_label:
+                loss = self.rf_criterion(outputs, inputs.squeeze(1))  # 去除通道维度变为掩码
+            else:
+                labels = labels.to(self.device)
+                loss = self.label_criterion(outputs, labels)
+            try:
+                if torch.isnan(loss).any():
+                    raise ValueError
+            except ValueError:
+                print()
+                print(self.train_dataset.file_list[indexes[0]])
+                print()
+                self.optimizer.zero_grad()
+                continue
+            train_times += 1
+            total_train_loss += loss
+            ## 反向传播和优化
+            self.optimizer.zero_grad()
+            loss.backward()
+            self.optimizer.step()
+        total_train_loss /= train_times
+
+        ## 评估模式
+        total_eval_loss = 0
+        # self.model.eval()
+        eval_times = 1
+        with torch.no_grad():
+            for inputs, indexes, labels in tqdm(self.eval_dataloader):
+                ## 前向传播
+                inputs = inputs.to(self.device)
+                outputs = self.model(inputs)
+                # display_graph(inputs.to(&#39;cpu&#39;), 0)
+                # for i in range(3):
+                #     display_graph(labels.to(&#39;cpu&#39;), i)
+                # self._transfer_result_graph(inputs, labels, display=True)
+                # for i in range(3):
+                #     display_graph(outputs.to(&#39;cpu&#39;), i)
+                # self._transfer_result_graph(inputs, outputs, display=True)
+                if self.rf_or_label:
+                    loss = self.rf_criterion(outputs, inputs.squeeze(1))  # 去除通道维度变为掩码
+                else:
+                    labels = labels.to(self.device)
+                    loss = self.label_criterion(outputs, labels)
+                try:
+                    if torch.isnan(loss).any():
+                        raise ValueError
+                except ValueError:
+                    print()
+                    print(self.eval_dataset.file_list[indexes[0]])
+                    print()
+                    continue
+                eval_times += 1
+                total_eval_loss += loss
+        total_eval_loss /= eval_times
+        ## 打印训练信息
+        print(&#34;       Epoch [{}/{}], Train Loss: {:.4f}, Eval Loss: {:.4f}, &#34;
+              .format(epoch, self.total_epochs, total_train_loss, total_eval_loss))
+
+        ## 保存模型参数
+        if self.best_eval_score is None or self.best_eval_score &gt; total_eval_loss:
+            save_name = (&#34;Rfseq_Static_epoch_{}_train_loss_{:.4f}_eval_loss_{:.4f}.pth&#34;
+                         .format(epoch + 1, total_train_loss, total_eval_loss))
+            save_path = os.path.join(self.model_save_path, save_name)
+            torch.save(self.model.state_dict(), save_path)
+            self.best_eval_score = total_eval_loss
+            if self.best_model_path is not None:
+                os.remove(self.best_model_path)
+            self.best_model_path = save_path
+
+        ## 添加数值监视
+        self.monitor.add_scalar(&#39;Train Loss&#39;, total_train_loss, global_step=epoch)
+        self.monitor.add_scalar(&#39;Eval  Loss&#39;, total_eval_loss, global_step=epoch)
+        ## 添加图像效果监视
+        self._monitor_add_graph(epoch, True)
+        self._monitor_add_graph(epoch, False)
+
+    def _transfer_result_graph(self, input_t, output_t, display=False):
+        &#34;&#34;&#34;显示结果图&#34;&#34;&#34;
+        if self.xy_or_heatmap:
+            x_list, y_list = self.rf_criterion.output2xylist(output_t)
+        else:
+            x_list, y_list = heatmap2xy(output_t)
+            x_list, y_list = (x_list * 4).to(torch.int32), (y_list * 4).to(torch.int32)
+        x_list, y_list = x_list[0], y_list[0]
+        dot_round = settings[Config_Item.monitor_graph_dot_round]
+        length = len(x_list)
+        size = int(input_t.shape[-1])
+        for i in range(length):
+            x_min = x_list[i] - dot_round
+            x_min = 0 if x_min &lt; 0 else x_min
+            x_max = x_list[i] + dot_round
+            x_max = size if x_max &gt;= size else x_max
+            y_min = y_list[i] - dot_round
+            y_min = 0 if y_min &lt; 0 else y_min
+            y_max = y_list[i] + dot_round
+            y_max = size if y_max &gt;= size else y_max
+            input_t.squeeze()[x_min: x_max, y_min: y_max] = \
+                (length - 1 - i) / (length - 1) * 0.6 + 0.2
+        if display:
+            display_graph(input_t.to(&#39;cpu&#39;), 0)
+        return input_t
+
+    def _monitor_add_graph(self, epoch, mode):
+        &#34;&#34;&#34;添加测试图&#34;&#34;&#34;
+        if mode:
+            input_t = self.train_dataset[0][0].unsqueeze(0).to(self.device)
+            description = &#39;Train Graph&#39;
+        else:
+            input_t = self.eval_dataset[0][0].unsqueeze(0).to(self.device)
+            description = &#39;Eval  Graph&#39;
+
+        self.model.train()
+        output_t = self.model(input_t)
+        result_t = self._transfer_result_graph(input_t, output_t)
+
+        result_t = F.interpolate(result_t, size=settings[Config_Item.monitor_graph_display_size],
+                                mode=&#39;bilinear&#39;, align_corners=False)
+        self.monitor.add_image(description, result_t.squeeze(0),
+                               global_step=epoch, dataformats=&#34;CHW&#34;)</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="hagike.models.train.tmp.Train_Rfseq.train_all_epochs"><code class="name flex">
+<span>def <span class="ident">train_all_epochs</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>全序数训练器</p></div>
+</dd>
+<dt id="hagike.models.train.tmp.Train_Rfseq.train_one_epoch"><code class="name flex">
+<span>def <span class="ident">train_one_epoch</span></span>(<span>self, epoch)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>一个训练循环</p></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="hagike.models.train" href="index.html">hagike.models.train</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="hagike.models.train.tmp.display_graph" href="#hagike.models.train.tmp.display_graph">display_graph</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="hagike.models.train.tmp.Train_Rfseq" href="#hagike.models.train.tmp.Train_Rfseq">Train_Rfseq</a></code></h4>
+<ul class="">
+<li><code><a title="hagike.models.train.tmp.Train_Rfseq.train_all_epochs" href="#hagike.models.train.tmp.Train_Rfseq.train_all_epochs">train_all_epochs</a></code></li>
+<li><code><a title="hagike.models.train.tmp.Train_Rfseq.train_one_epoch" href="#hagike.models.train.tmp.Train_Rfseq.train_one_epoch">train_one_epoch</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.1</a>.</p>
+</footer>
+</body>
+</html>

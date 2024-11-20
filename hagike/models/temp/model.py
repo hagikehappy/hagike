@@ -9,6 +9,7 @@ import torch.nn as nn
 from torchsummary import summary
 from typing import Mapping, Any, Sequence
 from ...utils import *
+import ultralytics
 
 
 @dataclass
@@ -26,7 +27,6 @@ class ModelNode(nn.Module):
         # TODO
         # self.inputs
         # self.outputs
-
 
 
 class ModelTemp(nn.Module):

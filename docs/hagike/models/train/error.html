@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
 <meta name="generator" content="pdoc3 0.11.1">
-<title>hagike.models.temp.unit API documentation</title>
-<meta name="description" content="模型容器中最基本的构成，实现下层库与容器的统一接口">
+<title>hagike.models.train.error API documentation</title>
+<meta name="description" content="模型容器的异常处理">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
@@ -24,10 +24,10 @@ hljs.highlightAll();
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>hagike.models.temp.unit</code></h1>
+<h1 class="title">Module <code>hagike.models.train.error</code></h1>
 </header>
 <section id="section-intro">
-<p>模型容器中最基本的构成，实现下层库与容器的统一接口</p>
+<p>模型容器的异常处理</p>
 </section>
 <section>
 </section>
@@ -36,89 +36,6 @@ hljs.highlightAll();
 <section>
 </section>
 <section>
-<h2 class="section-title" id="header-classes">Classes</h2>
-<dl>
-<dt id="hagike.models.temp.unit.ModuleNode"><code class="flex name class">
-<span>class <span class="ident">ModuleNode</span></span>
-<span>(</span><span>model)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>模型最小组成部分的模板</p>
-<p>初始化</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class ModuleNode(nn.Module):
-    &#34;&#34;&#34;模型最小组成部分的模板&#34;&#34;&#34;
-
-    def __init__(self, model):
-        &#34;&#34;&#34;初始化&#34;&#34;&#34;
-        super(ModuleNode, self).__init__()
-        self._model = model
-
-    @property
-    def model(self):
-        return self._model
-
-    def forward(self, x):
-        return self._model(x)
-
-    def load_weights(self, weights_src: str | Any, is_path: bool) -&gt; None:
-        &#34;&#34;&#34;根据is_path，选择从路径或从内存中加载指定部分的模块参数&#34;&#34;&#34;
-        # if is_path:
-        #     state_dict = torch.load(weights_src, map_location=torch.device(&#39;cpu&#39;))
-        # else:
-        #     state_dict = weights_src
-        # if module == ModuleKey.all__:
-        #     self._model.load_state_dict(state_dict)
-        # else:
-        #     self._module[ModuleKey.get_index_(module)].load_state_dict(state_dict)</code></pre>
-</details>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li>torch.nn.modules.module.Module</li>
-</ul>
-<h3>Instance variables</h3>
-<dl>
-<dt id="hagike.models.temp.unit.ModuleNode.model"><code class="name">prop <span class="ident">model</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def model(self):
-    return self._model</code></pre>
-</details>
-</dd>
-</dl>
-<h3>Methods</h3>
-<dl>
-<dt id="hagike.models.temp.unit.ModuleNode.forward"><code class="name flex">
-<span>def <span class="ident">forward</span></span>(<span>self, x) ‑> Callable[..., Any]</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Define the computation performed at every call.</p>
-<p>Should be overridden by all subclasses.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Although the recipe for forward pass needs to be defined within
-this function, one should call the :class:<code>Module</code> instance afterwards
-instead of this since the former takes care of running the
-registered hooks while the latter silently ignores them.</p>
-</div></div>
-</dd>
-<dt id="hagike.models.temp.unit.ModuleNode.load_weights"><code class="name flex">
-<span>def <span class="ident">load_weights</span></span>(<span>self, weights_src: Union[str, Any], is_path: bool) ‑> None</span>
-</code></dt>
-<dd>
-<div class="desc"><p>根据is_path，选择从路径或从内存中加载指定部分的模块参数</p></div>
-</dd>
-</dl>
-</dd>
-</dl>
 </section>
 </article>
 <nav id="sidebar">
@@ -128,19 +45,7 @@ registered hooks while the latter silently ignores them.</p>
 <ul id="index">
 <li><h3>Super-module</h3>
 <ul>
-<li><code><a title="hagike.models.temp" href="index.html">hagike.models.temp</a></code></li>
-</ul>
-</li>
-<li><h3><a href="#header-classes">Classes</a></h3>
-<ul>
-<li>
-<h4><code><a title="hagike.models.temp.unit.ModuleNode" href="#hagike.models.temp.unit.ModuleNode">ModuleNode</a></code></h4>
-<ul class="">
-<li><code><a title="hagike.models.temp.unit.ModuleNode.forward" href="#hagike.models.temp.unit.ModuleNode.forward">forward</a></code></li>
-<li><code><a title="hagike.models.temp.unit.ModuleNode.load_weights" href="#hagike.models.temp.unit.ModuleNode.load_weights">load_weights</a></code></li>
-<li><code><a title="hagike.models.temp.unit.ModuleNode.model" href="#hagike.models.temp.unit.ModuleNode.model">model</a></code></li>
-</ul>
-</li>
+<li><code><a title="hagike.models.train" href="index.html">hagike.models.train</a></code></li>
 </ul>
 </li>
 </ul>

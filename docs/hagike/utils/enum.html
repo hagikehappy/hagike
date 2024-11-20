@@ -186,7 +186,8 @@ value - 值
     _index2uuid: List[uuid_t]
     _uuid2pack: Dict[uuid_t, _EnumPack]
     _uuid2sub: Dict[uuid_t, SuperEnum]
-    _uuid_all: List[uuid_t]
+    _uuid2base: Dict[uuid_t, SuperEnum]
+    _uuid_all: Set[uuid_t]
     _uuid_hide: Set[uuid_t]
     _uuid_sub: Set[uuid_t]
 
@@ -199,6 +200,11 @@ value - 值
     def get_cls_(cls, uuid: uuid_t) -&gt; SuperEnum:
         &#34;&#34;&#34;获得子类，这要求 `uuid` 必须对应某子类，否则会报错&#34;&#34;&#34;
         return cls._uuid2sub[uuid]
+
+    @classmethod
+    def get_base_(cls, uuid: uuid_t) -&gt; SuperEnum:
+        &#34;&#34;&#34;获得常量所对应的父类&#34;&#34;&#34;
+        return cls._uuid2base[uuid]
 
     @classmethod
     def get_name_(cls, uuid: uuid_t) -&gt; str:
@@ -366,8 +372,17 @@ value - 值
 <li><a title="hagike.basics.cv.noise.ImNoise.poisson" href="../basics/cv/noise.html#hagike.basics.cv.noise.ImNoise.poisson">ImNoise.poisson</a></li>
 <li><a title="hagike.basics.cv.noise.ImNoise.salt_pepper" href="../basics/cv/noise.html#hagike.basics.cv.noise.ImNoise.salt_pepper">ImNoise.salt_pepper</a></li>
 <li><a title="hagike.models.temp.module.ModuleKey" href="../models/temp/module.html#hagike.models.temp.module.ModuleKey">ModuleKey</a></li>
-<li><a title="hagike.tools.matlab.engine.MCallType" href="../tools/matlab/engine.html#hagike.tools.matlab.engine.MCallType">MCallType</a></li>
+<li><a title="hagike.tools.matlab.engine.const.MCall" href="../tools/matlab/engine/const.html#hagike.tools.matlab.engine.const.MCall">MCall</a></li>
+<li><a title="hagike.tools.matlab.engine.const.MOperator" href="../tools/matlab/engine/const.html#hagike.tools.matlab.engine.const.MOperator">MOperator</a></li>
+<li><a title="hagike.tools.matlab.engine.const.MOperator.basic" href="../tools/matlab/engine/const.html#hagike.tools.matlab.engine.const.MOperator.basic">MOperator.basic</a></li>
+<li><a title="hagike.tools.matlab.engine.const.MOperator.dot" href="../tools/matlab/engine/const.html#hagike.tools.matlab.engine.const.MOperator.dot">MOperator.dot</a></li>
+<li><a title="hagike.tools.matlab.engine.const.MOperator.logic" href="../tools/matlab/engine/const.html#hagike.tools.matlab.engine.const.MOperator.logic">MOperator.logic</a></li>
+<li><a title="hagike.tools.matlab.engine.const.MOperator.matrix" href="../tools/matlab/engine/const.html#hagike.tools.matlab.engine.const.MOperator.matrix">MOperator.matrix</a></li>
 <li><a title="hagike.tools.matlab.system.const.MSysInput" href="../tools/matlab/system/const.html#hagike.tools.matlab.system.const.MSysInput">MSysInput</a></li>
+<li><a title="hagike.utils.data.const.DataCompress" href="data/const.html#hagike.utils.data.const.DataCompress">DataCompress</a></li>
+<li><a title="hagike.utils.data.const.DataForm" href="data/const.html#hagike.utils.data.const.DataForm">DataForm</a></li>
+<li><a title="hagike.utils.data.const.DataInfo" href="data/const.html#hagike.utils.data.const.DataInfo">DataInfo</a></li>
+<li><a title="hagike.utils.data.const.DataSrc" href="data/const.html#hagike.utils.data.const.DataSrc">DataSrc</a></li>
 <li><a title="hagike.utils.message.MsgLevel" href="message.html#hagike.utils.message.MsgLevel">MsgLevel</a></li>
 </ul>
 <h3>Static methods</h3>
@@ -391,6 +406,12 @@ value - 值
 <div class="desc"><p>填补Enum类中不在常量表部分的默认赋值，本地替换； </p>
 <p>如果选中is_force则会检查enum_dict中的key是否都在enum类的非隐藏部分中，若不满足则会报错； </p>
 <p>此项检查用于排除不正常输入的字典项，如隐藏的enum成员。</p></div>
+</dd>
+<dt id="hagike.utils.enum.SuperEnum.get_base_"><code class="name flex">
+<span>def <span class="ident">get_base_</span></span>(<span>uuid: uuid_t) ‑> <a title="hagike.utils.enum.SuperEnum" href="#hagike.utils.enum.SuperEnum">SuperEnum</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>获得常量所对应的父类</p></div>
 </dd>
 <dt id="hagike.utils.enum.SuperEnum.get_cls_"><code class="name flex">
 <span>def <span class="ident">get_cls_</span></span>(<span>uuid: uuid_t) ‑> <a title="hagike.utils.enum.SuperEnum" href="#hagike.utils.enum.SuperEnum">SuperEnum</a></span>
@@ -506,6 +527,7 @@ value - 值
 <li><code><a title="hagike.utils.enum.SuperEnum.check_in_" href="#hagike.utils.enum.SuperEnum.check_in_">check_in_</a></code></li>
 <li><code><a title="hagike.utils.enum.SuperEnum.check_include_" href="#hagike.utils.enum.SuperEnum.check_include_">check_include_</a></code></li>
 <li><code><a title="hagike.utils.enum.SuperEnum.dict_" href="#hagike.utils.enum.SuperEnum.dict_">dict_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_base_" href="#hagike.utils.enum.SuperEnum.get_base_">get_base_</a></code></li>
 <li><code><a title="hagike.utils.enum.SuperEnum.get_cls_" href="#hagike.utils.enum.SuperEnum.get_cls_">get_cls_</a></code></li>
 <li><code><a title="hagike.utils.enum.SuperEnum.get_index_" href="#hagike.utils.enum.SuperEnum.get_index_">get_index_</a></code></li>
 <li><code><a title="hagike.utils.enum.SuperEnum.get_name_" href="#hagike.utils.enum.SuperEnum.get_name_">get_name_</a></code></li>

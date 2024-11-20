@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
 <meta name="generator" content="pdoc3 0.11.1">
-<title>hagike.tools.matlab.system.const API documentation</title>
-<meta name="description" content="常量表">
+<title>hagike.tools.matlab.engine.const API documentation</title>
+<meta name="description" content="**常量表**">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
@@ -24,10 +24,10 @@ hljs.highlightAll();
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>hagike.tools.matlab.system.const</code></h1>
+<h1 class="title">Module <code>hagike.tools.matlab.engine.const</code></h1>
 </header>
 <section id="section-intro">
-<p>常量表</p>
+<p><strong>常量表</strong></p>
 </section>
 <section>
 </section>
@@ -38,26 +38,28 @@ hljs.highlightAll();
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="hagike.tools.matlab.system.const.MSysInput"><code class="flex name class">
-<span>class <span class="ident">MSysInput</span></span>
+<dt id="hagike.tools.matlab.engine.const.MCall"><code class="flex name class">
+<span>class <span class="ident">MCall</span></span>
 </code></dt>
 <dd>
-<div class="desc"><p>输入类型</p></div>
+<div class="desc"><p>调用引擎的类型</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@advanced_enum()
-class MSysInput(SuperEnum):
-    &#34;&#34;&#34;输入类型&#34;&#34;&#34;
-    impulse = None
-    &#34;&#34;&#34;冲激响应&#34;&#34;&#34;
-    step = None
-    &#34;&#34;&#34;阶跃响应&#34;&#34;&#34;
-    ramp = None
-    &#34;&#34;&#34;斜坡响应&#34;&#34;&#34;
-    else__ = None
-    &#34;&#34;&#34;非标准类型&#34;&#34;&#34;</code></pre>
+class MCall(SuperEnum):
+    &#34;&#34;&#34;调用引擎的类型&#34;&#34;&#34;
+    func = None
+    &#34;&#34;&#34;调用函数或创建实例或函数化封装的特殊关键字或调用函数句柄&#34;&#34;&#34;
+    obj_value = None
+    &#34;&#34;&#34;对象成员属性&#34;&#34;&#34;
+    obj_func = None
+    &#34;&#34;&#34;对象成员函数&#34;&#34;&#34;
+    print = None
+    &#34;&#34;&#34;打印属性&#34;&#34;&#34;
+    operator = None
+    &#34;&#34;&#34;运算符&#34;&#34;&#34;</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -65,21 +67,115 @@ class MSysInput(SuperEnum):
 </ul>
 <h3>Class variables</h3>
 <dl>
-<dt id="hagike.tools.matlab.system.const.MSysInput.else__"><code class="name">var <span class="ident">else__</span></code></dt>
+<dt id="hagike.tools.matlab.engine.const.MCall.func"><code class="name">var <span class="ident">func</span></code></dt>
 <dd>
-<div class="desc"><p>非标准类型</p></div>
+<div class="desc"><p>调用函数或创建实例或函数化封装的特殊关键字或调用函数句柄</p></div>
 </dd>
-<dt id="hagike.tools.matlab.system.const.MSysInput.impulse"><code class="name">var <span class="ident">impulse</span></code></dt>
+<dt id="hagike.tools.matlab.engine.const.MCall.obj_func"><code class="name">var <span class="ident">obj_func</span></code></dt>
 <dd>
-<div class="desc"><p>冲激响应</p></div>
+<div class="desc"><p>对象成员函数</p></div>
 </dd>
-<dt id="hagike.tools.matlab.system.const.MSysInput.ramp"><code class="name">var <span class="ident">ramp</span></code></dt>
+<dt id="hagike.tools.matlab.engine.const.MCall.obj_value"><code class="name">var <span class="ident">obj_value</span></code></dt>
 <dd>
-<div class="desc"><p>斜坡响应</p></div>
+<div class="desc"><p>对象成员属性</p></div>
 </dd>
-<dt id="hagike.tools.matlab.system.const.MSysInput.step"><code class="name">var <span class="ident">step</span></code></dt>
+<dt id="hagike.tools.matlab.engine.const.MCall.operator"><code class="name">var <span class="ident">operator</span></code></dt>
 <dd>
-<div class="desc"><p>阶跃响应</p></div>
+<div class="desc"><p>运算符</p></div>
+</dd>
+<dt id="hagike.tools.matlab.engine.const.MCall.print"><code class="name">var <span class="ident">print</span></code></dt>
+<dd>
+<div class="desc"><p>打印属性</p></div>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="hagike.utils.enum.SuperEnum" href="../../../utils/enum.html#hagike.utils.enum.SuperEnum">SuperEnum</a></b></code>:
+<ul class="hlist">
+<li><code><a title="hagike.utils.enum.SuperEnum.check_in_" href="../../../utils/enum.html#hagike.utils.enum.SuperEnum.check_in_">check_in_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.check_include_" href="../../../utils/enum.html#hagike.utils.enum.SuperEnum.check_include_">check_include_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.dict_" href="../../../utils/enum.html#hagike.utils.enum.SuperEnum.dict_">dict_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_base_" href="../../../utils/enum.html#hagike.utils.enum.SuperEnum.get_base_">get_base_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_cls_" href="../../../utils/enum.html#hagike.utils.enum.SuperEnum.get_cls_">get_cls_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_index_" href="../../../utils/enum.html#hagike.utils.enum.SuperEnum.get_index_">get_index_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_name_" href="../../../utils/enum.html#hagike.utils.enum.SuperEnum.get_name_">get_name_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_uuid_" href="../../../utils/enum.html#hagike.utils.enum.SuperEnum.get_uuid_">get_uuid_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_value_" href="../../../utils/enum.html#hagike.utils.enum.SuperEnum.get_value_">get_value_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.iter_" href="../../../utils/enum.html#hagike.utils.enum.SuperEnum.iter_">iter_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.len_" href="../../../utils/enum.html#hagike.utils.enum.SuperEnum.len_">len_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.list_" href="../../../utils/enum.html#hagike.utils.enum.SuperEnum.list_">list_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.print_" href="../../../utils/enum.html#hagike.utils.enum.SuperEnum.print_">print_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.print_pack_" href="../../../utils/enum.html#hagike.utils.enum.SuperEnum.print_pack_">print_pack_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.tree_" href="../../../utils/enum.html#hagike.utils.enum.SuperEnum.tree_">tree_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.update_dict_" href="../../../utils/enum.html#hagike.utils.enum.SuperEnum.update_dict_">update_dict_</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="hagike.tools.matlab.engine.const.MOperator"><code class="flex name class">
+<span>class <span class="ident">MOperator</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>操作符的类型，类别名字与 <code>m_operator.m</code> 中一致</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@advanced_enum()
+class MOperator(SuperEnum):
+    &#34;&#34;&#34;操作符的类型，类别名字与 `m_operator.m` 中一致&#34;&#34;&#34;
+
+    class basic(SuperEnum):
+        add = &#39;+&#39;
+        sub = &#39;-&#39;
+        mul = &#39;*&#39;
+        div = &#39;/&#39;
+        ldiv = &#39;\\&#39;
+        pow = &#39;^&#39;
+
+    class dot(SuperEnum):
+        elmul = &#39;.*&#39;
+        eldiv = &#39;./&#39;
+        elpow = &#39;.^&#39;
+
+    class matrix(SuperEnum):
+        conj_transpose = &#34;&#39;&#34;
+        nonconj_transpose = &#34;.&#39;&#34;
+
+    class logic(SuperEnum):
+        and_m = &#39;&amp;&#39;
+        or_m = &#39;|&#39;
+        not_m = &#39;~&#39;
+        and_short = &#39;&amp;&amp;&#39;
+        or_short = &#39;||&#39;
+        gt = &#39;&gt;&#39;
+        ge = &#39;&gt;=&#39;
+        lt = &#39;&lt;&#39;
+        le = &#39;&lt;=&#39;
+        eq = &#39;==&#39;
+        ne = &#39;~=&#39;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="hagike.utils.enum.SuperEnum" href="../../../utils/enum.html#hagike.utils.enum.SuperEnum">SuperEnum</a></li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="hagike.tools.matlab.engine.const.MOperator.basic"><code class="name">var <span class="ident">basic</span></code></dt>
+<dd>
+<div class="desc"><p>Enum类的父类</p></div>
+</dd>
+<dt id="hagike.tools.matlab.engine.const.MOperator.dot"><code class="name">var <span class="ident">dot</span></code></dt>
+<dd>
+<div class="desc"><p>Enum类的父类</p></div>
+</dd>
+<dt id="hagike.tools.matlab.engine.const.MOperator.logic"><code class="name">var <span class="ident">logic</span></code></dt>
+<dd>
+<div class="desc"><p>Enum类的父类</p></div>
+</dd>
+<dt id="hagike.tools.matlab.engine.const.MOperator.matrix"><code class="name">var <span class="ident">matrix</span></code></dt>
+<dd>
+<div class="desc"><p>Enum类的父类</p></div>
 </dd>
 </dl>
 <h3>Inherited members</h3>
@@ -116,18 +212,28 @@ class MSysInput(SuperEnum):
 <ul id="index">
 <li><h3>Super-module</h3>
 <ul>
-<li><code><a title="hagike.tools.matlab.system" href="index.html">hagike.tools.matlab.system</a></code></li>
+<li><code><a title="hagike.tools.matlab.engine" href="index.html">hagike.tools.matlab.engine</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="hagike.tools.matlab.system.const.MSysInput" href="#hagike.tools.matlab.system.const.MSysInput">MSysInput</a></code></h4>
+<h4><code><a title="hagike.tools.matlab.engine.const.MCall" href="#hagike.tools.matlab.engine.const.MCall">MCall</a></code></h4>
 <ul class="">
-<li><code><a title="hagike.tools.matlab.system.const.MSysInput.else__" href="#hagike.tools.matlab.system.const.MSysInput.else__">else__</a></code></li>
-<li><code><a title="hagike.tools.matlab.system.const.MSysInput.impulse" href="#hagike.tools.matlab.system.const.MSysInput.impulse">impulse</a></code></li>
-<li><code><a title="hagike.tools.matlab.system.const.MSysInput.ramp" href="#hagike.tools.matlab.system.const.MSysInput.ramp">ramp</a></code></li>
-<li><code><a title="hagike.tools.matlab.system.const.MSysInput.step" href="#hagike.tools.matlab.system.const.MSysInput.step">step</a></code></li>
+<li><code><a title="hagike.tools.matlab.engine.const.MCall.func" href="#hagike.tools.matlab.engine.const.MCall.func">func</a></code></li>
+<li><code><a title="hagike.tools.matlab.engine.const.MCall.obj_func" href="#hagike.tools.matlab.engine.const.MCall.obj_func">obj_func</a></code></li>
+<li><code><a title="hagike.tools.matlab.engine.const.MCall.obj_value" href="#hagike.tools.matlab.engine.const.MCall.obj_value">obj_value</a></code></li>
+<li><code><a title="hagike.tools.matlab.engine.const.MCall.operator" href="#hagike.tools.matlab.engine.const.MCall.operator">operator</a></code></li>
+<li><code><a title="hagike.tools.matlab.engine.const.MCall.print" href="#hagike.tools.matlab.engine.const.MCall.print">print</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="hagike.tools.matlab.engine.const.MOperator" href="#hagike.tools.matlab.engine.const.MOperator">MOperator</a></code></h4>
+<ul class="">
+<li><code><a title="hagike.tools.matlab.engine.const.MOperator.basic" href="#hagike.tools.matlab.engine.const.MOperator.basic">basic</a></code></li>
+<li><code><a title="hagike.tools.matlab.engine.const.MOperator.dot" href="#hagike.tools.matlab.engine.const.MOperator.dot">dot</a></code></li>
+<li><code><a title="hagike.tools.matlab.engine.const.MOperator.logic" href="#hagike.tools.matlab.engine.const.MOperator.logic">logic</a></code></li>
+<li><code><a title="hagike.tools.matlab.engine.const.MOperator.matrix" href="#hagike.tools.matlab.engine.const.MOperator.matrix">matrix</a></code></li>
 </ul>
 </li>
 </ul>

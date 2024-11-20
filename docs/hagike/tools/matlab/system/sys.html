@@ -40,15 +40,19 @@ hljs.highlightAll();
 <dl>
 <dt id="hagike.tools.matlab.system.sys.MSys"><code class="flex name class">
 <span>class <span class="ident">MSys</span></span>
-<span>(</span><span>m: MEngine, num: List[float], den: List[float], fb: <a title="hagike.tools.matlab.system.sys.MSys" href="#hagike.tools.matlab.system.sys.MSys">MSys</a> | None = None)</span>
+<span>(</span><span>m: MEngine, num: List[float] | None = None, den: List[float] | None = None, z: List[float] | None = None, p: List[float] | None = None, k: float | None = None, fb: <a title="hagike.tools.matlab.system.sys.MSys" href="#hagike.tools.matlab.system.sys.MSys">MSys</a> | None = None, tf: Any = None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p><code>matlab</code> 系统</p>
-<p>初始化参数 </p>
+<p>初始化参数，有三种输入方式（直接输入、输入零极点、输入分子分母系数），可选是否进行反馈 </p>
 <p>:param m - <code>matlab</code> 引擎 </p>
-<p>:param num - 系统函数的分子系数，降幂排列 </p>
+<p>:param tf - 若直接给出 <code>matlab</code> 中的 <code>tf</code> 系统，则忽略系数项，直接指定
+:param num - 系统函数的分子系数，降幂排列 </p>
 <p>:param den - 系统函数的分母系数，降幂排列 </p>
-<p>:param fb - 也需要为 <code>Msys</code> 类型</p></div>
+<p>:param z - 零点
+:param p - 极点
+:param k - 增益
+:param fb - 也需要为 <code>Msys</code> 类型</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -56,28 +60,47 @@ hljs.highlightAll();
 <pre><code class="python">class MSys:
     &#34;&#34;&#34;`matlab` 系统&#34;&#34;&#34;
 
-    def __init__(self, m: MEngine, num: List[float], den: List[float], fb: MSys | None = None) -&gt; None:
+    def __init__(self, m: MEngine,
+                 num: List[float] | None = None, den: List[float] | None = None,
+                 z: List[float] | None = None, p: List[float] | None = None, k: float | None = None,
+                 fb: MSys | None = None, tf: Any = None) -&gt; None:
         &#34;&#34;&#34;
-        初始化参数 \n
+        初始化参数，有三种输入方式（直接输入、输入零极点、输入分子分母系数），可选是否进行反馈 \n
         :param m - `matlab` 引擎 \n
+        :param tf - 若直接给出 `matlab` 中的 `tf` 系统，则忽略系数项，直接指定
         :param num - 系统函数的分子系数，降幂排列 \n
         :param den - 系统函数的分母系数，降幂排列 \n
+        :param z - 零点
+        :param p - 极点
+        :param k - 增益
         :param fb - 也需要为 `Msys` 类型 \n
         &#34;&#34;&#34;
         self._m, self._fb = m, fb
         # 获取开环系统
-        self._G = m.call(&#39;tf&#39;, m_double(num), m_double(den), num=1)
+        if tf is not None:
+            self._G = tf
+            num = np.array(m.obj_value(self._G, &#39;num&#39;))[0][0]
+            den = np.array(m.obj_value(self._G, &#39;den&#39;))[0][0]
+        elif num is not None and den is not None:
+            self._G = m.call(&#39;tf&#39;, m_double(num), m_double(den), num=1)
+        elif z is not None and p is not None and k is not None:
+            num, den = m.call(&#39;zp2tf&#39;, m_double(z), m_double(p), m_double(k), num=2)
+            num, den = np.array(num)[0], np.array(den)[0]
+            self._G = m.call(&#39;tf&#39;, m_double(num), m_double(den), num=1)
+        else:
+            raise MSysInputError(f&#34;Incorrect Input Way!!!&#34;)
+
         # 获取闭环系统
         if fb is None:
             self._H = self._G
             self._num, self._den = num, den
         else:
-
             self._H = m.call(&#39;feedback&#39;, self._G, fb.H, num=1)
-            self._num = m.obj_value(self._H, &#39;num&#39;)
-            self._den = m.obj_value(self._H, &#39;den&#39;)
+            # 返回类型为 matlab.double 类型，需要将其解包为 numpy 格式
+            self._num = np.array(m.obj_value(self._H, &#39;num&#39;))[0][0]
+            self._den = np.array(m.obj_value(self._H, &#39;den&#39;))[0][0]
         # 获取系统增益
-        self._amp = self._num[-1] / self._den[-1] if self._den[-1] != 0 else None
+        self._amp = self._num[-1] / self._den[-1] if self._den[-1] != 0.0 else None
         self._t, self._response, self._input_t = None, None, None
 
     @property   # 返回 `matlab` 系统
@@ -124,6 +147,7 @@ hljs.highlightAll();
         if para is None:
             para = dict()
         plt.plot(self._t, self._response, **para)
+        plt.grid(&#39;on&#39;)
         if save_path is not None:
             plt.savefig(save_path)
         plt.show()
@@ -239,7 +263,7 @@ def response(self) -&gt; List[float] | None: return self._response</code></pre>
     &#34;&#34;&#34;`matlab` 常数块&#34;&#34;&#34;
     def __init__(self, m: Any, amp: float = 1.0):
         &#34;&#34;&#34;创建常数系统&#34;&#34;&#34;
-        super().__init__(m, [float(amp)], [1.0, 0.0])</code></pre>
+        super().__init__(m, [float(amp)], [1.0])</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
