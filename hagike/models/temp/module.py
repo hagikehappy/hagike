@@ -1,131 +1,114 @@
 """
-模块的父类模板
+***模块的父类模板*** \n
 """
 
 
-import torch
 import torch.nn as nn
-from torchsummary import summary
-from typing import Mapping, Any, Sequence
+from typing import Any, Dict, Tuple
 from .const import ModuleKey, uuid_t
-from .error import ModuleModeError, ModuleModeWarning
+from .error import ModelError, ModelWarning
+from .node import ModuleNode
 
 
-class ModuleTemp(nn.Module):
+class ModuleTemp(ModuleNode):
     """模块的通用模板父类"""
 
-    def __init__(self, module_dict: Mapping[uuid_t, nn.Module] | None = None) -> None:
-        """
-        创建结构时的初始化
-        """
-        super(ModuleTemp, self).__init__()
-        self._is_all: None | bool
-        self._modules: List[nn.Module] | None
-        self._model: Sequence[nn.Module] | None
-        self._init(module_dict)
+    # 打印时的留空
+    _blank = 4
 
-    def _init(self, module_dict: Mapping[uuid_t, nn.Module] | None = None) -> None:
+    def __init__(self, nodes: Dict[uuid_t, ModuleNode] | None = None,
+                 info: Dict[uuid_t, Any] | None = None) -> None:
         """
-        在创建结构和刷新结构时调用； \n
-        根据输入初始化各个模块组件，若字典为None则恒等变换，若组件为None则不会执行； \n
-        模式在初始化创建后就不可改变； \n
+        创建结构时的初始化 \n
+
+        :param nodes: 包含所有ModuleNode格式的module字典 \n
+        :param info: 信息表 \n
         """
-        # 恒等变换模式
-        if module_dict is None:
-            self._model = IdentityModule()
-        else:
-            self._is_all = True if ModuleKey.all__ in module_dict.keys() else False
-            # 单组件模式
-            if self._is_all:
-                uuid = ModuleKey.all__
-                self._model = module_dict[uuid]
-            # 多组件模式
+        # _nodes为存储所有key对应部分的容器
+        # _model为仅存储所有nn.Module模型的nn容器，每次刷新modules结构都会重建_models
+        # _key2index记录了从dict到list的序号映射
+        # self是可运行的模型
+        for node in nodes.values():
+            self.check_node(node)
+        self._nodes = ModuleKey.dict_(nodes)
+        model, self._key2index = self._build_model()
+        super().__init__(model, info)
+
+    def _build_model(self) -> Tuple[nn.ModuleList, Dict]:
+        """由module构建model和key2index，同时检查类型正确性"""
+        index = 0
+        key2index = dict()
+        model = nn.ModuleList()
+        for key in ModuleKey.iter_():
+            node = self._nodes[key]
+            if node is not None:
+                model.append(node)
+                key2index[key] = index
+                index += 1
+        return model, key2index
+
+    def module(self, key: uuid_t) -> ModuleNode:
+        """返回模块"""
+        return self._nodes[key]
+
+    def print_model(self, blank: int = 0) -> None:
+        """打印模型构成"""
+        blank_str = ' ' * blank
+        print(f"{blank_str}ModuleTemp：{self.__class__.__name__}")
+        blank += self._blank
+        blank_str += ' ' * self._blank
+        for key in ModuleKey.iter_():
+            module = self._nodes[key]
+            print(f"{blank_str}{ModuleKey.get_name_(key)}：", end='')
+            if module is None:
+                print("None")
             else:
-                self._modules: List[nn.Module] = ModuleKey.list_(module_dict, is_default=True)
-                self._model = nn.Sequential()
-                for module in self._modules:
-                    if module is not None:
-                        self._model.append(module)
-
-    def refresh(self, module_dict: Mapping[uuid_t, nn.Module] | None = None) -> None:
-        """刷新结构"""
-        self._init(module_dict)
-
-    def update(self, module_dict: Mapping[uuid_t, nn.Module] | None = None) -> None:
-        """更新模型结构，如果更新后的模式与原模式不一致则报错"""
-        # 检查更新后的模式与更新前是否一致
-        is_all = None
-        if module_dict is not None:
-            is_all = True if ModuleKey.all__ in module_dict.keys() else False
-        if is_all != self._is_all:
-            raise ModuleModeError(
-                f"When updating module, You update it({self._is_all}) in a different way({is_all})!!!")
-        # 进行更新
-        if self._is_all is None:
-            pass
-        else:
-            if self._is_all is True:
-                self._model = module_dict[ModuleKey.all__]
-            else:
-                for uuid, value in module_dict.items():
-                    self._modules[ModuleKey.get_index_(uuid)] = value
-                    self._model = nn.Sequential()
-                    for module in self._modules:
-                        if module is not None:
-                            self._model.append(module)
+                print()
+                module.print_model(self._blank + blank)
 
     def forward(self, x):
         """前向传播，若model为空的Sequential则会报错"""
-        return self._model(x)
+        for i in range(len(self._model)):
+            x = self._model[i](x)
+        return x
 
-    def load_weights(self, module: uuid_t, weights_src: str | Any, is_path: bool) -> None:
-        """根据is_path，选择从路径或从内存中加载指定部分的模块参数"""
-        if is_path:
-            state_dict = torch.load(weights_src, map_location=torch.device('cpu'))
+    def update(self, key: uuid_t, node: ModuleNode | None):
+        """更新模块，key指定模块号"""
+        ModuleKey.check_in_(key, all_or_index=False)
+        self.check_node(node)
+        # 若删除模型结构
+        pre_node = self._nodes[key]
+        self._nodes[key] = node
+        if node is None and pre_node is not None:
+            del self._model[self._key2index[key]]
+            del self._key2index[key]
+        # 若添加模型结构，nn.ModuleList不支持insert操作，因此每次更新时都会重构该这一部分
+        elif node is not None and pre_node is not None:
+            self._model, self._key2index = self._build_model()
+        # 若替换模型结构
         else:
-            state_dict = weights_src
-        if module == ModuleKey.all__:
-            self._model.load_state_dict(state_dict)
+            pass
+
+    def load_weights(self, weights_src: str | Any, is_path: bool = False, key: uuid_t = ModuleKey.all__) -> None:
+        """
+        根据is_path，选择从路径或从内存中加载指定部分的模块参数 \n
+        `key` 指定模块号
+        """
+        ModuleKey.check_in_(key, all_or_index=True)
+        if key == ModuleKey.all__:
+            load_weights = super().load_weights
         else:
-            self._module[ModuleKey.get_index_(module)].load_state_dict(state_dict)
+            load_weights = self._nodes[key].load_weights
+        return load_weights(weights_src, is_path)
 
-    def save_weights(self, module: uuid_t, path: str | None = None) -> Any:
-        """根据path，选择加载指定部分的模块参数到路径或从内存中"""
-        if module == ModuleKey.all__:
-            state_dict = self._model.state_dict()
+    def save_weights(self, path: str | None = None, key: uuid_t = ModuleKey.all__) -> Any:
+        """
+        根据path，选择加载指定部分的模块参数到路径或从内存中 \n
+        `key` 指定模块号
+        """
+        ModuleKey.check_in_(key, all_or_index=True)
+        if key == ModuleKey.all__:
+            save_weights = super().save_weights
         else:
-            state_dict = self._modules[ModuleKey.get_index_(module)].state_dict()
-        if path is not None:
-            torch.save(state_dict, path)
-        return state_dict
-
-    def print_summary(self, input_size=(3, 224, 224)) -> None:
-        """打印模型的情况，输入尺寸不包括batch，进行模型测试时的参数与当前参数一致"""
-        para = self.check_para(is_print=False)
-        summary(self._model, input_size, device=para['device'])
-
-    def trans_para(self, device: str | None = None,
-                   dtype: torch.dtype | None = None,
-                   is_train: bool | None = None) -> None:
-        """转换模型类型"""
-        if device is not None:
-            self._model = self._model.to(device=device)
-        if dtype is not None:
-            self._model = self._model.to(dtype=dtype)
-        if is_train is not None:
-            if is_train:
-                self.train()
-            else:
-                self.eval()
-
-    def check_para(self, is_print: bool = True) -> dict:
-        """返回当前模型参数"""
-        para = dict()
-        prop = next(self.parameters())
-        para['device'] = 'cuda' if prop.is_cuda else 'cpu'
-        para['dtype'] = prop.dtype
-        if is_print:
-            print(f"Model Property: {para}")
-        return para
-
-
+            save_weights = self._nodes[key].save_weights
+        return save_weights(path)

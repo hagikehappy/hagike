@@ -6,14 +6,14 @@
 import warnings
 
 
-class ModuleModeError(Exception):
-    """模块运行模式异常"""
+class ModelError(Exception):
+    """模型异常"""
     def __init__(self, msg, code=None):
         super().__init__(msg)
         self.code = code
 
 
-class ModuleModeWarning(Warning):
-    """模块运行模式警告"""
+class ModelWarning(Warning):
+    """模型警告"""
     pass
 

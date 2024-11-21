@@ -13,6 +13,7 @@ class ModuleKey(SuperEnum):
     _sequence = (
         'pre', 'tail', 'bone', 'head', 'final'
     )
+    all__ = None    # 指代整个模型
     pre = None      # 预处理，将数据从原始格式转换为张量格式
     tail = None     # 尾部，将数据规范化，如批量归一化、嵌入等，以便于骨干网处理
     bone = None     # 骨干网，进行特征提取等操作

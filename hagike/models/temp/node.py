@@ -2,10 +2,13 @@
 模型容器中最基本的构成，实现下层库与容器的统一接口 \n
 """
 
+
+from __future__ import annotations
 import torch
 import torch.nn as nn
 from torchsummary import summary
 from typing import Mapping, Any, Sequence
+from .error import ModelError, ModelWarning
 from hagike.utils import *
 from .const import ModuleInfo, uuid_t
 
@@ -18,9 +21,10 @@ class ModuleNode(nn.Module):
 
     def __init__(self, model: nn.Module, info: Dict[uuid_t, Any] | None = None):
         """
-        初始化
-        :param model 指定模型
-        :param info 指定初始参数描述，若未输入描述则默认为固定值
+        初始化 \n
+
+        :param model: 指定模型 \n
+        :param info: 指定初始参数描述，若未输入描述则默认为固定值 \n
         """
         super(ModuleNode, self).__init__()
         self._model = model
@@ -32,7 +36,17 @@ class ModuleNode(nn.Module):
     def device(self) -> str: return self._info[ModuleInfo.device]
     @property
     def dtype(self) -> torch.dtype: return self._info[ModuleInfo.dtype]
+    @property
+    def info(self) -> dict: return self._info[ModuleInfo.others]
     def forward(self, x: torch.Tensor) -> torch.Tensor: return self._model(x)
+
+    @staticmethod
+    def check_node(node: ModuleNode | None) -> None:
+        """检查模块是否符合预期，若不是 `ModuleNode` 的子类或 `None` 则报错"""
+        if node is None:
+            return
+        if not isinstance(node, ModuleNode):
+            raise ModelError(f"Wrong Module Type, f{type(node)} instead of {ModuleNode}")
 
     def load_weights(self, weights_src: str | Any, is_path: bool = False) -> None:
         """根据is_path，选择从路径或从内存中加载指定部分的模块参数"""
@@ -54,7 +68,12 @@ class ModuleNode(nn.Module):
         打印模型的情况，输入尺寸不包括batch，进行模型测试时的参数与当前参数一致 \n
         可用于检查模型可用性 \n
         """
-        summary(self._model, input_size, device=self.device)
+        summary(self, input_size, device=self.device)
+
+    def print_model(self, blank: int = 0) -> None:
+        """打印模型构成"""
+        blank_str = ' ' * blank
+        print(f"{blank_str}ModuleNode: {self._model.__class__.__name__}")
 
     def to(self,
            device: str | None = None,
@@ -70,6 +89,6 @@ class ModuleNode(nn.Module):
         if is_train is not None:
             self._info[ModuleInfo.is_train] = is_train
             if is_train:
-                self.train()
+                self._model.train()
             else:
-                self.eval()
+                self._model.eval()
