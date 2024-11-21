@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.1">
+<title>hagike.models.temp.node API documentation</title>
+<meta name="description" content="模型容器中最基本的构成，实现下层库与容器的统一接口">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script type="text/x-mathjax-config">MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], processEscapes: true } });</script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS_CHTML" integrity="sha256-kZafAc6mZvK3W3v1pHOcUix30OHQN6pU/NO2oFkqZVw=" crossorigin></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>hagike.models.temp.node</code></h1>
+</header>
+<section id="section-intro">
+<p>模型容器中最基本的构成，实现下层库与容器的统一接口</p>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="hagike.models.temp.node.ModuleNode"><code class="flex name class">
+<span>class <span class="ident">ModuleNode</span></span>
+<span>(</span><span>model: nn.Module, info: Dict[uuid_t, Any] | None = None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>模型最小组成部分的模板，若希望有自定义实现，可用于被继承 </p>
+<p>同时也作为更高级的模型结构的基类 </p>
+<p>初始化 </p>
+<p>:param model: 指定模型 </p>
+<p>:param info: 指定初始参数描述，若未输入描述则默认为固定值</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ModuleNode(nn.Module):
+    &#34;&#34;&#34;
+    模型最小组成部分的模板，若希望有自定义实现，可用于被继承 \n
+    同时也作为更高级的模型结构的基类 \n
+    &#34;&#34;&#34;
+
+    def __init__(self, model: nn.Module, info: Dict[uuid_t, Any] | None = None):
+        &#34;&#34;&#34;
+        初始化 \n
+
+        :param model: 指定模型 \n
+        :param info: 指定初始参数描述，若未输入描述则默认为固定值 \n
+        &#34;&#34;&#34;
+        super(ModuleNode, self).__init__()
+        self._model = model
+        self._info = ModuleInfo.dict_(info)
+
+    @property
+    def model(self) -&gt; nn.Module: return self._model
+    @property
+    def device(self) -&gt; str: return self._info[ModuleInfo.device]
+    @property
+    def dtype(self) -&gt; torch.dtype: return self._info[ModuleInfo.dtype]
+    @property
+    def info(self) -&gt; dict: return self._info[ModuleInfo.others]
+
+    def forward(self, x: torch.Tensor) -&gt; torch.Tensor:
+        &#34;&#34;&#34;前向传播&#34;&#34;&#34;
+        return self._model(x)
+
+    @staticmethod
+    def check_node(node: ModuleNode | None) -&gt; None:
+        &#34;&#34;&#34;检查模块是否符合预期，若不是 `ModuleNode` 的子类或 `None` 则报错&#34;&#34;&#34;
+        if node is None:
+            return
+        if not isinstance(node, ModuleNode):
+            raise ModelError(f&#34;Wrong Module Type, f{type(node)} instead of {ModuleNode}&#34;)
+
+    def load_weights(self, weights_src: str | Any, is_path: bool = False) -&gt; None:
+        &#34;&#34;&#34;根据is_path，选择从路径或从内存中加载指定部分的模块参数&#34;&#34;&#34;
+        if is_path:
+            state_dict = torch.load(weights_src, map_location=self.device)
+        else:
+            state_dict = weights_src
+        self._model.load_state_dict(state_dict)
+
+    def save_weights(self, path: str | None = None) -&gt; Any:
+        &#34;&#34;&#34;根据path，选择加载指定部分的模块参数到路径或从内存中&#34;&#34;&#34;
+        state_dict = self._model.state_dict()
+        if path is not None:
+            torch.save(state_dict, path)
+        return state_dict
+
+    def print_summary(self, input_size=(3, 224, 224)) -&gt; None:
+        &#34;&#34;&#34;
+        打印模型的情况，输入尺寸不包括batch，进行模型测试时的参数与当前参数一致 \n
+        可用于检查模型可用性 \n
+        &#34;&#34;&#34;
+        summary(self, input_size, device=self.device)
+
+    def print_model(self, blank: int = 0) -&gt; None:
+        &#34;&#34;&#34;打印模型构成&#34;&#34;&#34;
+        blank_str = &#39; &#39; * blank
+        print(f&#34;{blank_str}ModuleNode: {self._model.__class__.__name__}&#34;)
+
+    def to(self,
+           device: str | None = None,
+           dtype: torch.dtype | None = None,
+           is_train: bool | None = None) -&gt; None:
+        &#34;&#34;&#34;转换模型类型，原位替换&#34;&#34;&#34;
+        if device is not None:
+            self._info[ModuleInfo.device] = device
+            self._model = self._model.to(device=device)
+        if dtype is not None:
+            self._info[ModuleInfo.dtype] = dtype
+            self._model = self._model.to(dtype=dtype)
+        if is_train is not None:
+            self._info[ModuleInfo.is_train] = is_train
+            if is_train:
+                self._model.train()
+            else:
+                self._model.eval()</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>torch.nn.modules.module.Module</li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="hagike.models.temp.common.IdentityModel" href="common.html#hagike.models.temp.common.IdentityModel">IdentityModel</a></li>
+<li><a title="hagike.models.temp.model.ModelTemp" href="model.html#hagike.models.temp.model.ModelTemp">ModelTemp</a></li>
+<li><a title="hagike.models.temp.module.ModuleTemp" href="module.html#hagike.models.temp.module.ModuleTemp">ModuleTemp</a></li>
+</ul>
+<h3>Static methods</h3>
+<dl>
+<dt id="hagike.models.temp.node.ModuleNode.check_node"><code class="name flex">
+<span>def <span class="ident">check_node</span></span>(<span>node: <a title="hagike.models.temp.node.ModuleNode" href="#hagike.models.temp.node.ModuleNode">ModuleNode</a> | None) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>检查模块是否符合预期，若不是 <code><a title="hagike.models.temp.node.ModuleNode" href="#hagike.models.temp.node.ModuleNode">ModuleNode</a></code> 的子类或 <code>None</code> 则报错</p></div>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="hagike.models.temp.node.ModuleNode.device"><code class="name">prop <span class="ident">device</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def device(self) -&gt; str: return self._info[ModuleInfo.device]</code></pre>
+</details>
+</dd>
+<dt id="hagike.models.temp.node.ModuleNode.dtype"><code class="name">prop <span class="ident">dtype</span> : torch.dtype</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def dtype(self) -&gt; torch.dtype: return self._info[ModuleInfo.dtype]</code></pre>
+</details>
+</dd>
+<dt id="hagike.models.temp.node.ModuleNode.info"><code class="name">prop <span class="ident">info</span> : dict</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def info(self) -&gt; dict: return self._info[ModuleInfo.others]</code></pre>
+</details>
+</dd>
+<dt id="hagike.models.temp.node.ModuleNode.model"><code class="name">prop <span class="ident">model</span> : nn.Module</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def model(self) -&gt; nn.Module: return self._model</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="hagike.models.temp.node.ModuleNode.forward"><code class="name flex">
+<span>def <span class="ident">forward</span></span>(<span>self, x: torch.Tensor) ‑> torch.Tensor</span>
+</code></dt>
+<dd>
+<div class="desc"><p>前向传播</p></div>
+</dd>
+<dt id="hagike.models.temp.node.ModuleNode.load_weights"><code class="name flex">
+<span>def <span class="ident">load_weights</span></span>(<span>self, weights_src: str | Any, is_path: bool = False) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>根据is_path，选择从路径或从内存中加载指定部分的模块参数</p></div>
+</dd>
+<dt id="hagike.models.temp.node.ModuleNode.print_model"><code class="name flex">
+<span>def <span class="ident">print_model</span></span>(<span>self, blank: int = 0) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>打印模型构成</p></div>
+</dd>
+<dt id="hagike.models.temp.node.ModuleNode.print_summary"><code class="name flex">
+<span>def <span class="ident">print_summary</span></span>(<span>self, input_size=(3, 224, 224)) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>打印模型的情况，输入尺寸不包括batch，进行模型测试时的参数与当前参数一致 </p>
+<p>可用于检查模型可用性</p></div>
+</dd>
+<dt id="hagike.models.temp.node.ModuleNode.save_weights"><code class="name flex">
+<span>def <span class="ident">save_weights</span></span>(<span>self, path: str | None = None) ‑> Any</span>
+</code></dt>
+<dd>
+<div class="desc"><p>根据path，选择加载指定部分的模块参数到路径或从内存中</p></div>
+</dd>
+<dt id="hagike.models.temp.node.ModuleNode.to"><code class="name flex">
+<span>def <span class="ident">to</span></span>(<span>self, device: str | None = None, dtype: torch.dtype | None = None, is_train: bool | None = None) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>转换模型类型，原位替换</p></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="hagike.models.temp" href="index.html">hagike.models.temp</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="hagike.models.temp.node.ModuleNode" href="#hagike.models.temp.node.ModuleNode">ModuleNode</a></code></h4>
+<ul class="two-column">
+<li><code><a title="hagike.models.temp.node.ModuleNode.check_node" href="#hagike.models.temp.node.ModuleNode.check_node">check_node</a></code></li>
+<li><code><a title="hagike.models.temp.node.ModuleNode.device" href="#hagike.models.temp.node.ModuleNode.device">device</a></code></li>
+<li><code><a title="hagike.models.temp.node.ModuleNode.dtype" href="#hagike.models.temp.node.ModuleNode.dtype">dtype</a></code></li>
+<li><code><a title="hagike.models.temp.node.ModuleNode.forward" href="#hagike.models.temp.node.ModuleNode.forward">forward</a></code></li>
+<li><code><a title="hagike.models.temp.node.ModuleNode.info" href="#hagike.models.temp.node.ModuleNode.info">info</a></code></li>
+<li><code><a title="hagike.models.temp.node.ModuleNode.load_weights" href="#hagike.models.temp.node.ModuleNode.load_weights">load_weights</a></code></li>
+<li><code><a title="hagike.models.temp.node.ModuleNode.model" href="#hagike.models.temp.node.ModuleNode.model">model</a></code></li>
+<li><code><a title="hagike.models.temp.node.ModuleNode.print_model" href="#hagike.models.temp.node.ModuleNode.print_model">print_model</a></code></li>
+<li><code><a title="hagike.models.temp.node.ModuleNode.print_summary" href="#hagike.models.temp.node.ModuleNode.print_summary">print_summary</a></code></li>
+<li><code><a title="hagike.models.temp.node.ModuleNode.save_weights" href="#hagike.models.temp.node.ModuleNode.save_weights">save_weights</a></code></li>
+<li><code><a title="hagike.models.temp.node.ModuleNode.to" href="#hagike.models.temp.node.ModuleNode.to">to</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.1</a>.</p>
+</footer>
+</body>
+</html>

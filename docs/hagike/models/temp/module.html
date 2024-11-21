@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
 <meta name="generator" content="pdoc3 0.11.1">
 <title>hagike.models.temp.module API documentation</title>
-<meta name="description" content="模块的父类模板">
+<meta name="description" content="***模块的父类模板***">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
@@ -27,7 +27,7 @@ hljs.highlightAll();
 <h1 class="title">Module <code>hagike.models.temp.module</code></h1>
 </header>
 <section id="section-intro">
-<p>模块的父类模板</p>
+<p><strong><em>模块的父类模板</em></strong></p>
 </section>
 <section>
 </section>
@@ -38,278 +38,129 @@ hljs.highlightAll();
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="hagike.models.temp.module.IdentityModule"><code class="flex name class">
-<span>class <span class="ident">IdentityModule</span></span>
-</code></dt>
-<dd>
-<div class="desc"><p>恒等变换模块，用于占位</p>
-<p>Initialize internal Module state, shared by both nn.Module and ScriptModule.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class IdentityModule(nn.Module):
-    &#34;&#34;&#34;恒等变换模块，用于占位&#34;&#34;&#34;
-    def __init__(self):
-        super(IdentityModule, self).__init__()
-
-    def forward(self, x):
-        &#34;&#34;&#34;直接返回输入&#34;&#34;&#34;
-        return x</code></pre>
-</details>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li>torch.nn.modules.module.Module</li>
-</ul>
-<h3>Methods</h3>
-<dl>
-<dt id="hagike.models.temp.module.IdentityModule.forward"><code class="name flex">
-<span>def <span class="ident">forward</span></span>(<span>self, x) ‑> Callable[..., Any]</span>
-</code></dt>
-<dd>
-<div class="desc"><p>直接返回输入</p></div>
-</dd>
-</dl>
-</dd>
-<dt id="hagike.models.temp.module.ModuleKey"><code class="flex name class">
-<span>class <span class="ident">ModuleKey</span></span>
-</code></dt>
-<dd>
-<div class="desc"><p>模块构成，未指定部分默认为None</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@advanced_enum()
-class ModuleKey(SuperEnum):
-    &#34;&#34;&#34;模块构成，未指定部分默认为None&#34;&#34;&#34;
-    _sequence = (
-        &#39;pre&#39;, &#39;tail&#39;, &#39;bone&#39;, &#39;head&#39;, &#39;final&#39;
-    )
-    all__ = None     # 如果启用了&#39;_all&#39;，则是忽略其它选项，并将该模块作为一个整体处理
-    pre = None      # 预处理，将数据从原始格式转换为张量格式
-    tail = None     # 尾部，将数据规范化，如批量归一化、嵌入等，以便于骨干网处理
-    bone = None     # 骨干网，进行特征提取等操作
-    head = None     # 头部，根据需求构造输出层格式
-    final = None    # 激活层，获取最终输出</code></pre>
-</details>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li><a title="hagike.utils.enum.SuperEnum" href="../../utils/enum.html#hagike.utils.enum.SuperEnum">SuperEnum</a></li>
-</ul>
-<h3>Class variables</h3>
-<dl>
-<dt id="hagike.models.temp.module.ModuleKey.all__"><code class="name">var <span class="ident">all__</span></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="hagike.models.temp.module.ModuleKey.bone"><code class="name">var <span class="ident">bone</span></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="hagike.models.temp.module.ModuleKey.final"><code class="name">var <span class="ident">final</span></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="hagike.models.temp.module.ModuleKey.head"><code class="name">var <span class="ident">head</span></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="hagike.models.temp.module.ModuleKey.pre"><code class="name">var <span class="ident">pre</span></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="hagike.models.temp.module.ModuleKey.tail"><code class="name">var <span class="ident">tail</span></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-</dl>
-<h3>Inherited members</h3>
-<ul class="hlist">
-<li><code><b><a title="hagike.utils.enum.SuperEnum" href="../../utils/enum.html#hagike.utils.enum.SuperEnum">SuperEnum</a></b></code>:
-<ul class="hlist">
-<li><code><a title="hagike.utils.enum.SuperEnum.check_in_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.check_in_">check_in_</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.check_include_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.check_include_">check_include_</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.dict_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.dict_">dict_</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.get_base_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_base_">get_base_</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.get_cls_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_cls_">get_cls_</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.get_index_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_index_">get_index_</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.get_name_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_name_">get_name_</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.get_uuid_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_uuid_">get_uuid_</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.get_value_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_value_">get_value_</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.iter_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.iter_">iter_</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.len_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.len_">len_</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.list_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.list_">list_</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.print_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.print_">print_</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.print_pack_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.print_pack_">print_pack_</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.tree_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.tree_">tree_</a></code></li>
-<li><code><a title="hagike.utils.enum.SuperEnum.update_dict_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.update_dict_">update_dict_</a></code></li>
-</ul>
-</li>
-</ul>
-</dd>
-<dt id="hagike.models.temp.module.ModuleModeError"><code class="flex name class">
-<span>class <span class="ident">ModuleModeError</span></span>
-<span>(</span><span>msg, code=None)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>模块运行模式异常</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class ModuleModeError(Exception):
-    &#34;&#34;&#34;模块运行模式异常&#34;&#34;&#34;
-    def __init__(self, msg, code=None):
-        super().__init__(msg)
-        self.code = code</code></pre>
-</details>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li>builtins.Exception</li>
-<li>builtins.BaseException</li>
-</ul>
-</dd>
 <dt id="hagike.models.temp.module.ModuleTemp"><code class="flex name class">
 <span>class <span class="ident">ModuleTemp</span></span>
-<span>(</span><span>module_dict: Optional[Mapping[int, torch.nn.modules.module.Module]] = None)</span>
+<span>(</span><span>nodes: Optional[Dict[int, <a title="hagike.models.temp.node.ModuleNode" href="node.html#hagike.models.temp.node.ModuleNode">ModuleNode</a>]] = None, info: Optional[Dict[int, Any]] = None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>模块的通用模板父类</p>
-<p>创建结构时的初始化</p></div>
+<p>创建结构时的初始化 </p>
+<p>:param nodes: 包含所有ModuleNode格式的module字典 </p>
+<p>:param info: 信息表</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class ModuleTemp(nn.Module):
+<pre><code class="python">class ModuleTemp(ModuleNode):
     &#34;&#34;&#34;模块的通用模板父类&#34;&#34;&#34;
 
-    def __init__(self, module_dict: Mapping[uuid_t, nn.Module] | None = None) -&gt; None:
-        &#34;&#34;&#34;
-        创建结构时的初始化
-        &#34;&#34;&#34;
-        super(ModuleTemp, self).__init__()
-        self._is_all: None | bool
-        self._modules: List[nn.Module] | None
-        self._model: Sequence[nn.Module] | None
-        self._init(module_dict)
+    # 打印时的留空
+    _blank = 4
 
-    def _init(self, module_dict: Mapping[uuid_t, nn.Module] | None = None) -&gt; None:
+    def __init__(self, nodes: Dict[uuid_t, ModuleNode] | None = None,
+                 info: Dict[uuid_t, Any] | None = None) -&gt; None:
         &#34;&#34;&#34;
-        在创建结构和刷新结构时调用； \n
-        根据输入初始化各个模块组件，若字典为None则恒等变换，若组件为None则不会执行； \n
-        模式在初始化创建后就不可改变； \n
+        创建结构时的初始化 \n
+
+        :param nodes: 包含所有ModuleNode格式的module字典 \n
+        :param info: 信息表 \n
         &#34;&#34;&#34;
-        # 恒等变换模式
-        if module_dict is None:
-            self._model = IdentityModule()
-        else:
-            self._is_all = True if ModuleKey.all__ in module_dict.keys() else False
-            # 单组件模式
-            if self._is_all:
-                uuid = ModuleKey.all__
-                self._model = module_dict[uuid]
-            # 多组件模式
+        # _nodes为存储所有key对应部分的容器
+        # _model为仅存储所有nn.Module模型的nn容器，每次刷新modules结构都会重建_models
+        # _key2index记录了从dict到list的序号映射
+        # self是可运行的模型
+        for node in nodes.values():
+            self.check_node(node)
+        self._nodes = ModuleKey.dict_(nodes)
+        model, self._key2index = self._build_model()
+        super().__init__(model, info)
+
+    def _build_model(self) -&gt; Tuple[nn.ModuleList, Dict]:
+        &#34;&#34;&#34;由module构建model和key2index，同时检查类型正确性&#34;&#34;&#34;
+        index = 0
+        key2index = dict()
+        model = nn.ModuleList()
+        for key in ModuleKey.iter_():
+            node = self._nodes[key]
+            if node is not None:
+                model.append(node)
+                key2index[key] = index
+                index += 1
+        return model, key2index
+
+    def module(self, key: uuid_t) -&gt; ModuleNode:
+        &#34;&#34;&#34;返回模块&#34;&#34;&#34;
+        return self._nodes[key]
+
+    def print_model(self, blank: int = 0) -&gt; None:
+        &#34;&#34;&#34;打印模型构成&#34;&#34;&#34;
+        blank_str = &#39; &#39; * blank
+        print(f&#34;{blank_str}ModuleTemp：{self.__class__.__name__}&#34;)
+        blank += self._blank
+        blank_str += &#39; &#39; * self._blank
+        for key in ModuleKey.iter_():
+            module = self._nodes[key]
+            print(f&#34;{blank_str}{ModuleKey.get_name_(key)}：&#34;, end=&#39;&#39;)
+            if module is None:
+                print(&#34;None&#34;)
             else:
-                self._modules: List[nn.Module] = ModuleKey.list_(module_dict, is_default=True)
-                self._model = nn.Sequential()
-                for module in self._modules:
-                    if module is not None:
-                        self._model.append(module)
-
-    def refresh(self, module_dict: Mapping[uuid_t, nn.Module] | None = None) -&gt; None:
-        &#34;&#34;&#34;刷新结构&#34;&#34;&#34;
-        self._init(module_dict)
-
-    def update(self, module_dict: Mapping[uuid_t, nn.Module] | None = None) -&gt; None:
-        &#34;&#34;&#34;更新模型结构，如果更新后的模式与原模式不一致则报错&#34;&#34;&#34;
-        # 检查更新后的模式与更新前是否一致
-        is_all = None
-        if module_dict is not None:
-            is_all = True if ModuleKey.all__ in module_dict.keys() else False
-        if is_all != self._is_all:
-            raise ModuleModeError(
-                f&#34;When updating module, You update it({self._is_all}) in a different way({is_all})!!!&#34;)
-        # 进行更新
-        if self._is_all is None:
-            pass
-        else:
-            if self._is_all is True:
-                self._model = module_dict[ModuleKey.all__]
-            else:
-                for uuid, value in module_dict.items():
-                    self._modules[ModuleKey.get_index_(uuid)] = value
-                    self._model = nn.Sequential()
-                    for module in self._modules:
-                        if module is not None:
-                            self._model.append(module)
+                print()
+                module.print_model(self._blank + blank)
 
     def forward(self, x):
         &#34;&#34;&#34;前向传播，若model为空的Sequential则会报错&#34;&#34;&#34;
-        return self._model(x)
+        for i in range(len(self._model)):
+            x = self._model[i](x)
+        return x
 
-    def load_weights(self, module: uuid_t, weights_src: str | Any, is_path: bool) -&gt; None:
-        &#34;&#34;&#34;根据is_path，选择从路径或从内存中加载指定部分的模块参数&#34;&#34;&#34;
-        if is_path:
-            state_dict = torch.load(weights_src, map_location=torch.device(&#39;cpu&#39;))
+    def update(self, key: uuid_t, node: ModuleNode | None):
+        &#34;&#34;&#34;更新模块，key指定模块号&#34;&#34;&#34;
+        ModuleKey.check_in_(key, all_or_index=False)
+        self.check_node(node)
+        # 若删除模型结构
+        pre_node = self._nodes[key]
+        self._nodes[key] = node
+        if node is None and pre_node is not None:
+            del self._model[self._key2index[key]]
+            del self._key2index[key]
+        # 若添加模型结构，nn.ModuleList不支持insert操作，因此每次更新时都会重构该这一部分
+        elif node is not None and pre_node is not None:
+            self._model, self._key2index = self._build_model()
+        # 若替换模型结构
         else:
-            state_dict = weights_src
-        if module == ModuleKey.all__:
-            self._model.load_state_dict(state_dict)
+            pass
+
+    def load_weights(self, weights_src: str | Any, is_path: bool = False, key: uuid_t = ModuleKey.all__) -&gt; None:
+        &#34;&#34;&#34;
+        根据is_path，选择从路径或从内存中加载指定部分的模块参数 \n
+        `key` 指定模块号
+        &#34;&#34;&#34;
+        ModuleKey.check_in_(key, all_or_index=True)
+        if key == ModuleKey.all__:
+            load_weights = super().load_weights
         else:
-            self._module[ModuleKey.get_index_(module)].load_state_dict(state_dict)
+            load_weights = self._nodes[key].load_weights
+        return load_weights(weights_src, is_path)
 
-    def save_weights(self, module: uuid_t, path: str | None = None) -&gt; Any:
-        &#34;&#34;&#34;根据path，选择加载指定部分的模块参数到路径或从内存中&#34;&#34;&#34;
-        if module == ModuleKey.all__:
-            state_dict = self._model.state_dict()
+    def save_weights(self, path: str | None = None, key: uuid_t = ModuleKey.all__) -&gt; Any:
+        &#34;&#34;&#34;
+        根据path，选择加载指定部分的模块参数到路径或从内存中 \n
+        `key` 指定模块号
+        &#34;&#34;&#34;
+        ModuleKey.check_in_(key, all_or_index=True)
+        if key == ModuleKey.all__:
+            save_weights = super().save_weights
         else:
-            state_dict = self._modules[ModuleKey.get_index_(module)].state_dict()
-        if path is not None:
-            torch.save(state_dict, path)
-        return state_dict
-
-    def print_summary(self, input_size=(3, 224, 224)) -&gt; None:
-        &#34;&#34;&#34;打印模型的情况，输入尺寸不包括batch，进行模型测试时的参数与当前参数一致&#34;&#34;&#34;
-        para = self.check_para(is_print=False)
-        summary(self._model, input_size, device=para[&#39;device&#39;])
-
-    def trans_para(self, device: str | None = None,
-                   dtype: torch.dtype | None = None,
-                   is_train: bool | None = None) -&gt; None:
-        &#34;&#34;&#34;转换模型类型&#34;&#34;&#34;
-        if device is not None:
-            self._model = self._model.to(device=device)
-        if dtype is not None:
-            self._model = self._model.to(dtype=dtype)
-        if is_train is not None:
-            if is_train:
-                self.train()
-            else:
-                self.eval()
-
-    def check_para(self, is_print: bool = True) -&gt; dict:
-        &#34;&#34;&#34;返回当前模型参数&#34;&#34;&#34;
-        para = dict()
-        prop = next(self.parameters())
-        para[&#39;device&#39;] = &#39;cuda&#39; if prop.is_cuda else &#39;cpu&#39;
-        para[&#39;dtype&#39;] = prop.dtype
-        if is_print:
-            print(f&#34;Model Property: {para}&#34;)
-        return para</code></pre>
+            save_weights = self._nodes[key].save_weights
+        return save_weights(path)</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
+<li><a title="hagike.models.temp.node.ModuleNode" href="node.html#hagike.models.temp.node.ModuleNode">ModuleNode</a></li>
 <li>torch.nn.modules.module.Module</li>
 </ul>
 <h3>Methods</h3>
 <dl>
-<dt id="hagike.models.temp.module.ModuleTemp.check_para"><code class="name flex">
-<span>def <span class="ident">check_para</span></span>(<span>self, is_print: bool = True) ‑> dict</span>
-</code></dt>
-<dd>
-<div class="desc"><p>返回当前模型参数</p></div>
-</dd>
 <dt id="hagike.models.temp.module.ModuleTemp.forward"><code class="name flex">
 <span>def <span class="ident">forward</span></span>(<span>self, x) ‑> Callable[..., Any]</span>
 </code></dt>
@@ -317,42 +168,43 @@ class ModuleKey(SuperEnum):
 <div class="desc"><p>前向传播，若model为空的Sequential则会报错</p></div>
 </dd>
 <dt id="hagike.models.temp.module.ModuleTemp.load_weights"><code class="name flex">
-<span>def <span class="ident">load_weights</span></span>(<span>self, module: int, weights_src: Union[str, Any], is_path: bool) ‑> None</span>
+<span>def <span class="ident">load_weights</span></span>(<span>self, weights_src: Union[str, Any], is_path: bool = False, key: int = 5) ‑> None</span>
 </code></dt>
 <dd>
-<div class="desc"><p>根据is_path，选择从路径或从内存中加载指定部分的模块参数</p></div>
+<div class="desc"><p>根据is_path，选择从路径或从内存中加载指定部分的模块参数 </p>
+<p><code>key</code> 指定模块号</p></div>
 </dd>
-<dt id="hagike.models.temp.module.ModuleTemp.print_summary"><code class="name flex">
-<span>def <span class="ident">print_summary</span></span>(<span>self, input_size=(3, 224, 224)) ‑> None</span>
+<dt id="hagike.models.temp.module.ModuleTemp.module"><code class="name flex">
+<span>def <span class="ident">module</span></span>(<span>self, key: int) ‑> <a title="hagike.models.temp.node.ModuleNode" href="node.html#hagike.models.temp.node.ModuleNode">ModuleNode</a></span>
 </code></dt>
 <dd>
-<div class="desc"><p>打印模型的情况，输入尺寸不包括batch，进行模型测试时的参数与当前参数一致</p></div>
-</dd>
-<dt id="hagike.models.temp.module.ModuleTemp.refresh"><code class="name flex">
-<span>def <span class="ident">refresh</span></span>(<span>self, module_dict: Optional[Mapping[int, torch.nn.modules.module.Module]] = None) ‑> None</span>
-</code></dt>
-<dd>
-<div class="desc"><p>刷新结构</p></div>
+<div class="desc"><p>返回模块</p></div>
 </dd>
 <dt id="hagike.models.temp.module.ModuleTemp.save_weights"><code class="name flex">
-<span>def <span class="ident">save_weights</span></span>(<span>self, module: int, path: None | str = None) ‑> Any</span>
+<span>def <span class="ident">save_weights</span></span>(<span>self, path: None | str = None, key: int = 5) ‑> Any</span>
 </code></dt>
 <dd>
-<div class="desc"><p>根据path，选择加载指定部分的模块参数到路径或从内存中</p></div>
-</dd>
-<dt id="hagike.models.temp.module.ModuleTemp.trans_para"><code class="name flex">
-<span>def <span class="ident">trans_para</span></span>(<span>self, device: None | str = None, dtype: torch.dtype | None = None, is_train: bool | None = None) ‑> None</span>
-</code></dt>
-<dd>
-<div class="desc"><p>转换模型类型</p></div>
+<div class="desc"><p>根据path，选择加载指定部分的模块参数到路径或从内存中 </p>
+<p><code>key</code> 指定模块号</p></div>
 </dd>
 <dt id="hagike.models.temp.module.ModuleTemp.update"><code class="name flex">
-<span>def <span class="ident">update</span></span>(<span>self, module_dict: Optional[Mapping[int, torch.nn.modules.module.Module]] = None) ‑> None</span>
+<span>def <span class="ident">update</span></span>(<span>self, key: int, node: <a title="hagike.models.temp.node.ModuleNode" href="node.html#hagike.models.temp.node.ModuleNode">ModuleNode</a> | None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>更新模型结构，如果更新后的模式与原模式不一致则报错</p></div>
+<div class="desc"><p>更新模块，key指定模块号</p></div>
 </dd>
 </dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="hagike.models.temp.node.ModuleNode" href="node.html#hagike.models.temp.node.ModuleNode">ModuleNode</a></b></code>:
+<ul class="hlist">
+<li><code><a title="hagike.models.temp.node.ModuleNode.check_node" href="node.html#hagike.models.temp.node.ModuleNode.check_node">check_node</a></code></li>
+<li><code><a title="hagike.models.temp.node.ModuleNode.print_model" href="node.html#hagike.models.temp.node.ModuleNode.print_model">print_model</a></code></li>
+<li><code><a title="hagike.models.temp.node.ModuleNode.print_summary" href="node.html#hagike.models.temp.node.ModuleNode.print_summary">print_summary</a></code></li>
+<li><code><a title="hagike.models.temp.node.ModuleNode.to" href="node.html#hagike.models.temp.node.ModuleNode.to">to</a></code></li>
+</ul>
+</li>
+</ul>
 </dd>
 </dl>
 </section>
@@ -370,35 +222,12 @@ class ModuleKey(SuperEnum):
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="hagike.models.temp.module.IdentityModule" href="#hagike.models.temp.module.IdentityModule">IdentityModule</a></code></h4>
-<ul class="">
-<li><code><a title="hagike.models.temp.module.IdentityModule.forward" href="#hagike.models.temp.module.IdentityModule.forward">forward</a></code></li>
-</ul>
-</li>
-<li>
-<h4><code><a title="hagike.models.temp.module.ModuleKey" href="#hagike.models.temp.module.ModuleKey">ModuleKey</a></code></h4>
-<ul class="two-column">
-<li><code><a title="hagike.models.temp.module.ModuleKey.all__" href="#hagike.models.temp.module.ModuleKey.all__">all__</a></code></li>
-<li><code><a title="hagike.models.temp.module.ModuleKey.bone" href="#hagike.models.temp.module.ModuleKey.bone">bone</a></code></li>
-<li><code><a title="hagike.models.temp.module.ModuleKey.final" href="#hagike.models.temp.module.ModuleKey.final">final</a></code></li>
-<li><code><a title="hagike.models.temp.module.ModuleKey.head" href="#hagike.models.temp.module.ModuleKey.head">head</a></code></li>
-<li><code><a title="hagike.models.temp.module.ModuleKey.pre" href="#hagike.models.temp.module.ModuleKey.pre">pre</a></code></li>
-<li><code><a title="hagike.models.temp.module.ModuleKey.tail" href="#hagike.models.temp.module.ModuleKey.tail">tail</a></code></li>
-</ul>
-</li>
-<li>
-<h4><code><a title="hagike.models.temp.module.ModuleModeError" href="#hagike.models.temp.module.ModuleModeError">ModuleModeError</a></code></h4>
-</li>
-<li>
 <h4><code><a title="hagike.models.temp.module.ModuleTemp" href="#hagike.models.temp.module.ModuleTemp">ModuleTemp</a></code></h4>
-<ul class="two-column">
-<li><code><a title="hagike.models.temp.module.ModuleTemp.check_para" href="#hagike.models.temp.module.ModuleTemp.check_para">check_para</a></code></li>
+<ul class="">
 <li><code><a title="hagike.models.temp.module.ModuleTemp.forward" href="#hagike.models.temp.module.ModuleTemp.forward">forward</a></code></li>
 <li><code><a title="hagike.models.temp.module.ModuleTemp.load_weights" href="#hagike.models.temp.module.ModuleTemp.load_weights">load_weights</a></code></li>
-<li><code><a title="hagike.models.temp.module.ModuleTemp.print_summary" href="#hagike.models.temp.module.ModuleTemp.print_summary">print_summary</a></code></li>
-<li><code><a title="hagike.models.temp.module.ModuleTemp.refresh" href="#hagike.models.temp.module.ModuleTemp.refresh">refresh</a></code></li>
+<li><code><a title="hagike.models.temp.module.ModuleTemp.module" href="#hagike.models.temp.module.ModuleTemp.module">module</a></code></li>
 <li><code><a title="hagike.models.temp.module.ModuleTemp.save_weights" href="#hagike.models.temp.module.ModuleTemp.save_weights">save_weights</a></code></li>
-<li><code><a title="hagike.models.temp.module.ModuleTemp.trans_para" href="#hagike.models.temp.module.ModuleTemp.trans_para">trans_para</a></code></li>
 <li><code><a title="hagike.models.temp.module.ModuleTemp.update" href="#hagike.models.temp.module.ModuleTemp.update">update</a></code></li>
 </ul>
 </li>

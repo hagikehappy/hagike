@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
 <meta name="generator" content="pdoc3 0.11.1">
-<title>hagike.models.temp.unit API documentation</title>
-<meta name="description" content="模型容器中最基本的构成，实现下层库与容器的统一接口">
+<title>hagike.models.temp.common API documentation</title>
+<meta name="description" content="***常用 `module_node`***">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
@@ -24,10 +24,10 @@ hljs.highlightAll();
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>hagike.models.temp.unit</code></h1>
+<h1 class="title">Module <code>hagike.models.temp.common</code></h1>
 </header>
 <section id="section-intro">
-<p>模型容器中最基本的构成，实现下层库与容器的统一接口</p>
+<p><strong><em>常用 <code>module_node</code></em></strong></p>
 </section>
 <section>
 </section>
@@ -38,83 +38,73 @@ hljs.highlightAll();
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="hagike.models.temp.unit.ModuleNode"><code class="flex name class">
-<span>class <span class="ident">ModuleNode</span></span>
-<span>(</span><span>model)</span>
+<dt id="hagike.models.temp.common.IdentityModel"><code class="flex name class">
+<span>class <span class="ident">IdentityModel</span></span>
 </code></dt>
 <dd>
-<div class="desc"><p>模型最小组成部分的模板</p>
-<p>初始化</p></div>
+<div class="desc"><p>恒等变换模块</p>
+<p>初始化 </p>
+<p>:param model: 指定模型 </p>
+<p>:param info: 指定初始参数描述，若未输入描述则默认为固定值</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class ModuleNode(nn.Module):
-    &#34;&#34;&#34;模型最小组成部分的模板&#34;&#34;&#34;
-
-    def __init__(self, model):
-        &#34;&#34;&#34;初始化&#34;&#34;&#34;
-        super(ModuleNode, self).__init__()
-        self._model = model
-
-    @property
-    def model(self):
-        return self._model
+<pre><code class="python">class IdentityModel(ModuleNode):
+    &#34;&#34;&#34;恒等变换模块&#34;&#34;&#34;
+    def __init__(self):
+        super().__init__(IdentityUnit())</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="hagike.models.temp.node.ModuleNode" href="node.html#hagike.models.temp.node.ModuleNode">ModuleNode</a></li>
+<li>torch.nn.modules.module.Module</li>
+</ul>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="hagike.models.temp.node.ModuleNode" href="node.html#hagike.models.temp.node.ModuleNode">ModuleNode</a></b></code>:
+<ul class="hlist">
+<li><code><a title="hagike.models.temp.node.ModuleNode.check_node" href="node.html#hagike.models.temp.node.ModuleNode.check_node">check_node</a></code></li>
+<li><code><a title="hagike.models.temp.node.ModuleNode.forward" href="node.html#hagike.models.temp.node.ModuleNode.forward">forward</a></code></li>
+<li><code><a title="hagike.models.temp.node.ModuleNode.load_weights" href="node.html#hagike.models.temp.node.ModuleNode.load_weights">load_weights</a></code></li>
+<li><code><a title="hagike.models.temp.node.ModuleNode.print_model" href="node.html#hagike.models.temp.node.ModuleNode.print_model">print_model</a></code></li>
+<li><code><a title="hagike.models.temp.node.ModuleNode.print_summary" href="node.html#hagike.models.temp.node.ModuleNode.print_summary">print_summary</a></code></li>
+<li><code><a title="hagike.models.temp.node.ModuleNode.save_weights" href="node.html#hagike.models.temp.node.ModuleNode.save_weights">save_weights</a></code></li>
+<li><code><a title="hagike.models.temp.node.ModuleNode.to" href="node.html#hagike.models.temp.node.ModuleNode.to">to</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="hagike.models.temp.common.IdentityUnit"><code class="flex name class">
+<span>class <span class="ident">IdentityUnit</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>恒等变换单元</p>
+<p>Initialize internal Module state, shared by both nn.Module and ScriptModule.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class IdentityUnit(nn.Module):
+    &#34;&#34;&#34;恒等变换单元&#34;&#34;&#34;
+    def __init__(self):
+        super().__init__()
 
     def forward(self, x):
-        return self._model(x)
-
-    def load_weights(self, weights_src: str | Any, is_path: bool) -&gt; None:
-        &#34;&#34;&#34;根据is_path，选择从路径或从内存中加载指定部分的模块参数&#34;&#34;&#34;
-        # if is_path:
-        #     state_dict = torch.load(weights_src, map_location=torch.device(&#39;cpu&#39;))
-        # else:
-        #     state_dict = weights_src
-        # if module == ModuleKey.all__:
-        #     self._model.load_state_dict(state_dict)
-        # else:
-        #     self._module[ModuleKey.get_index_(module)].load_state_dict(state_dict)</code></pre>
+        &#34;&#34;&#34;直接返回输入&#34;&#34;&#34;
+        return x</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li>torch.nn.modules.module.Module</li>
 </ul>
-<h3>Instance variables</h3>
-<dl>
-<dt id="hagike.models.temp.unit.ModuleNode.model"><code class="name">prop <span class="ident">model</span></code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def model(self):
-    return self._model</code></pre>
-</details>
-</dd>
-</dl>
 <h3>Methods</h3>
 <dl>
-<dt id="hagike.models.temp.unit.ModuleNode.forward"><code class="name flex">
+<dt id="hagike.models.temp.common.IdentityUnit.forward"><code class="name flex">
 <span>def <span class="ident">forward</span></span>(<span>self, x) ‑> Callable[..., Any]</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Define the computation performed at every call.</p>
-<p>Should be overridden by all subclasses.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Although the recipe for forward pass needs to be defined within
-this function, one should call the :class:<code>Module</code> instance afterwards
-instead of this since the former takes care of running the
-registered hooks while the latter silently ignores them.</p>
-</div></div>
-</dd>
-<dt id="hagike.models.temp.unit.ModuleNode.load_weights"><code class="name flex">
-<span>def <span class="ident">load_weights</span></span>(<span>self, weights_src: Union[str, Any], is_path: bool) ‑> None</span>
-</code></dt>
-<dd>
-<div class="desc"><p>根据is_path，选择从路径或从内存中加载指定部分的模块参数</p></div>
+<div class="desc"><p>直接返回输入</p></div>
 </dd>
 </dl>
 </dd>
@@ -134,11 +124,12 @@ registered hooks while the latter silently ignores them.</p>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="hagike.models.temp.unit.ModuleNode" href="#hagike.models.temp.unit.ModuleNode">ModuleNode</a></code></h4>
+<h4><code><a title="hagike.models.temp.common.IdentityModel" href="#hagike.models.temp.common.IdentityModel">IdentityModel</a></code></h4>
+</li>
+<li>
+<h4><code><a title="hagike.models.temp.common.IdentityUnit" href="#hagike.models.temp.common.IdentityUnit">IdentityUnit</a></code></h4>
 <ul class="">
-<li><code><a title="hagike.models.temp.unit.ModuleNode.forward" href="#hagike.models.temp.unit.ModuleNode.forward">forward</a></code></li>
-<li><code><a title="hagike.models.temp.unit.ModuleNode.load_weights" href="#hagike.models.temp.unit.ModuleNode.load_weights">load_weights</a></code></li>
-<li><code><a title="hagike.models.temp.unit.ModuleNode.model" href="#hagike.models.temp.unit.ModuleNode.model">model</a></code></li>
+<li><code><a title="hagike.models.temp.common.IdentityUnit.forward" href="#hagike.models.temp.common.IdentityUnit.forward">forward</a></code></li>
 </ul>
 </li>
 </ul>

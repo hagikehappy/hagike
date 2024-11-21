@@ -38,7 +38,10 @@ class ModuleNode(nn.Module):
     def dtype(self) -> torch.dtype: return self._info[ModuleInfo.dtype]
     @property
     def info(self) -> dict: return self._info[ModuleInfo.others]
-    def forward(self, x: torch.Tensor) -> torch.Tensor: return self._model(x)
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        """前向传播"""
+        return self._model(x)
 
     @staticmethod
     def check_node(node: ModuleNode | None) -> None:

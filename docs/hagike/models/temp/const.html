@@ -36,6 +36,154 @@ hljs.highlightAll();
 <section>
 </section>
 <section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="hagike.models.temp.const.ModuleInfo"><code class="flex name class">
+<span>class <span class="ident">ModuleInfo</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>模块信息表</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@advanced_enum()
+class ModuleInfo(SuperEnum):
+    &#34;&#34;&#34;模块信息表&#34;&#34;&#34;
+    dtype = torch.float32
+    &#34;&#34;&#34;模块数据类型&#34;&#34;&#34;
+    device = &#39;cpu&#39;
+    &#34;&#34;&#34;模块所在设备&#34;&#34;&#34;
+    is_train = True
+    &#34;&#34;&#34;训练模式 / 评估模式&#34;&#34;&#34;
+    others = dict()
+    &#34;&#34;&#34;其它信息&#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="hagike.utils.enum.SuperEnum" href="../../utils/enum.html#hagike.utils.enum.SuperEnum">SuperEnum</a></li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="hagike.models.temp.const.ModuleInfo.device"><code class="name">var <span class="ident">device</span></code></dt>
+<dd>
+<div class="desc"><p>模块所在设备</p></div>
+</dd>
+<dt id="hagike.models.temp.const.ModuleInfo.dtype"><code class="name">var <span class="ident">dtype</span></code></dt>
+<dd>
+<div class="desc"><p>模块数据类型</p></div>
+</dd>
+<dt id="hagike.models.temp.const.ModuleInfo.is_train"><code class="name">var <span class="ident">is_train</span></code></dt>
+<dd>
+<div class="desc"><p>训练模式 / 评估模式</p></div>
+</dd>
+<dt id="hagike.models.temp.const.ModuleInfo.others"><code class="name">var <span class="ident">others</span></code></dt>
+<dd>
+<div class="desc"><p>其它信息</p></div>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="hagike.utils.enum.SuperEnum" href="../../utils/enum.html#hagike.utils.enum.SuperEnum">SuperEnum</a></b></code>:
+<ul class="hlist">
+<li><code><a title="hagike.utils.enum.SuperEnum.check_in_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.check_in_">check_in_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.check_include_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.check_include_">check_include_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.dict_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.dict_">dict_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_base_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_base_">get_base_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_cls_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_cls_">get_cls_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_index_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_index_">get_index_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_name_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_name_">get_name_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_uuid_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_uuid_">get_uuid_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_value_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_value_">get_value_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.iter_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.iter_">iter_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.len_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.len_">len_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.list_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.list_">list_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.print_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.print_">print_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.print_pack_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.print_pack_">print_pack_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.tree_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.tree_">tree_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.update_dict_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.update_dict_">update_dict_</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="hagike.models.temp.const.ModuleKey"><code class="flex name class">
+<span>class <span class="ident">ModuleKey</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>模块构成</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@advanced_enum()
+class ModuleKey(SuperEnum):
+    &#34;&#34;&#34;模块构成&#34;&#34;&#34;
+    _sequence = (
+        &#39;pre&#39;, &#39;tail&#39;, &#39;bone&#39;, &#39;head&#39;, &#39;final&#39;
+    )
+    all__ = None    # 指代整个模型
+    pre = None      # 预处理，将数据从原始格式转换为张量格式
+    tail = None     # 尾部，将数据规范化，如批量归一化、嵌入等，以便于骨干网处理
+    bone = None     # 骨干网，进行特征提取等操作
+    head = None     # 头部，根据需求构造输出层格式
+    final = None    # 激活层，获取最终输出</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="hagike.utils.enum.SuperEnum" href="../../utils/enum.html#hagike.utils.enum.SuperEnum">SuperEnum</a></li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="hagike.models.temp.const.ModuleKey.all__"><code class="name">var <span class="ident">all__</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="hagike.models.temp.const.ModuleKey.bone"><code class="name">var <span class="ident">bone</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="hagike.models.temp.const.ModuleKey.final"><code class="name">var <span class="ident">final</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="hagike.models.temp.const.ModuleKey.head"><code class="name">var <span class="ident">head</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="hagike.models.temp.const.ModuleKey.pre"><code class="name">var <span class="ident">pre</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="hagike.models.temp.const.ModuleKey.tail"><code class="name">var <span class="ident">tail</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="hagike.utils.enum.SuperEnum" href="../../utils/enum.html#hagike.utils.enum.SuperEnum">SuperEnum</a></b></code>:
+<ul class="hlist">
+<li><code><a title="hagike.utils.enum.SuperEnum.check_in_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.check_in_">check_in_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.check_include_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.check_include_">check_include_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.dict_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.dict_">dict_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_base_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_base_">get_base_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_cls_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_cls_">get_cls_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_index_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_index_">get_index_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_name_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_name_">get_name_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_uuid_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_uuid_">get_uuid_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.get_value_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.get_value_">get_value_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.iter_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.iter_">iter_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.len_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.len_">len_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.list_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.list_">list_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.print_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.print_">print_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.print_pack_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.print_pack_">print_pack_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.tree_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.tree_">tree_</a></code></li>
+<li><code><a title="hagike.utils.enum.SuperEnum.update_dict_" href="../../utils/enum.html#hagike.utils.enum.SuperEnum.update_dict_">update_dict_</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
 </section>
 </article>
 <nav id="sidebar">
@@ -46,6 +194,30 @@ hljs.highlightAll();
 <li><h3>Super-module</h3>
 <ul>
 <li><code><a title="hagike.models.temp" href="index.html">hagike.models.temp</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="hagike.models.temp.const.ModuleInfo" href="#hagike.models.temp.const.ModuleInfo">ModuleInfo</a></code></h4>
+<ul class="">
+<li><code><a title="hagike.models.temp.const.ModuleInfo.device" href="#hagike.models.temp.const.ModuleInfo.device">device</a></code></li>
+<li><code><a title="hagike.models.temp.const.ModuleInfo.dtype" href="#hagike.models.temp.const.ModuleInfo.dtype">dtype</a></code></li>
+<li><code><a title="hagike.models.temp.const.ModuleInfo.is_train" href="#hagike.models.temp.const.ModuleInfo.is_train">is_train</a></code></li>
+<li><code><a title="hagike.models.temp.const.ModuleInfo.others" href="#hagike.models.temp.const.ModuleInfo.others">others</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="hagike.models.temp.const.ModuleKey" href="#hagike.models.temp.const.ModuleKey">ModuleKey</a></code></h4>
+<ul class="two-column">
+<li><code><a title="hagike.models.temp.const.ModuleKey.all__" href="#hagike.models.temp.const.ModuleKey.all__">all__</a></code></li>
+<li><code><a title="hagike.models.temp.const.ModuleKey.bone" href="#hagike.models.temp.const.ModuleKey.bone">bone</a></code></li>
+<li><code><a title="hagike.models.temp.const.ModuleKey.final" href="#hagike.models.temp.const.ModuleKey.final">final</a></code></li>
+<li><code><a title="hagike.models.temp.const.ModuleKey.head" href="#hagike.models.temp.const.ModuleKey.head">head</a></code></li>
+<li><code><a title="hagike.models.temp.const.ModuleKey.pre" href="#hagike.models.temp.const.ModuleKey.pre">pre</a></code></li>
+<li><code><a title="hagike.models.temp.const.ModuleKey.tail" href="#hagike.models.temp.const.ModuleKey.tail">tail</a></code></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

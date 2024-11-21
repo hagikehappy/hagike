@@ -3,7 +3,7 @@
 """
 
 
-from module_node import *
+from .node import *
 
 
 class IdentityUnit(nn.Module):

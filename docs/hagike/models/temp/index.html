@@ -28,17 +28,18 @@ hljs.highlightAll();
 </header>
 <section id="section-intro">
 <p>模型结构的模板文件 </p>
-<p>:term </p>
-<pre><code>module - 模块，仅包含ModuleKey中的固定术语的单一执行流
-
-node - 节点，由module组成，定义了节点的拓扑结构
-
-model - 模型，由若干Node组成，各Node构成DAG(有向无环图)
-</code></pre>
+<p>unit - 裸 <code>nn.Module</code> 模型 </p>
+<p>node - 模块节点，最小封装单元，只能包含单一的 <code>unit</code> </p>
+<p>module - 模块，仅包含ModuleKey中的固定术语的单一执行流，可包含固定串行化的 <code>unit</code> </p>
+<p>model - 模型，由若干 <code><a title="hagike.models.temp.node" href="node.html">hagike.models.temp.node</a></code> 或 <code><a title="hagike.models.temp.module" href="module.html">hagike.models.temp.module</a></code> 组成，各node构成DAG(有向无环图)</p>
 </section>
 <section>
 <h2 class="section-title" id="header-submodules">Sub-modules</h2>
 <dl>
+<dt><code class="name"><a title="hagike.models.temp.common" href="common.html">hagike.models.temp.common</a></code></dt>
+<dd>
+<div class="desc"><p><strong><em>常用 <code>module_node</code></em></strong></p></div>
+</dd>
 <dt><code class="name"><a title="hagike.models.temp.const" href="const.html">hagike.models.temp.const</a></code></dt>
 <dd>
 <div class="desc"><p>模型容器的常量表</p></div>
@@ -49,13 +50,13 @@ model - 模型，由若干Node组成，各Node构成DAG(有向无环图)
 </dd>
 <dt><code class="name"><a title="hagike.models.temp.model" href="model.html">hagike.models.temp.model</a></code></dt>
 <dd>
-<div class="desc"><p>模型的父亲类模板</p></div>
+<div class="desc"><p><strong><em>模型的父亲类模板</em></strong></p></div>
 </dd>
 <dt><code class="name"><a title="hagike.models.temp.module" href="module.html">hagike.models.temp.module</a></code></dt>
 <dd>
-<div class="desc"><p>模块的父类模板</p></div>
+<div class="desc"><p><strong><em>模块的父类模板</em></strong></p></div>
 </dd>
-<dt><code class="name"><a title="hagike.models.temp.unit" href="unit.html">hagike.models.temp.unit</a></code></dt>
+<dt><code class="name"><a title="hagike.models.temp.node" href="node.html">hagike.models.temp.node</a></code></dt>
 <dd>
 <div class="desc"><p>模型容器中最基本的构成，实现下层库与容器的统一接口</p></div>
 </dd>
@@ -80,11 +81,12 @@ model - 模型，由若干Node组成，各Node构成DAG(有向无环图)
 </li>
 <li><h3><a href="#header-submodules">Sub-modules</a></h3>
 <ul>
+<li><code><a title="hagike.models.temp.common" href="common.html">hagike.models.temp.common</a></code></li>
 <li><code><a title="hagike.models.temp.const" href="const.html">hagike.models.temp.const</a></code></li>
 <li><code><a title="hagike.models.temp.error" href="error.html">hagike.models.temp.error</a></code></li>
 <li><code><a title="hagike.models.temp.model" href="model.html">hagike.models.temp.model</a></code></li>
 <li><code><a title="hagike.models.temp.module" href="module.html">hagike.models.temp.module</a></code></li>
-<li><code><a title="hagike.models.temp.unit" href="unit.html">hagike.models.temp.unit</a></code></li>
+<li><code><a title="hagike.models.temp.node" href="node.html">hagike.models.temp.node</a></code></li>
 </ul>
 </li>
 </ul>

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
 <meta name="generator" content="pdoc3 0.11.1">
 <title>hagike.models.temp.model API documentation</title>
-<meta name="description" content="模型的父亲类模板">
+<meta name="description" content="***模型的父亲类模板***">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
@@ -27,7 +27,7 @@ hljs.highlightAll();
 <h1 class="title">Module <code>hagike.models.temp.model</code></h1>
 </header>
 <section id="section-intro">
-<p>模型的父亲类模板</p>
+<p><strong><em>模型的父亲类模板</em></strong></p>
 </section>
 <section>
 </section>
@@ -38,62 +38,240 @@ hljs.highlightAll();
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="hagike.models.temp.model.ModelNode"><code class="flex name class">
-<span>class <span class="ident">ModelNode</span></span>
-<span>(</span><span>uuid: int, module: <a title="hagike.models.temp.module.ModuleTemp" href="module.html#hagike.models.temp.module.ModuleTemp">ModuleTemp</a>)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>模型的DAG节点； </p>
-<p>输入会被打包为元组，由节点内模块进行拆解并处理； </p>
-<p>输出会自动分散到各个子节点 </p>
-<p>Initialize internal Module state, shared by both nn.Module and ScriptModule.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@dataclass
-class ModelNode(nn.Module):
-    &#34;&#34;&#34;
-    模型的DAG节点； \n
-    输入会被打包为元组，由节点内模块进行拆解并处理； \n
-    输出会自动分散到各个子节点 \n
-    &#34;&#34;&#34;
-
-    def __init__(self, uuid: uuid_t, module: ModuleTemp, ):
-        super(ModelNode, self).__init__()
-        self.uuid = uuid
-        self.module = module
-        # TODO
-        # self.inputs
-        # self.outputs</code></pre>
-</details>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li>torch.nn.modules.module.Module</li>
-</ul>
-</dd>
 <dt id="hagike.models.temp.model.ModelTemp"><code class="flex name class">
 <span>class <span class="ident">ModelTemp</span></span>
+<span>(</span><span>nodes: Mapping[str, <a title="hagike.models.temp.node.ModuleNode" href="node.html#hagike.models.temp.node.ModuleNode">ModuleNode</a>], deps: Dict[str, Tuple[List[str], List[str]]], info: Optional[Dict[int, Any]] = None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>模型的通用模板父类</p>
-<p>根据输入初始化各个模块组件，模块递归构建模型</p></div>
+<p>根据输入构建有向无环图方式的模型 </p>
+<p>:param nodes: 节点映射表，键值不能与 <code>input_node</code> 与 <code>output_node</code> 的键值重复 </p>
+<p>:param deps: 节点依赖关系表，每个节点都会描述自身的 <code>(输入节点, 输出节点)</code>；
+要求必须含有 <code>input_node</code> 与 <code>output_node</code> 的键值，
+前者的 <code>输入节点</code> 要求为 <code>[]</code>，后者的 <code>输出节点</code> 为 <code>[]</code> </p>
+<p>:param info: 指定初始参数描述，若未输入描述则默认为固定值</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class ModelTemp(nn.Module):
+<pre><code class="python">class ModelTemp(ModuleNode):
     &#34;&#34;&#34;模型的通用模板父类&#34;&#34;&#34;
 
-    def __init__(self):
+    input_node = &#39;_in&#39;
+    output_node = &#39;_out&#39;
+    _in = 0
+    _out = 1
+    _blank = 4
+
+    def __init__(self, nodes: Mapping[node_t, ModuleNode],
+                 deps: Dict[node_t,  Tuple[List[node_t], List[node_t]]],
+                 info: Dict[uuid_t, Any] | None = None) -&gt; None:
         &#34;&#34;&#34;
-        根据输入初始化各个模块组件，模块递归构建模型
+        根据输入构建有向无环图方式的模型 \n
+
+        :param nodes: 节点映射表，键值不能与 `input_node` 与 `output_node` 的键值重复 \n
+        :param deps: 节点依赖关系表，每个节点都会描述自身的 `(输入节点, 输出节点)`；
+                    要求必须含有 `input_node` 与 `output_node` 的键值，
+                    前者的 `输入节点` 要求为 `[]`，后者的 `输出节点` 为 `[]` \n
+        :param info: 指定初始参数描述，若未输入描述则默认为固定值 \n
         &#34;&#34;&#34;
-        super(ModelTemp, self).__init__()</code></pre>
+        self._deps = deps
+        keys, values = nodes.keys(), nodes.values()
+        for node in values:
+            self.check_node(node)
+        if (self.input_node in keys) or (self.output_node in keys):
+            raise ModelError(f&#34;{self.input_node} or {self.output_node} should not be used as a key!!!&#34;)
+        keys = deps.keys()
+        if (self.input_node not in keys) or (self.output_node not in keys):
+            raise ModelError(f&#34;{self.input_node} or {self.output_node} should be included in deps!!!&#34;)
+        super().__init__(nn.ModuleDict(nodes), info)
+        self._check_model()
+        # 临时依赖表，存放依赖关系未满足的节点
+        self._dep_dict: Dict[node_t, Tuple[List[node_t] | None, List[node_t] | None]] | None = None
+        # 临时等待队列，存放可以进行运算的节点
+        self._wait_list: List[node_t] | None = None
+        # 数据暂存队列，存储节点的输入数据
+        self._store_dict: Dict[node_t, List[Any]] | None = None
+        self._store_default = dict()
+        for node in self._deps.keys():
+            self._store_default[node] = [None for _ in range(len(self._deps[node][self._in]))]
+
+    def _check_model(self) -&gt; None:
+        &#34;&#34;&#34;
+        .. todo::
+            检查模型合法性，包括其是否成环，以及输入输出数量是否匹配
+        &#34;&#34;&#34;
+
+    def update(self) -&gt; None:
+        &#34;&#34;&#34;
+        .. todo::
+            更新模型结构
+        &#34;&#34;&#34;
+
+    def _reset_tmp(self) -&gt; None:
+        &#34;&#34;&#34;重置临时结构&#34;&#34;&#34;
+        self._dep_dict = deepcopy(self._deps)
+        self._wait_list = list()
+        self._store_dict = deepcopy(self._store_default)
+
+    def _release_tmp(self) -&gt; None:
+        &#34;&#34;&#34;释放临时结构&#34;&#34;&#34;
+        self._dep_dict = None
+        self._wait_list = None
+        self._store_dict = None
+
+    def print_model(self, blank: int = 0) -&gt; None:
+        &#34;&#34;&#34;打印模型构成&#34;&#34;&#34;
+        blank_str = &#39; &#39; * blank
+        print(f&#34;{blank_str}ModelTemp: {self.__class__.__name__}&#34;)
+        blank += self._blank
+        blank_str += &#39; &#39; * self._blank
+        for key, node in self._model.items():
+            print(f&#34;{blank_str}{key}：&#34;)
+            node.print_model(self._blank + blank)
+
+    def _step_node(self, this_node: node_t, out_node: List[node_t], results: Sequence[Any]) -&gt; None:
+        &#34;&#34;&#34;处理节点&#34;&#34;&#34;
+        for i, node in enumerate(out_node):
+            # 获取输出位置的输入节点，据此载入至数据暂存区的正确位置
+            in_node = self._dep_dict[node][self._in]
+            index = in_node.index(this_node)
+            in_node.pop(index)
+            self._store_dict[node][index] = results[i]
+            # 检查该节点是否已经满足依赖条件，若满足则加入等待队列
+            if not in_node:
+                self._wait_list.append(node)
+
+    def forward(self, *args) -&gt; Tuple | Any:
+        &#34;&#34;&#34;
+        :param args: 输入元组，会依次展开给第一级节点
+        :return: 输出列表
+        &#34;&#34;&#34;
+        # 重置临时结构
+        self._reset_tmp()
+        outputs = None
+        # 解析并遍历入口节点的输出位置
+        out_node = self._dep_dict[self.input_node][self._out]
+        results = args
+        # 遍历输出位置
+        self._step_node(self.input_node, out_node, results)
+        # 前向传播过程，等待表非空则持续进行下去
+        while self._wait_list:
+            # 从等待表获取待处理节点，获取后入先出，优先执行最近路径
+            this_node = self._wait_list.pop()
+            # 检查节点是否为输出节点，如果是则退出循环
+            if this_node == self.output_node:
+                outputs = self._store_dict[this_node]
+                break
+            # 处理节点并获取结果
+            result = self._model[this_node](*self._store_dict.pop(this_node))
+            # 解析当前节点的输出位置
+            out_node = self._dep_dict[this_node][self._out]
+            results = [result for _ in range(len(out_node))]
+            # 遍历输出位置
+            self._step_node(this_node, out_node, results)
+        # 整理输出结果
+        if outputs is None:
+            raise ModelError(f&#34;the model output None, something went wrong!!!&#34;)
+        elif len(outputs) == 1:
+            outputs = outputs[0]
+        else:
+            outputs = tuple(outputs)
+        # 释放临时结构
+        self._release_tmp()
+        return outputs
+
+    def module(self, key: node_t) -&gt; ModuleNode:
+        &#34;&#34;&#34;返回模块&#34;&#34;&#34;
+        return self._model[key]
+
+    def load_weights(self, weights_src: str | Any, is_path: bool = False, key: node_t = &#39;all__&#39;) -&gt; None:
+        &#34;&#34;&#34;
+        根据is_path，选择从路径或从内存中加载指定部分的模块参数 \n
+        `key` 指定模块标识符，若为 `all__` 表示整个模型
+        &#34;&#34;&#34;
+        if key == &#39;all__&#39;:
+            load_weights = super().load_weights
+        else:
+            load_weights = self._model[key].load_weights
+        return load_weights(weights_src, is_path)
+
+    def save_weights(self, path: str | None = None, key: node_t = &#39;all__&#39;) -&gt; Any:
+        &#34;&#34;&#34;
+        根据path，选择加载指定部分的模块参数到路径或从内存中 \n
+        `key` 指定模块标识符，若为 `all__` 表示整个模型
+        &#34;&#34;&#34;
+        if key == &#39;all__&#39;:
+            save_weights = super().save_weights
+        else:
+            save_weights = self._model[key].save_weights
+        return save_weights(path)</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
+<li><a title="hagike.models.temp.node.ModuleNode" href="node.html#hagike.models.temp.node.ModuleNode">ModuleNode</a></li>
 <li>torch.nn.modules.module.Module</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="hagike.models.temp.model.ModelTemp.input_node"><code class="name">var <span class="ident">input_node</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="hagike.models.temp.model.ModelTemp.output_node"><code class="name">var <span class="ident">output_node</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="hagike.models.temp.model.ModelTemp.forward"><code class="name flex">
+<span>def <span class="ident">forward</span></span>(<span>self, *args) ‑> Union[Tuple, Any]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>:param args: 输入元组，会依次展开给第一级节点
+:return: 输出列表</p></div>
+</dd>
+<dt id="hagike.models.temp.model.ModelTemp.load_weights"><code class="name flex">
+<span>def <span class="ident">load_weights</span></span>(<span>self, weights_src: Union[str, Any], is_path: bool = False, key: str = 'all__') ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>根据is_path，选择从路径或从内存中加载指定部分的模块参数 </p>
+<p><code>key</code> 指定模块标识符，若为 <code>all__</code> 表示整个模型</p></div>
+</dd>
+<dt id="hagike.models.temp.model.ModelTemp.module"><code class="name flex">
+<span>def <span class="ident">module</span></span>(<span>self, key: str) ‑> <a title="hagike.models.temp.node.ModuleNode" href="node.html#hagike.models.temp.node.ModuleNode">ModuleNode</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>返回模块</p></div>
+</dd>
+<dt id="hagike.models.temp.model.ModelTemp.save_weights"><code class="name flex">
+<span>def <span class="ident">save_weights</span></span>(<span>self, path: None | str = None, key: str = 'all__') ‑> Any</span>
+</code></dt>
+<dd>
+<div class="desc"><p>根据path，选择加载指定部分的模块参数到路径或从内存中 </p>
+<p><code>key</code> 指定模块标识符，若为 <code>all__</code> 表示整个模型</p></div>
+</dd>
+<dt id="hagike.models.temp.model.ModelTemp.update"><code class="name flex">
+<span>def <span class="ident">update</span></span>(<span>self) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><div class="admonition todo">
+<p class="admonition-title">TODO</p>
+<p>更新模型结构</p>
+</div></div>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="hagike.models.temp.node.ModuleNode" href="node.html#hagike.models.temp.node.ModuleNode">ModuleNode</a></b></code>:
+<ul class="hlist">
+<li><code><a title="hagike.models.temp.node.ModuleNode.check_node" href="node.html#hagike.models.temp.node.ModuleNode.check_node">check_node</a></code></li>
+<li><code><a title="hagike.models.temp.node.ModuleNode.print_model" href="node.html#hagike.models.temp.node.ModuleNode.print_model">print_model</a></code></li>
+<li><code><a title="hagike.models.temp.node.ModuleNode.print_summary" href="node.html#hagike.models.temp.node.ModuleNode.print_summary">print_summary</a></code></li>
+<li><code><a title="hagike.models.temp.node.ModuleNode.to" href="node.html#hagike.models.temp.node.ModuleNode.to">to</a></code></li>
+</ul>
+</li>
 </ul>
 </dd>
 </dl>
@@ -112,10 +290,16 @@ class ModelNode(nn.Module):
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="hagike.models.temp.model.ModelNode" href="#hagike.models.temp.model.ModelNode">ModelNode</a></code></h4>
-</li>
-<li>
 <h4><code><a title="hagike.models.temp.model.ModelTemp" href="#hagike.models.temp.model.ModelTemp">ModelTemp</a></code></h4>
+<ul class="two-column">
+<li><code><a title="hagike.models.temp.model.ModelTemp.forward" href="#hagike.models.temp.model.ModelTemp.forward">forward</a></code></li>
+<li><code><a title="hagike.models.temp.model.ModelTemp.input_node" href="#hagike.models.temp.model.ModelTemp.input_node">input_node</a></code></li>
+<li><code><a title="hagike.models.temp.model.ModelTemp.load_weights" href="#hagike.models.temp.model.ModelTemp.load_weights">load_weights</a></code></li>
+<li><code><a title="hagike.models.temp.model.ModelTemp.module" href="#hagike.models.temp.model.ModelTemp.module">module</a></code></li>
+<li><code><a title="hagike.models.temp.model.ModelTemp.output_node" href="#hagike.models.temp.model.ModelTemp.output_node">output_node</a></code></li>
+<li><code><a title="hagike.models.temp.model.ModelTemp.save_weights" href="#hagike.models.temp.model.ModelTemp.save_weights">save_weights</a></code></li>
+<li><code><a title="hagike.models.temp.model.ModelTemp.update" href="#hagike.models.temp.model.ModelTemp.update">update</a></code></li>
+</ul>
 </li>
 </ul>
 </li>
