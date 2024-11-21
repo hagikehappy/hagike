@@ -15,7 +15,7 @@ def read(file) -> list:
 
 setup(
     name='hagike',
-    version='0.0.5',
+    version='0.0.6',
     packages=find_packages(),
     install_requires=read('requirements.txt'),
     include_package_data=True,
