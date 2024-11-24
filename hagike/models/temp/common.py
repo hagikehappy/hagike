@@ -3,7 +3,7 @@
 """
 
 
-from .node import *
+from .module import nn, ModuleNode, ModuleTemp, ModuleKey, uuid_t, ModuleMode
 
 
 class IdentityUnit(nn.Module):
@@ -21,3 +21,13 @@ class IdentityModel(ModuleNode):
     def __init__(self):
         super().__init__(IdentityUnit())
 
+
+class ModuleTemp_MaskHead(ModuleTemp):
+    """根据 (Train, Val) / Predict 模式决定是否掩码头部"""
+    def _to_mode(self, mode: uuid_t) -> None:
+        """在由预测转换为评估或训练时掩码头部"""
+        super()._to_mode(mode)
+        if mode == ModuleMode.predict:
+            self.to_mask(ModuleKey.head, False)
+        else:
+            self.to_mask(ModuleKey.head, True)

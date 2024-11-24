@@ -4,8 +4,8 @@
 
 
 import torch.nn as nn
-from typing import Any, Dict, Tuple
-from .const import ModuleKey, uuid_t
+from typing import Any, Dict, Tuple, List
+from .const import ModuleKey, uuid_t, ModuleMode
 from .error import ModelError, ModelWarning
 from .node import ModuleNode
 
@@ -27,25 +27,37 @@ class ModuleTemp(ModuleNode):
         # _nodes为存储所有key对应部分的容器
         # _model为仅存储所有nn.Module模型的nn容器，每次刷新modules结构都会重建_models
         # _key2index记录了从dict到list的序号映射
+        # _mask记录了是否屏蔽其中的某个部分
         # self是可运行的模型
         for node in nodes.values():
             self.check_node(node)
         self._nodes = ModuleKey.dict_(nodes)
+        self._mask_dict: Dict[uuid_t, bool] = dict()
+        for key in ModuleKey.iter_():
+            self._mask_dict[key] = False
+        self._mask_list: List[bool] | None = None
         model, self._key2index = self._build_model()
         super().__init__(model, info)
 
-    def _build_model(self) -> Tuple[nn.ModuleList, Dict]:
-        """由module构建model和key2index，同时检查类型正确性"""
+    def _build_model(self) -> Tuple[nn.ModuleList, Dict[uuid_t, int]]:
+        """由module构建model和key2index，同时检查类型正确性，刷新掩码表"""
         index = 0
         key2index = dict()
         model = nn.ModuleList()
+        self._mask_list = list()
         for key in ModuleKey.iter_():
             node = self._nodes[key]
             if node is not None:
                 model.append(node)
+                self._mask_list.append(self._mask_dict[key])
                 key2index[key] = index
                 index += 1
         return model, key2index
+
+    def to_mask(self, key: uuid_t, mask: bool) -> None:
+        """改变屏蔽状态，`mask` 为 `True` 时进行屏蔽，否则解屏蔽"""
+        self._mask_dict[key] = mask
+        self._mask_list[self._key2index[key]] = mask
 
     def module(self, key: uuid_t) -> ModuleNode:
         """返回模块"""
@@ -69,7 +81,8 @@ class ModuleTemp(ModuleNode):
     def forward(self, x):
         """前向传播，若model为空的Sequential则会报错"""
         for i in range(len(self._model)):
-            x = self._model[i](x)
+            if not self._mask_list[i]:
+                x = self._model[i](x)
         return x
 
     def update(self, key: uuid_t, node: ModuleNode | None):

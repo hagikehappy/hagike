@@ -27,9 +27,9 @@ def load_data_from_pkl(path: str) -> Any:
     return data
 
 
-class Mem_Cacher:
+class MemCacher:
     """内存缓存器"""
-    def __init__(self, func: Callable, max_size: int, typed: bool):
+    def __init__(self, func: Callable, max_size: int, typed: bool = False):
         self.func = func
         self.cached_func = lru_cache(maxsize=max_size, typed=typed)(self.func)
 

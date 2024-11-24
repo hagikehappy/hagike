@@ -10,7 +10,7 @@ from torchsummary import summary
 from typing import Mapping, Any, Sequence
 from .error import ModelError, ModelWarning
 from hagike.utils import *
-from .const import ModuleInfo, uuid_t
+from .const import ModuleInfo, uuid_t, ModuleMode
 
 
 class ModuleNode(nn.Module):
@@ -29,6 +29,9 @@ class ModuleNode(nn.Module):
         super(ModuleNode, self).__init__()
         self._model = model
         self._info = ModuleInfo.dict_(info)
+        self.to(device=self._info[ModuleInfo.device],
+                dtype=self._info[ModuleInfo.dtype],
+                mode=self._info[ModuleInfo.mode])
 
     @property
     def model(self) -> nn.Module: return self._model
@@ -37,7 +40,7 @@ class ModuleNode(nn.Module):
     @property
     def dtype(self) -> torch.dtype: return self._info[ModuleInfo.dtype]
     @property
-    def info(self) -> dict: return self._info[ModuleInfo.others]
+    def info(self) -> dict: return self._info
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """前向传播"""
@@ -81,17 +84,33 @@ class ModuleNode(nn.Module):
     def to(self,
            device: str | None = None,
            dtype: torch.dtype | None = None,
-           is_train: bool | None = None) -> None:
-        """转换模型类型，原位替换"""
+           mode: uuid_t | None = None) -> None:
+        """
+        转换模型类型，原位替换 \n
+        `mode` 为 `ModuleMode` 型常量，指定模式
+        """
         if device is not None:
-            self._info[ModuleInfo.device] = device
-            self._model = self._model.to(device=device)
+            self._to_device(device)
         if dtype is not None:
-            self._info[ModuleInfo.dtype] = dtype
-            self._model = self._model.to(dtype=dtype)
-        if is_train is not None:
-            self._info[ModuleInfo.is_train] = is_train
-            if is_train:
-                self._model.train()
-            else:
-                self._model.eval()
+            self._to_dtype(dtype)
+        if mode is not None:
+            self._to_mode(mode)
+
+    def _to_device(self, device: str) -> None:
+        """转换设备"""
+        self._info[ModuleInfo.device] = device
+        self._model = self._model.to(device=device)
+
+    def _to_dtype(self, dtype: torch.dtype) -> None:
+        """转换数据类型"""
+        self._info[ModuleInfo.dtype] = dtype
+        self._model = self._model.to(dtype=dtype)
+
+    def _to_mode(self, mode: uuid_t) -> None:
+        """转换模式：训练 / 评估"""
+        ModuleInfo.check_in_(mode)
+        self._info[ModuleInfo.mode] = mode
+        if mode == ModuleMode.train:
+            self._model.train()
+        else:
+            self._model.eval()

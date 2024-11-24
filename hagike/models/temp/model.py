@@ -1,13 +1,13 @@
 """
 ***模型的父亲类模板*** \n
 """
-import torch
+
+
 import torch.nn as nn
 from typing import Any, Dict, Tuple, List, Mapping, Sequence
-from .const import ModuleKey, uuid_t
+from .const import uuid_t
 from .error import ModelError, ModelWarning
 from .node import ModuleNode
-from .module import ModuleTemp
 from copy import deepcopy
 
 

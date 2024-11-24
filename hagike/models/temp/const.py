@@ -22,13 +22,27 @@ class ModuleKey(SuperEnum):
 
 
 @advanced_enum()
+class ModuleMode(SuperEnum):
+    """模块运行模式"""
+    train = None
+    """训练模式"""
+    val = None
+    """评估模式"""
+    predict = None
+    """预测模式"""
+    else__ = None
+    """其它模式"""
+
+
+@advanced_enum()
 class ModuleInfo(SuperEnum):
     """模块信息表"""
     dtype = torch.float32
     """模块数据类型"""
     device = 'cpu'
     """模块所在设备"""
-    is_train = True
-    """训练模式 / 评估模式"""
+    mode = ModuleMode.predict
+    """训练模式 / 评估模式 / 预测模式"""
     others = dict()
     """其它信息"""
+
