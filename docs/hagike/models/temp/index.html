@@ -29,8 +29,8 @@ hljs.highlightAll();
 <section id="section-intro">
 <p>模型结构的模板文件 </p>
 <p>unit - 裸 <code>nn.Module</code> 模型 </p>
-<p>node - 模块节点，最小封装单元，只能包含单一的 <code>unit</code> </p>
-<p>module - 模块，仅包含ModuleKey中的固定术语的单一执行流，可包含固定串行化的 <code>unit</code> </p>
+<p>node - 模块节点，最小封装单元，只能包含单一的 <code><a title="hagike.models.temp.unit" href="unit.html">hagike.models.temp.unit</a></code> </p>
+<p>module - 模块，仅包含ModuleKey中的固定术语的单一执行流，可包含固定串行化的 <code><a title="hagike.models.temp.unit" href="unit.html">hagike.models.temp.unit</a></code> </p>
 <p>model - 模型，由若干 <code><a title="hagike.models.temp.node" href="node.html">hagike.models.temp.node</a></code> 或 <code><a title="hagike.models.temp.module" href="module.html">hagike.models.temp.module</a></code> 组成，各node构成DAG(有向无环图)</p>
 </section>
 <section>
@@ -60,6 +60,10 @@ hljs.highlightAll();
 <dd>
 <div class="desc"><p>模型容器中最基本的构成，实现下层库与容器的统一接口</p></div>
 </dd>
+<dt><code class="name"><a title="hagike.models.temp.unit" href="unit.html">hagike.models.temp.unit</a></code></dt>
+<dd>
+<div class="desc"><p>裸 <code>nn.Module</code> 单元</p></div>
+</dd>
 </dl>
 </section>
 <section>
@@ -87,6 +91,7 @@ hljs.highlightAll();
 <li><code><a title="hagike.models.temp.model" href="model.html">hagike.models.temp.model</a></code></li>
 <li><code><a title="hagike.models.temp.module" href="module.html">hagike.models.temp.module</a></code></li>
 <li><code><a title="hagike.models.temp.node" href="node.html">hagike.models.temp.node</a></code></li>
+<li><code><a title="hagike.models.temp.unit" href="unit.html">hagike.models.temp.unit</a></code></li>
 </ul>
 </li>
 </ul>

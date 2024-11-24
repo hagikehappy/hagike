@@ -68,25 +68,37 @@ hljs.highlightAll();
         # _nodes为存储所有key对应部分的容器
         # _model为仅存储所有nn.Module模型的nn容器，每次刷新modules结构都会重建_models
         # _key2index记录了从dict到list的序号映射
+        # _mask记录了是否屏蔽其中的某个部分
         # self是可运行的模型
         for node in nodes.values():
             self.check_node(node)
         self._nodes = ModuleKey.dict_(nodes)
+        self._mask_dict: Dict[uuid_t, bool] = dict()
+        for key in ModuleKey.iter_():
+            self._mask_dict[key] = False
+        self._mask_list: List[bool] | None = None
         model, self._key2index = self._build_model()
         super().__init__(model, info)
 
-    def _build_model(self) -&gt; Tuple[nn.ModuleList, Dict]:
-        &#34;&#34;&#34;由module构建model和key2index，同时检查类型正确性&#34;&#34;&#34;
+    def _build_model(self) -&gt; Tuple[nn.ModuleList, Dict[uuid_t, int]]:
+        &#34;&#34;&#34;由module构建model和key2index，同时检查类型正确性，刷新掩码表&#34;&#34;&#34;
         index = 0
         key2index = dict()
         model = nn.ModuleList()
+        self._mask_list = list()
         for key in ModuleKey.iter_():
             node = self._nodes[key]
             if node is not None:
                 model.append(node)
+                self._mask_list.append(self._mask_dict[key])
                 key2index[key] = index
                 index += 1
         return model, key2index
+
+    def to_mask(self, key: uuid_t, mask: bool) -&gt; None:
+        &#34;&#34;&#34;改变屏蔽状态，`mask` 为 `True` 时进行屏蔽，否则解屏蔽&#34;&#34;&#34;
+        self._mask_dict[key] = mask
+        self._mask_list[self._key2index[key]] = mask
 
     def module(self, key: uuid_t) -&gt; ModuleNode:
         &#34;&#34;&#34;返回模块&#34;&#34;&#34;
@@ -110,7 +122,8 @@ hljs.highlightAll();
     def forward(self, x):
         &#34;&#34;&#34;前向传播，若model为空的Sequential则会报错&#34;&#34;&#34;
         for i in range(len(self._model)):
-            x = self._model[i](x)
+            if not self._mask_list[i]:
+                x = self._model[i](x)
         return x
 
     def update(self, key: uuid_t, node: ModuleNode | None):
@@ -159,6 +172,10 @@ hljs.highlightAll();
 <li><a title="hagike.models.temp.node.ModuleNode" href="node.html#hagike.models.temp.node.ModuleNode">ModuleNode</a></li>
 <li>torch.nn.modules.module.Module</li>
 </ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="hagike.models.temp.common.ModuleTemp_MaskHead" href="common.html#hagike.models.temp.common.ModuleTemp_MaskHead">ModuleTemp_MaskHead</a></li>
+</ul>
 <h3>Methods</h3>
 <dl>
 <dt id="hagike.models.temp.module.ModuleTemp.forward"><code class="name flex">
@@ -186,6 +203,12 @@ hljs.highlightAll();
 <dd>
 <div class="desc"><p>根据path，选择加载指定部分的模块参数到路径或从内存中 </p>
 <p><code>key</code> 指定模块号</p></div>
+</dd>
+<dt id="hagike.models.temp.module.ModuleTemp.to_mask"><code class="name flex">
+<span>def <span class="ident">to_mask</span></span>(<span>self, key: int, mask: bool) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>改变屏蔽状态，<code>mask</code> 为 <code>True</code> 时进行屏蔽，否则解屏蔽</p></div>
 </dd>
 <dt id="hagike.models.temp.module.ModuleTemp.update"><code class="name flex">
 <span>def <span class="ident">update</span></span>(<span>self, key: int, node: <a title="hagike.models.temp.node.ModuleNode" href="node.html#hagike.models.temp.node.ModuleNode">ModuleNode</a> | None)</span>
@@ -223,11 +246,12 @@ hljs.highlightAll();
 <ul>
 <li>
 <h4><code><a title="hagike.models.temp.module.ModuleTemp" href="#hagike.models.temp.module.ModuleTemp">ModuleTemp</a></code></h4>
-<ul class="">
+<ul class="two-column">
 <li><code><a title="hagike.models.temp.module.ModuleTemp.forward" href="#hagike.models.temp.module.ModuleTemp.forward">forward</a></code></li>
 <li><code><a title="hagike.models.temp.module.ModuleTemp.load_weights" href="#hagike.models.temp.module.ModuleTemp.load_weights">load_weights</a></code></li>
 <li><code><a title="hagike.models.temp.module.ModuleTemp.module" href="#hagike.models.temp.module.ModuleTemp.module">module</a></code></li>
 <li><code><a title="hagike.models.temp.module.ModuleTemp.save_weights" href="#hagike.models.temp.module.ModuleTemp.save_weights">save_weights</a></code></li>
+<li><code><a title="hagike.models.temp.module.ModuleTemp.to_mask" href="#hagike.models.temp.module.ModuleTemp.to_mask">to_mask</a></code></li>
 <li><code><a title="hagike.models.temp.module.ModuleTemp.update" href="#hagike.models.temp.module.ModuleTemp.update">update</a></code></li>
 </ul>
 </li>

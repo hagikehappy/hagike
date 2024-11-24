@@ -53,9 +53,9 @@ hljs.highlightAll();
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="hagike.utils.cache.Mem_Cacher"><code class="flex name class">
-<span>class <span class="ident">Mem_Cacher</span></span>
-<span>(</span><span>func: Callable, max_size: int, typed: bool)</span>
+<dt id="hagike.utils.cache.MemCacher"><code class="flex name class">
+<span>class <span class="ident">MemCacher</span></span>
+<span>(</span><span>func: Callable, max_size: int, typed: bool = False)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>内存缓存器</p></div>
@@ -63,9 +63,9 @@ hljs.highlightAll();
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class Mem_Cacher:
+<pre><code class="python">class MemCacher:
     &#34;&#34;&#34;内存缓存器&#34;&#34;&#34;
-    def __init__(self, func: Callable, max_size: int, typed: bool):
+    def __init__(self, func: Callable, max_size: int, typed: bool = False):
         self.func = func
         self.cached_func = lru_cache(maxsize=max_size, typed=typed)(self.func)
 
@@ -95,7 +95,7 @@ hljs.highlightAll();
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="hagike.utils.cache.Mem_Cacher" href="#hagike.utils.cache.Mem_Cacher">Mem_Cacher</a></code></h4>
+<h4><code><a title="hagike.utils.cache.MemCacher" href="#hagike.utils.cache.MemCacher">MemCacher</a></code></h4>
 </li>
 </ul>
 </li>

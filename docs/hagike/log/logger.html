@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.1">
+<title>hagike.log.logger API documentation</title>
+<meta name="description" content="***日志容器*** …">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script type="text/x-mathjax-config">MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], processEscapes: true } });</script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS_CHTML" integrity="sha256-kZafAc6mZvK3W3v1pHOcUix30OHQN6pU/NO2oFkqZVw=" crossorigin></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>hagike.log.logger</code></h1>
+</header>
+<section id="section-intro">
+<p><strong><em>日志容器</em></strong> </p>
+<p>这里的日志器希望实现以下功能： </p>
+<ol>
+<li>
+<p>根据日志系统配置控制终端的消息输出 </p>
+</li>
+<li>
+<p>记录日志内容 </p>
+</li>
+<li>
+<p>提供日志统计与分析功能 </p>
+</li>
+<li>
+<p>提供保存与读取日志的方法 </p>
+</li>
+<li>
+<p>可以接入其它日志库，提供转换方法 </p>
+</li>
+<li>
+<p>可以进行日志合并等高级操作 </p>
+</li>
+<li>
+<p>可以提供跨进程的访问机制（可以作为子类拓展实现） </p>
+</li>
+<li>
+<p>定义基准消息格式 </p>
+</li>
+<li>
+<p>提供全局默认日志器 </p>
+</li>
+</ol>
+<div class="admonition todo">
+<p class="admonition-title">TODO</p>
+<p>未全部完成</p>
+</div>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="hagike.log.logger.LogTemp"><code class="flex name class">
+<span>class <span class="ident">LogTemp</span></span>
+<span>(</span><span>uuid: int = None, time: int | float = None, level: int = None, src: str = None, event_main: int = None, event_sub: int = None, msg: str = None, else__: Any = None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>日志项</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@dataclass
+class LogTemp:
+    &#34;&#34;&#34;日志项&#34;&#34;&#34;
+    # todo: 实现对如pbar等回滚的日志项支持
+    uuid: int = None
+    &#34;&#34;&#34;日志标识符&#34;&#34;&#34;
+    time: int | float = None
+    &#34;&#34;&#34;时间&#34;&#34;&#34;
+    level: uuid_t = None
+    &#34;&#34;&#34;级别&#34;&#34;&#34;
+    src: str = None
+    &#34;&#34;&#34;来源&#34;&#34;&#34;
+    event_main: uuid_t = None
+    &#34;&#34;&#34;主事件号&#34;&#34;&#34;
+    event_sub: uuid_t = None
+    &#34;&#34;&#34;次事件号&#34;&#34;&#34;
+    msg: str = None
+    &#34;&#34;&#34;消息&#34;&#34;&#34;
+    else__: Any = None
+    &#34;&#34;&#34;其它附加要素&#34;&#34;&#34;</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="hagike.log.logger.LogTemp.else__"><code class="name">var <span class="ident">else__</span> : Any</code></dt>
+<dd>
+<div class="desc"><p>其它附加要素</p></div>
+</dd>
+<dt id="hagike.log.logger.LogTemp.event_main"><code class="name">var <span class="ident">event_main</span> : int</code></dt>
+<dd>
+<div class="desc"><p>主事件号</p></div>
+</dd>
+<dt id="hagike.log.logger.LogTemp.event_sub"><code class="name">var <span class="ident">event_sub</span> : int</code></dt>
+<dd>
+<div class="desc"><p>次事件号</p></div>
+</dd>
+<dt id="hagike.log.logger.LogTemp.level"><code class="name">var <span class="ident">level</span> : int</code></dt>
+<dd>
+<div class="desc"><p>级别</p></div>
+</dd>
+<dt id="hagike.log.logger.LogTemp.msg"><code class="name">var <span class="ident">msg</span> : str</code></dt>
+<dd>
+<div class="desc"><p>消息</p></div>
+</dd>
+<dt id="hagike.log.logger.LogTemp.src"><code class="name">var <span class="ident">src</span> : str</code></dt>
+<dd>
+<div class="desc"><p>来源</p></div>
+</dd>
+<dt id="hagike.log.logger.LogTemp.time"><code class="name">var <span class="ident">time</span> : int | float</code></dt>
+<dd>
+<div class="desc"><p>时间</p></div>
+</dd>
+<dt id="hagike.log.logger.LogTemp.uuid"><code class="name">var <span class="ident">uuid</span> : int</code></dt>
+<dd>
+<div class="desc"><p>日志标识符</p></div>
+</dd>
+</dl>
+</dd>
+<dt id="hagike.log.logger.LoggerTemp"><code class="flex name class">
+<span>class <span class="ident">LoggerTemp</span></span>
+<span>(</span><span>conf: Optional[Dict[int, Any]] = None, is_init: bool = True)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>日志管理器模板 </p>
+<p>设计思路与实现目标： </p>
+<ol>
+<li>
+<p>为日志提供全局配置方法，使得可以控制日志记录与输出行为 </p>
+</li>
+<li>
+<p>提供格式化的日志保存方法 </p>
+</li>
+<li>
+<p>消息是日志的一种子形式，可以被包含在日志项范围内 </p>
+</li>
+</ol>
+<p>根据配置初始化日志模板</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class LoggerTemp:
+    &#34;&#34;&#34;
+    日志管理器模板 \n
+    设计思路与实现目标： \n
+    1. 为日志提供全局配置方法，使得可以控制日志记录与输出行为 \n
+    2. 提供格式化的日志保存方法 \n
+    3. 消息是日志的一种子形式，可以被包含在日志项范围内 \n
+    &#34;&#34;&#34;
+
+    def __init__(self, conf: Dict[uuid_t, Any] | None = None, is_init: bool = True) -&gt; None:
+        &#34;&#34;&#34;根据配置初始化日志模板&#34;&#34;&#34;
+        self._conf = LoggerConf.dict_(conf)
+        self._record = list()
+        self._uuid = 0
+        self._init_time = 0
+        self._status = LoggerStatus.inited
+        # todo: 基于配置的进一步初始化
+        if is_init:
+            self.init()
+
+    def init(self) -&gt; None:
+        &#34;&#34;&#34;启动日志管理器&#34;&#34;&#34;
+        if self._status != LoggerStatus.inited:
+            return
+        # todo: 配置时间，写入日志头等
+        self._status = LoggerStatus.running
+
+    def end(self) -&gt; None:
+        &#34;&#34;&#34;结束日志管理器&#34;&#34;&#34;
+        # todo: 释放资源，写入日志尾等
+        self._status = LoggerStatus.ended
+
+    @property
+    def status(self): return self._status
+
+    def add_log(self, log: LogTemp, is_print: bool = True):
+        &#34;&#34;&#34;添加日志项&#34;&#34;&#34;
+        # todo: 实现功能、过滤等
+        if is_print:
+            self.print_log(log)
+
+    def print_msg(self, msg: str):
+        &#34;&#34;&#34;配置并打印消息，但不进行日志记录&#34;&#34;&#34;
+        # todo: 实现可配置打印
+        logger.info(msg)
+
+    def print_log(self, log: LogTemp):
+        &#34;&#34;&#34;打印日志项&#34;&#34;&#34;
+        # todo: 实现可配置打印
+        print(log.msg)</code></pre>
+</details>
+<h3>Instance variables</h3>
+<dl>
+<dt id="hagike.log.logger.LoggerTemp.status"><code class="name">prop <span class="ident">status</span></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def status(self): return self._status</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="hagike.log.logger.LoggerTemp.add_log"><code class="name flex">
+<span>def <span class="ident">add_log</span></span>(<span>self, log: <a title="hagike.log.logger.LogTemp" href="#hagike.log.logger.LogTemp">LogTemp</a>, is_print: bool = True)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>添加日志项</p></div>
+</dd>
+<dt id="hagike.log.logger.LoggerTemp.end"><code class="name flex">
+<span>def <span class="ident">end</span></span>(<span>self) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>结束日志管理器</p></div>
+</dd>
+<dt id="hagike.log.logger.LoggerTemp.init"><code class="name flex">
+<span>def <span class="ident">init</span></span>(<span>self) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>启动日志管理器</p></div>
+</dd>
+<dt id="hagike.log.logger.LoggerTemp.print_log"><code class="name flex">
+<span>def <span class="ident">print_log</span></span>(<span>self, log: <a title="hagike.log.logger.LogTemp" href="#hagike.log.logger.LogTemp">LogTemp</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>打印日志项</p></div>
+</dd>
+<dt id="hagike.log.logger.LoggerTemp.print_msg"><code class="name flex">
+<span>def <span class="ident">print_msg</span></span>(<span>self, msg: str)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>配置并打印消息，但不进行日志记录</p></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="hagike.log" href="index.html">hagike.log</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="hagike.log.logger.LogTemp" href="#hagike.log.logger.LogTemp">LogTemp</a></code></h4>
+<ul class="two-column">
+<li><code><a title="hagike.log.logger.LogTemp.else__" href="#hagike.log.logger.LogTemp.else__">else__</a></code></li>
+<li><code><a title="hagike.log.logger.LogTemp.event_main" href="#hagike.log.logger.LogTemp.event_main">event_main</a></code></li>
+<li><code><a title="hagike.log.logger.LogTemp.event_sub" href="#hagike.log.logger.LogTemp.event_sub">event_sub</a></code></li>
+<li><code><a title="hagike.log.logger.LogTemp.level" href="#hagike.log.logger.LogTemp.level">level</a></code></li>
+<li><code><a title="hagike.log.logger.LogTemp.msg" href="#hagike.log.logger.LogTemp.msg">msg</a></code></li>
+<li><code><a title="hagike.log.logger.LogTemp.src" href="#hagike.log.logger.LogTemp.src">src</a></code></li>
+<li><code><a title="hagike.log.logger.LogTemp.time" href="#hagike.log.logger.LogTemp.time">time</a></code></li>
+<li><code><a title="hagike.log.logger.LogTemp.uuid" href="#hagike.log.logger.LogTemp.uuid">uuid</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="hagike.log.logger.LoggerTemp" href="#hagike.log.logger.LoggerTemp">LoggerTemp</a></code></h4>
+<ul class="two-column">
+<li><code><a title="hagike.log.logger.LoggerTemp.add_log" href="#hagike.log.logger.LoggerTemp.add_log">add_log</a></code></li>
+<li><code><a title="hagike.log.logger.LoggerTemp.end" href="#hagike.log.logger.LoggerTemp.end">end</a></code></li>
+<li><code><a title="hagike.log.logger.LoggerTemp.init" href="#hagike.log.logger.LoggerTemp.init">init</a></code></li>
+<li><code><a title="hagike.log.logger.LoggerTemp.print_log" href="#hagike.log.logger.LoggerTemp.print_log">print_log</a></code></li>
+<li><code><a title="hagike.log.logger.LoggerTemp.print_msg" href="#hagike.log.logger.LoggerTemp.print_msg">print_msg</a></code></li>
+<li><code><a title="hagike.log.logger.LoggerTemp.status" href="#hagike.log.logger.LoggerTemp.status">status</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.1</a>.</p>
+</footer>
+</body>
+</html>

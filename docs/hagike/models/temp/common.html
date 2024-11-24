@@ -108,6 +108,53 @@ hljs.highlightAll();
 </dd>
 </dl>
 </dd>
+<dt id="hagike.models.temp.common.ModuleTemp_MaskHead"><code class="flex name class">
+<span>class <span class="ident">ModuleTemp_MaskHead</span></span>
+<span>(</span><span>nodes: Optional[Dict[int, <a title="hagike.models.temp.node.ModuleNode" href="node.html#hagike.models.temp.node.ModuleNode">ModuleNode</a>]] = None, info: Optional[Dict[int, Any]] = None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>根据 (Train, Val) / Predict 模式决定是否掩码头部</p>
+<p>创建结构时的初始化 </p>
+<p>:param nodes: 包含所有ModuleNode格式的module字典 </p>
+<p>:param info: 信息表</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ModuleTemp_MaskHead(ModuleTemp):
+    &#34;&#34;&#34;根据 (Train, Val) / Predict 模式决定是否掩码头部&#34;&#34;&#34;
+    def _to_mode(self, mode: uuid_t) -&gt; None:
+        &#34;&#34;&#34;在由预测转换为评估或训练时掩码头部&#34;&#34;&#34;
+        super()._to_mode(mode)
+        if mode == ModuleMode.predict:
+            self.to_mask(ModuleKey.head, False)
+        else:
+            self.to_mask(ModuleKey.head, True)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="hagike.models.temp.module.ModuleTemp" href="module.html#hagike.models.temp.module.ModuleTemp">ModuleTemp</a></li>
+<li><a title="hagike.models.temp.node.ModuleNode" href="node.html#hagike.models.temp.node.ModuleNode">ModuleNode</a></li>
+<li>torch.nn.modules.module.Module</li>
+</ul>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="hagike.models.temp.module.ModuleTemp" href="module.html#hagike.models.temp.module.ModuleTemp">ModuleTemp</a></b></code>:
+<ul class="hlist">
+<li><code><a title="hagike.models.temp.module.ModuleTemp.check_node" href="node.html#hagike.models.temp.node.ModuleNode.check_node">check_node</a></code></li>
+<li><code><a title="hagike.models.temp.module.ModuleTemp.forward" href="module.html#hagike.models.temp.module.ModuleTemp.forward">forward</a></code></li>
+<li><code><a title="hagike.models.temp.module.ModuleTemp.load_weights" href="module.html#hagike.models.temp.module.ModuleTemp.load_weights">load_weights</a></code></li>
+<li><code><a title="hagike.models.temp.module.ModuleTemp.module" href="module.html#hagike.models.temp.module.ModuleTemp.module">module</a></code></li>
+<li><code><a title="hagike.models.temp.module.ModuleTemp.print_model" href="node.html#hagike.models.temp.node.ModuleNode.print_model">print_model</a></code></li>
+<li><code><a title="hagike.models.temp.module.ModuleTemp.print_summary" href="node.html#hagike.models.temp.node.ModuleNode.print_summary">print_summary</a></code></li>
+<li><code><a title="hagike.models.temp.module.ModuleTemp.save_weights" href="module.html#hagike.models.temp.module.ModuleTemp.save_weights">save_weights</a></code></li>
+<li><code><a title="hagike.models.temp.module.ModuleTemp.to" href="node.html#hagike.models.temp.node.ModuleNode.to">to</a></code></li>
+<li><code><a title="hagike.models.temp.module.ModuleTemp.to_mask" href="module.html#hagike.models.temp.module.ModuleTemp.to_mask">to_mask</a></code></li>
+<li><code><a title="hagike.models.temp.module.ModuleTemp.update" href="module.html#hagike.models.temp.module.ModuleTemp.update">update</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
 </dl>
 </section>
 </article>
@@ -131,6 +178,9 @@ hljs.highlightAll();
 <ul class="">
 <li><code><a title="hagike.models.temp.common.IdentityUnit.forward" href="#hagike.models.temp.common.IdentityUnit.forward">forward</a></code></li>
 </ul>
+</li>
+<li>
+<h4><code><a title="hagike.models.temp.common.ModuleTemp_MaskHead" href="#hagike.models.temp.common.ModuleTemp_MaskHead">ModuleTemp_MaskHead</a></code></h4>
 </li>
 </ul>
 </li>

@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.1">
+<title>hagike.models.train.monitor API documentation</title>
+<meta name="description" content="***监视器***">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script type="text/x-mathjax-config">MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], processEscapes: true } });</script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS_CHTML" integrity="sha256-kZafAc6mZvK3W3v1pHOcUix30OHQN6pU/NO2oFkqZVw=" crossorigin></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>hagike.models.train.monitor</code></h1>
+</header>
+<section id="section-intro">
+<p><strong><em>监视器</em></strong></p>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="hagike.models.train.monitor.TrainerMonitor"><code class="flex name class">
+<span>class <span class="ident">TrainerMonitor</span></span>
+<span>(</span><span>info: Optional[Dict[int, Any]] = None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p><strong><em>模型监视器</em></strong></p>
+<p>按照参数配置监视器，默认监视器实现如下功能： </p>
+<ol>
+<li>
+<p>提供各种可能用到的统一接口，提供最基本的接口规范 </p>
+</li>
+<li>
+<p>提供一个最基本的实现，通过日志方式提供记录与分析功能，控制终端输出与显示 </p>
+</li>
+<li>
+<p>接入外部监控器，如 <code>Tensorboard</code> </p>
+</li>
+</ol>
+<p>注意：在创建监视器后必须在外部进行init才能正常工作！！！ </p>
+<p>:param info: <code>MonitorInfo</code> 监视器参数</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class TrainerMonitor:
+    &#34;&#34;&#34;
+    ***模型监视器***
+    &#34;&#34;&#34;
+
+    def __init__(self, info: Dict[uuid_t, Any] | None = None) -&gt; None:
+        &#34;&#34;&#34;
+        按照参数配置监视器，默认监视器实现如下功能： \n
+        1. 提供各种可能用到的统一接口，提供最基本的接口规范 \n
+        2. 提供一个最基本的实现，通过日志方式提供记录与分析功能，控制终端输出与显示 \n
+        3. 接入外部监控器，如 `Tensorboard` \n
+        注意：在创建监视器后必须在外部进行init才能正常工作！！！ \n
+
+        :param info: `MonitorInfo` 监视器参数 \n
+        &#34;&#34;&#34;
+        self._info = MonitorInfo.dict_(info)
+        # 创建日志子目录
+        now_date = datetime.now()
+        formatted_date = now_date.strftime(&#34;%Y-%m-%d-%H-%M-%S&#34;)
+        self._info[MonitorInfo.logdir] = os.path.join(self._info[MonitorInfo.logdir], formatted_date)
+        # todo: 根据TrainerMonitor的需求配置LoggerTemp
+        self._logger = LoggerTemp(is_init=False, conf={
+            LoggerConf.logdir: self._info[MonitorInfo.logdir]
+        })
+        self._logger.init()
+        # 这里默认使用 `Tensorboard` 作为外部监视器
+        os.makedirs(self._info[MonitorInfo.logdir], exist_ok=True)
+        self._writer = SummaryWriter(self._info[MonitorInfo.logdir])
+        self._is_init = False
+        self._train_info: Dict[uuid_t, Any] | None = None
+        self._pbar: tqdm | None = None
+
+    def init(self, train_info: Dict[uuid_t, Any]) -&gt; None:
+        &#34;&#34;&#34;接入训练参数，初始化监视器&#34;&#34;&#34;
+        if self._is_init:
+            return
+        self._is_init = True
+        self._train_info = train_info
+        # 用子进程打开
+        if self._info[MonitorInfo.autostart]:
+            import subprocess
+            process = subprocess.Popen(
+                [f&#39;konsole --hold -e tensorboard --logdir={self._info[MonitorInfo.logdir]}&#39;],
+                shell=True, close_fds=True)
+        # todo: 在日志中保存训练参数，并在日志文件夹中对训练参数进行备份
+
+    @property
+    def writer(self) -&gt; SummaryWriter:
+        if self._is_init:
+            return self._writer
+        else:
+            raise TrainingError(f&#34;visiting writer when train monitor uninitialized!!!&#34;)
+
+    @property
+    def logger(self) -&gt; LoggerTemp:
+        if self._is_init:
+            return self._logger
+        else:
+            raise TrainingError(f&#34;visiting logger when train monitor uninitialized!!!&#34;)
+
+    @property
+    def pbar(self) -&gt; tqdm:
+        if self._is_init:
+            return self._pbar
+        else:
+            raise TrainingError(f&#34;visiting pbar when trainer not started!!!&#34;)
+
+    @property
+    def logdir(self) -&gt; str:
+        return self._info[MonitorInfo.logdir]
+
+    def start(self):
+        &#34;&#34;&#34;开始训练&#34;&#34;&#34;
+        self._logger.add_log(LogTemp(msg=&#34;Begin Training Process&#34;))
+        self._pbar = tqdm(total=self._train_info[TrainerInfo.max_epochs])
+
+    def new_epoch(self, epoch: int):
+        &#34;&#34;&#34;记录新一轮训练&#34;&#34;&#34;
+        self.pbar.update()
+        self.logger.add_log(LogTemp(msg=f&#34;Begin Training Epoch {epoch}&#34;), is_print=False)
+
+    def record_effect(self, epoch: int, train_loss: float, val_loss: float, effect: float):
+        &#34;&#34;&#34;记录训练效果&#34;&#34;&#34;
+        self.logger.add_log(
+            LogTemp(msg=f&#34;Epoch {epoch}: train - {train_loss}; val - {val_loss}; effect - {effect}&#34;), is_print=False)
+        # todo: 通过配置方法定义名称
+        self.writer.add_scalar(&#39;Train Loss&#39;, train_loss, epoch)
+        self.writer.add_scalar(&#39;Val Loss&#39;, val_loss, epoch)
+        self.writer.add_scalar(&#39;Effect&#39;, effect, epoch)
+
+    def end(self):
+        &#34;&#34;&#34;关闭监视器&#34;&#34;&#34;
+        self.pbar.close()
+        self.logger.add_log(LogTemp(msg=&#34;End Training Process&#34;))
+
+    def destroy(self):
+        &#34;&#34;&#34;销毁监视器&#34;&#34;&#34;
+        self.writer.close()
+        self.logger.end()</code></pre>
+</details>
+<h3>Instance variables</h3>
+<dl>
+<dt id="hagike.models.train.monitor.TrainerMonitor.logdir"><code class="name">prop <span class="ident">logdir</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def logdir(self) -&gt; str:
+    return self._info[MonitorInfo.logdir]</code></pre>
+</details>
+</dd>
+<dt id="hagike.models.train.monitor.TrainerMonitor.logger"><code class="name">prop <span class="ident">logger</span> : <a title="hagike.log.logger.LoggerTemp" href="../../log/logger.html#hagike.log.logger.LoggerTemp">LoggerTemp</a></code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def logger(self) -&gt; LoggerTemp:
+    if self._is_init:
+        return self._logger
+    else:
+        raise TrainingError(f&#34;visiting logger when train monitor uninitialized!!!&#34;)</code></pre>
+</details>
+</dd>
+<dt id="hagike.models.train.monitor.TrainerMonitor.pbar"><code class="name">prop <span class="ident">pbar</span> : tqdm.std.tqdm</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def pbar(self) -&gt; tqdm:
+    if self._is_init:
+        return self._pbar
+    else:
+        raise TrainingError(f&#34;visiting pbar when trainer not started!!!&#34;)</code></pre>
+</details>
+</dd>
+<dt id="hagike.models.train.monitor.TrainerMonitor.writer"><code class="name">prop <span class="ident">writer</span> : torch.utils.tensorboard.writer.SummaryWriter</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def writer(self) -&gt; SummaryWriter:
+    if self._is_init:
+        return self._writer
+    else:
+        raise TrainingError(f&#34;visiting writer when train monitor uninitialized!!!&#34;)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="hagike.models.train.monitor.TrainerMonitor.destroy"><code class="name flex">
+<span>def <span class="ident">destroy</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>销毁监视器</p></div>
+</dd>
+<dt id="hagike.models.train.monitor.TrainerMonitor.end"><code class="name flex">
+<span>def <span class="ident">end</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>关闭监视器</p></div>
+</dd>
+<dt id="hagike.models.train.monitor.TrainerMonitor.init"><code class="name flex">
+<span>def <span class="ident">init</span></span>(<span>self, train_info: Dict[int, Any]) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>接入训练参数，初始化监视器</p></div>
+</dd>
+<dt id="hagike.models.train.monitor.TrainerMonitor.new_epoch"><code class="name flex">
+<span>def <span class="ident">new_epoch</span></span>(<span>self, epoch: int)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>记录新一轮训练</p></div>
+</dd>
+<dt id="hagike.models.train.monitor.TrainerMonitor.record_effect"><code class="name flex">
+<span>def <span class="ident">record_effect</span></span>(<span>self, epoch: int, train_loss: float, val_loss: float, effect: float)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>记录训练效果</p></div>
+</dd>
+<dt id="hagike.models.train.monitor.TrainerMonitor.start"><code class="name flex">
+<span>def <span class="ident">start</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>开始训练</p></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="hagike.models.train" href="index.html">hagike.models.train</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="hagike.models.train.monitor.TrainerMonitor" href="#hagike.models.train.monitor.TrainerMonitor">TrainerMonitor</a></code></h4>
+<ul class="two-column">
+<li><code><a title="hagike.models.train.monitor.TrainerMonitor.destroy" href="#hagike.models.train.monitor.TrainerMonitor.destroy">destroy</a></code></li>
+<li><code><a title="hagike.models.train.monitor.TrainerMonitor.end" href="#hagike.models.train.monitor.TrainerMonitor.end">end</a></code></li>
+<li><code><a title="hagike.models.train.monitor.TrainerMonitor.init" href="#hagike.models.train.monitor.TrainerMonitor.init">init</a></code></li>
+<li><code><a title="hagike.models.train.monitor.TrainerMonitor.logdir" href="#hagike.models.train.monitor.TrainerMonitor.logdir">logdir</a></code></li>
+<li><code><a title="hagike.models.train.monitor.TrainerMonitor.logger" href="#hagike.models.train.monitor.TrainerMonitor.logger">logger</a></code></li>
+<li><code><a title="hagike.models.train.monitor.TrainerMonitor.new_epoch" href="#hagike.models.train.monitor.TrainerMonitor.new_epoch">new_epoch</a></code></li>
+<li><code><a title="hagike.models.train.monitor.TrainerMonitor.pbar" href="#hagike.models.train.monitor.TrainerMonitor.pbar">pbar</a></code></li>
+<li><code><a title="hagike.models.train.monitor.TrainerMonitor.record_effect" href="#hagike.models.train.monitor.TrainerMonitor.record_effect">record_effect</a></code></li>
+<li><code><a title="hagike.models.train.monitor.TrainerMonitor.start" href="#hagike.models.train.monitor.TrainerMonitor.start">start</a></code></li>
+<li><code><a title="hagike.models.train.monitor.TrainerMonitor.writer" href="#hagike.models.train.monitor.TrainerMonitor.writer">writer</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.1</a>.</p>
+</footer>
+</body>
+</html>

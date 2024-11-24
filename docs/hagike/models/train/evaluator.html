@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
 <meta name="generator" content="pdoc3 0.11.1">
-<title>hagike.models.train.trainer API documentation</title>
-<meta name="description" content="***训练器***">
+<title>hagike.models.train.evaluator API documentation</title>
+<meta name="description" content="***评估器***">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
@@ -24,10 +24,10 @@ hljs.highlightAll();
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>hagike.models.train.trainer</code></h1>
+<h1 class="title">Module <code>hagike.models.train.evaluator</code></h1>
 </header>
 <section id="section-intro">
-<p><strong><em>训练器</em></strong></p>
+<p><strong><em>评估器</em></strong></p>
 </section>
 <section>
 </section>
@@ -38,123 +38,142 @@ hljs.highlightAll();
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="hagike.models.train.trainer.TrainerTemp"><code class="flex name class">
-<span>class <span class="ident">TrainerTemp</span></span>
-<span>(</span><span>model: <a title="hagike.models.temp.node.ModuleNode" href="../temp/node.html#hagike.models.temp.node.ModuleNode">ModuleNode</a>, optim: <a title="hagike.models.train.optimizer.OptimTemp" href="optimizer.html#hagike.models.train.optimizer.OptimTemp">OptimTemp</a>, criterion: <a title="hagike.models.train.criterion.CriterionTemp" href="criterion.html#hagike.models.train.criterion.CriterionTemp">CriterionTemp</a>, dataloader: <a title="hagike.models.train.dataloader.DataLoaderTemp" href="dataloader.html#hagike.models.train.dataloader.DataLoaderTemp">DataLoaderTemp</a>, monitor: <a title="hagike.models.train.monitor.TrainerMonitor" href="monitor.html#hagike.models.train.monitor.TrainerMonitor">TrainerMonitor</a>, evaluator: <a title="hagike.models.train.evaluator.EvaluatorTemp" href="evaluator.html#hagike.models.train.evaluator.EvaluatorTemp">EvaluatorTemp</a>, info: Optional[Dict[int, Any]] = None)</span>
+<dt id="hagike.models.train.evaluator.EffectorTemp"><code class="flex name class">
+<span>class <span class="ident">EffectorTemp</span></span>
 </code></dt>
 <dd>
-<div class="desc"><p>训练器模板</p>
-<p>初始化容器，基准训练器本身不负责具体实现，仅负责调度各个子容器并协调配置 </p>
-<p>:param model: 模型 </p>
-<p>:param optim: 优化器 </p>
-<p>:param criterion: 损失函数计算 </p>
-<p>:param dataloader: 数据管理器 </p>
-<p>:param monitor: 监视器与日志记录器 </p>
-<p>:param evaluator: 评估器 </p>
-<p>:param info: 配置信息 </p>
-<div class="admonition todo">
-<p class="admonition-title">TODO</p>
-<p>定义训练截止条件</p>
-</div></div>
+<div class="desc"><p>效果生成器，这里的基准类实现了分类网络的准确率评估</p>
+<p>初始化</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class TrainerTemp:
-    &#34;&#34;&#34;训练器模板&#34;&#34;&#34;
+<pre><code class="python">class EffectorTemp:
+    &#34;&#34;&#34;效果生成器，这里的基准类实现了分类网络的准确率评估&#34;&#34;&#34;
+    def __init__(self):
+        &#34;&#34;&#34;初始化&#34;&#34;&#34;
+        self._activator = nn.Softmax(dim=-1)
 
-    def __init__(self, model: ModuleNode,
-                 optim: OptimTemp,
-                 criterion: CriterionTemp,
-                 dataloader: DataLoaderTemp,
-                 monitor: TrainerMonitor,
-                 evaluator: EvaluatorTemp,
-                 info: Dict[uuid_t, Any] | None = None):
+    def set(self):
+        &#34;&#34;&#34;生成初始 `effect`&#34;&#34;&#34;
+        return 0.0
+
+    def gen(self, outputs: torch.Tensor, labels: torch.Tensor):
         &#34;&#34;&#34;
-        初始化容器，基准训练器本身不负责具体实现，仅负责调度各个子容器并协调配置 \n
-
-        :param model: 模型 \n
-        :param optim: 优化器 \n
-        :param criterion: 损失函数计算 \n
-        :param dataloader: 数据管理器 \n
-        :param monitor: 监视器与日志记录器 \n
-        :param evaluator: 评估器 \n
-        :param info: 配置信息 \n
-
-        ..todo::
-            定义训练截止条件
+        单次获取 `effect` \n
+        :param outputs: (batch_size, num_classes), 独热码, 0.0 ~ 1.0, float32
+        :param labels: (batch_size, num_classes), 独热码, 1.0, float32
         &#34;&#34;&#34;
-        # 检查信息表
-        info = TrainerInfo.dict_(info)
-        # 容器赋值
-        self._model = model
-        self._dataloader, self._optim, self._criterion = dataloader, optim, criterion
-        self._monitor, self._evaluator = monitor, evaluator
-        self._info = info
-        # 交叉配置各部分
-        self._model.to(self._info[TrainerInfo.device])
-        self._monitor.init(self._info)
-        self._optim.init(self._model)
-        self._criterion.init(self._model)
-        self._dataloader.init(self._model.info)
-        # 最后配置评估器
-        self._evaluator.init(self._model, self._dataloader, self._criterion)
+        # torch..max 返回 (值, 索引)
+        _, predicted = torch.max(self._activator(outputs), 1)
+        _, labeled = torch.max(labels, 1)
+        return (predicted == labeled).sum()
 
-    def train(self):
-        &#34;&#34;&#34;按照配置方式进行训练&#34;&#34;&#34;
-        self._monitor.start()
-        max_effect = 0.0
-        now_path, old_path = None, None
-        for epoch in range(self._info[TrainerInfo.max_epochs]):
-            self._monitor.new_epoch(epoch)
-            train_loss, sample_num = 0.0, 0
-            self._model.to(mode=ModuleMode.train)
-            for i, data in enumerate(self._dataloader.train):
-                inputs, labels = data
-                self._optim.zero_grad()
-                outputs = self._model(inputs)
-                loss = self._criterion(outputs, labels)
-                loss.backward()
-                self._optim.step()
-                train_loss += loss * inputs.size(0)
-                sample_num += inputs.size(0)
-            train_loss /= sample_num
-            val_loss, val_effect = self._evaluator.evaluate()
-            self._monitor.record_effect(epoch, train_loss, val_loss, val_effect)
-            # todo：进行可配置的参数保存，这里直接实现保存最大值
-            if val_effect &gt; max_effect:
-                max_effect = val_effect
-                now_path = os.path.join(self._monitor.logdir, f&#34;{epoch}: {max_effect}&#34;)
-                self._model.save_weights(now_path)
-                if old_path is not None:
-                    os.remove(old_path)
-                old_path = now_path
-        self._monitor.end()
+    def add(self, a, b):
+        &#34;&#34;&#34;效果累积函数&#34;&#34;&#34;
+        return a + b
 
-    def end(self):
-        &#34;&#34;&#34;
-        结束训练器并销毁资源占用 \n
-        .. todo::
-            未实现
-        &#34;&#34;&#34;</code></pre>
+    def avg(self, effect, num):
+        &#34;&#34;&#34;平均化效果&#34;&#34;&#34;
+        return effect / num</code></pre>
 </details>
 <h3>Methods</h3>
 <dl>
-<dt id="hagike.models.train.trainer.TrainerTemp.end"><code class="name flex">
-<span>def <span class="ident">end</span></span>(<span>self)</span>
+<dt id="hagike.models.train.evaluator.EffectorTemp.add"><code class="name flex">
+<span>def <span class="ident">add</span></span>(<span>self, a, b)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>结束训练器并销毁资源占用 </p>
-<div class="admonition todo">
-<p class="admonition-title">TODO</p>
-<p>未实现</p>
-</div></div>
+<div class="desc"><p>效果累积函数</p></div>
 </dd>
-<dt id="hagike.models.train.trainer.TrainerTemp.train"><code class="name flex">
-<span>def <span class="ident">train</span></span>(<span>self)</span>
+<dt id="hagike.models.train.evaluator.EffectorTemp.avg"><code class="name flex">
+<span>def <span class="ident">avg</span></span>(<span>self, effect, num)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>按照配置方式进行训练</p></div>
+<div class="desc"><p>平均化效果</p></div>
+</dd>
+<dt id="hagike.models.train.evaluator.EffectorTemp.gen"><code class="name flex">
+<span>def <span class="ident">gen</span></span>(<span>self, outputs: torch.Tensor, labels: torch.Tensor)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>单次获取 <code>effect</code> </p>
+<p>:param outputs: (batch_size, num_classes), 独热码, 0.0 ~ 1.0, float32
+:param labels: (batch_size, num_classes), 独热码, 1.0, float32</p></div>
+</dd>
+<dt id="hagike.models.train.evaluator.EffectorTemp.set"><code class="name flex">
+<span>def <span class="ident">set</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>生成初始 <code>effect</code></p></div>
+</dd>
+</dl>
+</dd>
+<dt id="hagike.models.train.evaluator.EvaluatorTemp"><code class="flex name class">
+<span>class <span class="ident">EvaluatorTemp</span></span>
+<span>(</span><span>info: Optional[Dict[int, Any]] = None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>评估器</p>
+<p>创建评估器容器</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class EvaluatorTemp:
+    &#34;&#34;&#34;评估器&#34;&#34;&#34;
+
+    def __init__(self, info: Dict[uuid_t, Any] | None = None):
+        &#34;&#34;&#34;创建评估器容器&#34;&#34;&#34;
+        self._info = EvaluatorInfo.dict_(info)
+        self._effector: EffectorTemp = self._info[EvaluatorInfo.effector_type](**self._info[EvaluatorInfo.para])
+        self._model = None
+        self._dataloader = None
+        self._criterion = None
+        self._is_init = False
+
+    def init(self, model: ModuleNode, dataloader: DataLoaderTemp, criterion: CriterionTemp):
+        &#34;&#34;&#34;初始化，配置模型与测试数据集&#34;&#34;&#34;
+        if self._is_init:
+            return
+        self._is_init = True
+        self._model, self._dataloader, self._criterion = model, dataloader, criterion
+
+    def evaluate(self) -&gt; Tuple[float, Any]:
+        &#34;&#34;&#34;评估过程封装&#34;&#34;&#34;
+        if self._is_init:
+            return self._evaluate()
+        else:
+            raise TrainingError(f&#34;Evaluate when container uninitialized!!!&#34;)
+
+    def _evaluate(self) -&gt; Tuple[float, Any]:
+        self._model.to(mode=ModuleMode.val)
+        val_loss, sample_num = 0.0, 0
+        val_effect = self._effector.set()
+        with torch.no_grad():
+            for i, data in enumerate(self._dataloader.val):
+                inputs, labels = data
+                outputs = self._model(inputs)
+                loss = self._criterion(outputs, labels)
+                effect = self._effector.gen(outputs, labels)
+                val_loss += loss * inputs.size(0)
+                sample_num += inputs.size(0)
+                val_effect = self._effector.add(val_effect, effect)
+            val_loss /= sample_num
+            val_effect = self._effector.avg(val_effect, sample_num)
+        return val_loss, val_effect</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="hagike.models.train.evaluator.EvaluatorTemp.evaluate"><code class="name flex">
+<span>def <span class="ident">evaluate</span></span>(<span>self) ‑> Tuple[float, Any]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>评估过程封装</p></div>
+</dd>
+<dt id="hagike.models.train.evaluator.EvaluatorTemp.init"><code class="name flex">
+<span>def <span class="ident">init</span></span>(<span>self, model: <a title="hagike.models.temp.node.ModuleNode" href="../temp/node.html#hagike.models.temp.node.ModuleNode">ModuleNode</a>, dataloader: <a title="hagike.models.train.dataloader.DataLoaderTemp" href="dataloader.html#hagike.models.train.dataloader.DataLoaderTemp">DataLoaderTemp</a>, criterion: <a title="hagike.models.train.criterion.CriterionTemp" href="criterion.html#hagike.models.train.criterion.CriterionTemp">CriterionTemp</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>初始化，配置模型与测试数据集</p></div>
 </dd>
 </dl>
 </dd>
@@ -174,10 +193,19 @@ hljs.highlightAll();
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="hagike.models.train.trainer.TrainerTemp" href="#hagike.models.train.trainer.TrainerTemp">TrainerTemp</a></code></h4>
+<h4><code><a title="hagike.models.train.evaluator.EffectorTemp" href="#hagike.models.train.evaluator.EffectorTemp">EffectorTemp</a></code></h4>
 <ul class="">
-<li><code><a title="hagike.models.train.trainer.TrainerTemp.end" href="#hagike.models.train.trainer.TrainerTemp.end">end</a></code></li>
-<li><code><a title="hagike.models.train.trainer.TrainerTemp.train" href="#hagike.models.train.trainer.TrainerTemp.train">train</a></code></li>
+<li><code><a title="hagike.models.train.evaluator.EffectorTemp.add" href="#hagike.models.train.evaluator.EffectorTemp.add">add</a></code></li>
+<li><code><a title="hagike.models.train.evaluator.EffectorTemp.avg" href="#hagike.models.train.evaluator.EffectorTemp.avg">avg</a></code></li>
+<li><code><a title="hagike.models.train.evaluator.EffectorTemp.gen" href="#hagike.models.train.evaluator.EffectorTemp.gen">gen</a></code></li>
+<li><code><a title="hagike.models.train.evaluator.EffectorTemp.set" href="#hagike.models.train.evaluator.EffectorTemp.set">set</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="hagike.models.train.evaluator.EvaluatorTemp" href="#hagike.models.train.evaluator.EvaluatorTemp">EvaluatorTemp</a></code></h4>
+<ul class="">
+<li><code><a title="hagike.models.train.evaluator.EvaluatorTemp.evaluate" href="#hagike.models.train.evaluator.EvaluatorTemp.evaluate">evaluate</a></code></li>
+<li><code><a title="hagike.models.train.evaluator.EvaluatorTemp.init" href="#hagike.models.train.evaluator.EvaluatorTemp.init">init</a></code></li>
 </ul>
 </li>
 </ul>

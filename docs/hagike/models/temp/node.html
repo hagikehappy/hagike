@@ -68,6 +68,9 @@ hljs.highlightAll();
         super(ModuleNode, self).__init__()
         self._model = model
         self._info = ModuleInfo.dict_(info)
+        self.to(device=self._info[ModuleInfo.device],
+                dtype=self._info[ModuleInfo.dtype],
+                mode=self._info[ModuleInfo.mode])
 
     @property
     def model(self) -&gt; nn.Module: return self._model
@@ -76,7 +79,7 @@ hljs.highlightAll();
     @property
     def dtype(self) -&gt; torch.dtype: return self._info[ModuleInfo.dtype]
     @property
-    def info(self) -&gt; dict: return self._info[ModuleInfo.others]
+    def info(self) -&gt; dict: return self._info
 
     def forward(self, x: torch.Tensor) -&gt; torch.Tensor:
         &#34;&#34;&#34;前向传播&#34;&#34;&#34;
@@ -120,20 +123,36 @@ hljs.highlightAll();
     def to(self,
            device: str | None = None,
            dtype: torch.dtype | None = None,
-           is_train: bool | None = None) -&gt; None:
-        &#34;&#34;&#34;转换模型类型，原位替换&#34;&#34;&#34;
+           mode: uuid_t | None = None) -&gt; None:
+        &#34;&#34;&#34;
+        转换模型类型，原位替换 \n
+        `mode` 为 `ModuleMode` 型常量，指定模式
+        &#34;&#34;&#34;
         if device is not None:
-            self._info[ModuleInfo.device] = device
-            self._model = self._model.to(device=device)
+            self._to_device(device)
         if dtype is not None:
-            self._info[ModuleInfo.dtype] = dtype
-            self._model = self._model.to(dtype=dtype)
-        if is_train is not None:
-            self._info[ModuleInfo.is_train] = is_train
-            if is_train:
-                self._model.train()
-            else:
-                self._model.eval()</code></pre>
+            self._to_dtype(dtype)
+        if mode is not None:
+            self._to_mode(mode)
+
+    def _to_device(self, device: str) -&gt; None:
+        &#34;&#34;&#34;转换设备&#34;&#34;&#34;
+        self._info[ModuleInfo.device] = device
+        self._model = self._model.to(device=device)
+
+    def _to_dtype(self, dtype: torch.dtype) -&gt; None:
+        &#34;&#34;&#34;转换数据类型&#34;&#34;&#34;
+        self._info[ModuleInfo.dtype] = dtype
+        self._model = self._model.to(dtype=dtype)
+
+    def _to_mode(self, mode: uuid_t) -&gt; None:
+        &#34;&#34;&#34;转换模式：训练 / 评估&#34;&#34;&#34;
+        ModuleInfo.check_in_(mode)
+        self._info[ModuleInfo.mode] = mode
+        if mode == ModuleMode.train:
+            self._model.train()
+        else:
+            self._model.eval()</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -186,7 +205,7 @@ def dtype(self) -&gt; torch.dtype: return self._info[ModuleInfo.dtype]</code></p
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@property
-def info(self) -&gt; dict: return self._info[ModuleInfo.others]</code></pre>
+def info(self) -&gt; dict: return self._info</code></pre>
 </details>
 </dd>
 <dt id="hagike.models.temp.node.ModuleNode.model"><code class="name">prop <span class="ident">model</span> : nn.Module</code></dt>
@@ -235,10 +254,11 @@ def model(self) -&gt; nn.Module: return self._model</code></pre>
 <div class="desc"><p>根据path，选择加载指定部分的模块参数到路径或从内存中</p></div>
 </dd>
 <dt id="hagike.models.temp.node.ModuleNode.to"><code class="name flex">
-<span>def <span class="ident">to</span></span>(<span>self, device: str | None = None, dtype: torch.dtype | None = None, is_train: bool | None = None) ‑> None</span>
+<span>def <span class="ident">to</span></span>(<span>self, device: str | None = None, dtype: torch.dtype | None = None, mode: uuid_t | None = None) ‑> None</span>
 </code></dt>
 <dd>
-<div class="desc"><p>转换模型类型，原位替换</p></div>
+<div class="desc"><p>转换模型类型，原位替换 </p>
+<p><code>mode</code> 为 <code>ModuleMode</code> 型常量，指定模式</p></div>
 </dd>
 </dl>
 </dd>

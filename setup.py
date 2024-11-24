@@ -15,7 +15,7 @@ def read(file) -> list:
 
 setup(
     name='hagike',
-    version='0.0.6',
+    version='0.0.7',
     packages=find_packages(),
     install_requires=read('requirements.txt'),
     include_package_data=True,
@@ -30,7 +30,7 @@ setup(
     python_requires='>=3.10',
     classifiers=[  
         "Programming Language :: Python :: 3",  
-        "License :: OSI Approved :: MIT License",  
+        "License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)",
         "Operating System :: OS Independent",  
     ],  
     project_urls={  

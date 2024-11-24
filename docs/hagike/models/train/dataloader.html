@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
 <meta name="generator" content="pdoc3 0.11.1">
-<title>hagike.models.train API documentation</title>
-<meta name="description" content="***训练器***">
+<title>hagike.models.train.dataloader API documentation</title>
+<meta name="description" content="***数据加载器***">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
@@ -24,57 +24,112 @@ hljs.highlightAll();
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>hagike.models.train</code></h1>
+<h1 class="title">Module <code>hagike.models.train.dataloader</code></h1>
 </header>
 <section id="section-intro">
-<p><strong><em>训练器</em></strong></p>
+<p><strong><em>数据加载器</em></strong></p>
 </section>
 <section>
-<h2 class="section-title" id="header-submodules">Sub-modules</h2>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt><code class="name"><a title="hagike.models.train.const" href="const.html">hagike.models.train.const</a></code></dt>
+<dt id="hagike.models.train.dataloader.DataLoaderTemp"><code class="flex name class">
+<span>class <span class="ident">DataLoaderTemp</span></span>
+<span>(</span><span>dataset: <a title="hagike.models.train.dataset.dataset.DatasetTemp" href="dataset/dataset.html#hagike.models.train.dataset.dataset.DatasetTemp">DatasetTemp</a>, info: Optional[Dict[int, Any]] = None)</span>
+</code></dt>
 <dd>
-<div class="desc"><p>模型容器的常量表</p></div>
+<div class="desc"><p>数据加载器容器</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class DataLoaderTemp:
+    &#34;&#34;&#34;数据加载器容器&#34;&#34;&#34;
+
+    def __init__(self, dataset: DatasetTemp, info: Dict[uuid_t, Any] | None = None) -&gt; None:
+        self._info = DataLoaderInfo.dict_(info)
+        self._dataset = dataset
+        if self._info[DataLoaderInfo.para]:
+            self._info[DataLoaderInfo.train_para] = self._info[DataLoaderInfo.para]
+            self._info[DataLoaderInfo.val_para] = self._info[DataLoaderInfo.para]
+        self._is_init = False
+        self._model_info = None
+        self._train = None
+        self._val = None
+
+    def init(self, model_info: Dict[uuid_t, Any]):
+        &#34;&#34;&#34;配置目标设备等&#34;&#34;&#34;
+        if self._is_init:
+            return
+        self._is_init = True
+        self._model_info = model_info
+        self._dataset.init(model_info)
+        self._train = DataLoader(self._dataset.train, **self._info[DataLoaderInfo.train_para])
+        self._val = DataLoader(self._dataset.val, **self._info[DataLoaderInfo.val_para])
+
+    @property
+    def train(self) -&gt; DataLoader:
+        if self._is_init:
+            return self._train
+        else:
+            raise TrainingError(f&#34;visiting dataloader when DataLoaderTemp uninitialized!!!&#34;)
+
+    @property
+    def val(self) -&gt; DataLoader:
+        if self._is_init:
+            return self._val
+        else:
+            raise TrainingError(f&#34;visiting dataloader when DataLoaderTemp uninitialized!!!&#34;)</code></pre>
+</details>
+<h3>Instance variables</h3>
+<dl>
+<dt id="hagike.models.train.dataloader.DataLoaderTemp.train"><code class="name">prop <span class="ident">train</span> : torch.utils.data.dataloader.DataLoader</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def train(self) -&gt; DataLoader:
+    if self._is_init:
+        return self._train
+    else:
+        raise TrainingError(f&#34;visiting dataloader when DataLoaderTemp uninitialized!!!&#34;)</code></pre>
+</details>
 </dd>
-<dt><code class="name"><a title="hagike.models.train.criterion" href="criterion.html">hagike.models.train.criterion</a></code></dt>
+<dt id="hagike.models.train.dataloader.DataLoaderTemp.val"><code class="name">prop <span class="ident">val</span> : torch.utils.data.dataloader.DataLoader</code></dt>
 <dd>
-<div class="desc"><p><strong><em>判断器</em></strong></p></div>
-</dd>
-<dt><code class="name"><a title="hagike.models.train.dataloader" href="dataloader.html">hagike.models.train.dataloader</a></code></dt>
-<dd>
-<div class="desc"><p><strong><em>数据加载器</em></strong></p></div>
-</dd>
-<dt><code class="name"><a title="hagike.models.train.dataset" href="dataset/index.html">hagike.models.train.dataset</a></code></dt>
-<dd>
-<div class="desc"><p><strong><em>数据集</em></strong></p></div>
-</dd>
-<dt><code class="name"><a title="hagike.models.train.error" href="error.html">hagike.models.train.error</a></code></dt>
-<dd>
-<div class="desc"><p>模型容器的异常处理</p></div>
-</dd>
-<dt><code class="name"><a title="hagike.models.train.evaluator" href="evaluator.html">hagike.models.train.evaluator</a></code></dt>
-<dd>
-<div class="desc"><p><strong><em>评估器</em></strong></p></div>
-</dd>
-<dt><code class="name"><a title="hagike.models.train.monitor" href="monitor.html">hagike.models.train.monitor</a></code></dt>
-<dd>
-<div class="desc"><p><strong><em>监视器</em></strong></p></div>
-</dd>
-<dt><code class="name"><a title="hagike.models.train.optimizer" href="optimizer.html">hagike.models.train.optimizer</a></code></dt>
-<dd>
-<div class="desc"><p><strong><em>优化器容器</em></strong></p></div>
-</dd>
-<dt><code class="name"><a title="hagike.models.train.trainer" href="trainer.html">hagike.models.train.trainer</a></code></dt>
-<dd>
-<div class="desc"><p><strong><em>训练器</em></strong></p></div>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def val(self) -&gt; DataLoader:
+    if self._is_init:
+        return self._val
+    else:
+        raise TrainingError(f&#34;visiting dataloader when DataLoaderTemp uninitialized!!!&#34;)</code></pre>
+</details>
 </dd>
 </dl>
-</section>
-<section>
-</section>
-<section>
-</section>
-<section>
+<h3>Methods</h3>
+<dl>
+<dt id="hagike.models.train.dataloader.DataLoaderTemp.init"><code class="name flex">
+<span>def <span class="ident">init</span></span>(<span>self, model_info: Dict[int, Any])</span>
+</code></dt>
+<dd>
+<div class="desc"><p>配置目标设备等</p></div>
+</dd>
+</dl>
+</dd>
+</dl>
 </section>
 </article>
 <nav id="sidebar">
@@ -84,20 +139,19 @@ hljs.highlightAll();
 <ul id="index">
 <li><h3>Super-module</h3>
 <ul>
-<li><code><a title="hagike.models" href="../index.html">hagike.models</a></code></li>
+<li><code><a title="hagike.models.train" href="index.html">hagike.models.train</a></code></li>
 </ul>
 </li>
-<li><h3><a href="#header-submodules">Sub-modules</a></h3>
+<li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
-<li><code><a title="hagike.models.train.const" href="const.html">hagike.models.train.const</a></code></li>
-<li><code><a title="hagike.models.train.criterion" href="criterion.html">hagike.models.train.criterion</a></code></li>
-<li><code><a title="hagike.models.train.dataloader" href="dataloader.html">hagike.models.train.dataloader</a></code></li>
-<li><code><a title="hagike.models.train.dataset" href="dataset/index.html">hagike.models.train.dataset</a></code></li>
-<li><code><a title="hagike.models.train.error" href="error.html">hagike.models.train.error</a></code></li>
-<li><code><a title="hagike.models.train.evaluator" href="evaluator.html">hagike.models.train.evaluator</a></code></li>
-<li><code><a title="hagike.models.train.monitor" href="monitor.html">hagike.models.train.monitor</a></code></li>
-<li><code><a title="hagike.models.train.optimizer" href="optimizer.html">hagike.models.train.optimizer</a></code></li>
-<li><code><a title="hagike.models.train.trainer" href="trainer.html">hagike.models.train.trainer</a></code></li>
+<li>
+<h4><code><a title="hagike.models.train.dataloader.DataLoaderTemp" href="#hagike.models.train.dataloader.DataLoaderTemp">DataLoaderTemp</a></code></h4>
+<ul class="">
+<li><code><a title="hagike.models.train.dataloader.DataLoaderTemp.init" href="#hagike.models.train.dataloader.DataLoaderTemp.init">init</a></code></li>
+<li><code><a title="hagike.models.train.dataloader.DataLoaderTemp.train" href="#hagike.models.train.dataloader.DataLoaderTemp.train">train</a></code></li>
+<li><code><a title="hagike.models.train.dataloader.DataLoaderTemp.val" href="#hagike.models.train.dataloader.DataLoaderTemp.val">val</a></code></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

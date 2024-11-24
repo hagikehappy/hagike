@@ -36,6 +36,52 @@ hljs.highlightAll();
 <section>
 </section>
 <section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="hagike.models.train.error.TrainingError"><code class="flex name class">
+<span>class <span class="ident">TrainingError</span></span>
+<span>(</span><span>msg, code=None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>训练过程异常</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class TrainingError(Exception):
+    &#34;&#34;&#34;训练过程异常&#34;&#34;&#34;
+    def __init__(self, msg, code=None):
+        super().__init__(msg)
+        self.code = code</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+<dt id="hagike.models.train.error.TrainingWarning"><code class="flex name class">
+<span>class <span class="ident">TrainingWarning</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>训练过程警告</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class TrainingWarning(Warning):
+    &#34;&#34;&#34;训练过程警告&#34;&#34;&#34;
+    pass</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Warning</li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+</dl>
 </section>
 </article>
 <nav id="sidebar">
@@ -46,6 +92,16 @@ hljs.highlightAll();
 <li><h3>Super-module</h3>
 <ul>
 <li><code><a title="hagike.models.train" href="index.html">hagike.models.train</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="hagike.models.train.error.TrainingError" href="#hagike.models.train.error.TrainingError">TrainingError</a></code></h4>
+</li>
+<li>
+<h4><code><a title="hagike.models.train.error.TrainingWarning" href="#hagike.models.train.error.TrainingWarning">TrainingWarning</a></code></h4>
+</li>
 </ul>
 </li>
 </ul>
